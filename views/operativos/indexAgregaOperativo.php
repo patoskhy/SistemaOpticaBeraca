@@ -1,0 +1,196 @@
+﻿<?php
+
+use yii\helpers\Html;
+use yii\bootstrap\ActiveForm;
+use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
+use yii\widgets\Pjax;
+use app\models\entity\Perfiles;
+use kartik\date\DatePicker;
+use kartik\select2\Select2;
+use yii\widgets\MaskedInput;
+
+/* @var $this yii\web\View */
+/* @var $searchModel app\models\BrcUsuariosSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->title = $titulo;
+$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs']['rutaR'] = $rutaR;
+$this->params['breadcrumbs']['doctor'] = ArrayHelper::map($doctor, 'RUT', 'NOMBRE');
+//$this->params['breadcrumbs']['proveedor'] = ArrayHelper::map($proveedor,'ID_PROVEEDOR','NOMBRE_EMPRESA');
+$indice = 1;
+$posi = strrpos(get_class($model), "\\");
+$largo = strlen(get_class($model));
+$nombreModelLow = strtolower(substr(get_class($model), $posi + 1));
+$nombreModel = substr(get_class($model), $posi + 1);
+?>
+<?php $form = ActiveForm::begin(['id' => 'operativo-form',]); ?>	
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-2">
+                    <?= Html::submitButton('GUARDAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'guardar-button']) ?>
+                </div>
+                <div class="col-md-2">	
+                    <?= Html::resetButton('LIMPIAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'limpiar-button']) ?>
+                </div>
+                <div class="col-md-8">	
+                    &nbsp;
+                </div>
+            </div>
+            <hr style="border: #FF6000 1px solid;">
+
+            <div id="tomaHora">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                             <?= 
+                                $form->field($model, 'dia')->widget(DatePicker::className(),[
+                                        'value' => date('d/m/Y'),
+                                        'language' => 'es',
+                                        'type' =>  DatePicker::TYPE_INPUT,
+                                        'pickerButton' => [
+                                            'icon'=>'ok',
+                                        ],
+                                        'options' => ['placeholder' => 'ELEGIR'],
+                                        'pluginOptions' => [
+                                                'format' => 'dd/mm/yyyy',
+                                                'todayHighlight' => true
+                                        ]
+                                ])->label("DÍA:", ['class' => 'label label-default']);
+                            ?>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <?= 
+                               $form->field($model, 'hora')->widget(MaskedInput::className(),[
+                                    'mask' => '##:##',
+                                ])->label("HORA:", ['class' => 'label label-default']);
+                            ?>
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <?= $form->field($model, 'doctor')->widget(Select2::classname(), [
+                                    'data' => $this->params['breadcrumbs']['doctor'],
+                                    'language' => 'es',
+                                    'options' => ['placeholder' => 'ELEGIR', "class" => "form-control select2", "style" => 'width: 100%;'],
+                                    'pluginOptions' => [
+                                        'allowClear' => true
+                                    ],
+                                ])->label("DOCTOR:", ['class' => 'label label-default']);
+							?>
+						</div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <?= $form->field($model, 'obser')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Observación Operativo"])
+                                        ->label("OBSERVACIÓN OPERATIVO:", ['class' => 'label label-default']); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr style="border: #FF6000 1px solid;">
+            <div id="detalleOperativo">
+                <div class="row">
+                    <div class="col-md-10">
+                        <p class="lead">OPERATIVOS VIGENTES PARA EL DÍA</p>
+                    </div>
+                    <div class="col-md-2 text-right">
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div  class="col-md-12">
+                        <div class="form-group">
+                            <?php \yii\widgets\Pjax::begin(['id' => 'opera', 'enablePushState' => false]); ?>
+                            <?=
+                            GridView::widget([
+                                'dataProvider' => $dataProvider,
+                                'columns' => [
+                                    ['class' => 'yii\grid\SerialColumn'],
+                                    [
+                                        'label' => 'DÍA',
+                                        'format' => 'raw',
+                                        'class' => 'yii\grid\DataColumn',
+                                        'value' => function ($data) {
+                                            return substr($data->DIA, -2) . "/" . substr($data->DIA, 4, -2) . "/" . substr($data->DIA, 0, -4);
+                                        },
+                                    ],
+                                    [
+                                        'label' => 'HORA',
+                                        'format' => 'raw',
+                                        'class' => 'yii\grid\DataColumn',
+                                        'value' => function ($data) {
+											
+                                            return substr($data->HORA, 0, -2) . ":" . substr($data->HORA, -2);
+                                        },
+                                    ],
+                                    [
+                                        'label' => 'OBSERVACIÓN',
+                                        'format' => 'raw',
+                                        'class' => 'yii\grid\DataColumn',
+                                        'value' => function ($data) {
+                                            return $data->OBSERVACION;
+                                        },
+                                    ],
+                                    [
+                                        'class' => 'yii\grid\ActionColumn',
+                                        'header' => 'DOCTOR',
+                                        'template' => '{doc}',
+                                        'buttons' => [
+                                            'doc' => function ($url, $model) {
+                                                $sql = "SELECT NOMBRE FROM brc_persona WHERE CAT_PERSONA='P00002' AND RUT=" . $model->RUT_DOCTOR;
+                                                //var_dump($sql);
+                                                $utils = new app\models\utilities\Utils;
+                                                $s = $utils->ejecutaQuery($sql);
+                                                //var_dump($s);
+                                                return $s[0]["NOMBRE"];
+                                            },
+                                        ],
+                                    ],
+                                    [
+                                        'class' => 'yii\grid\ActionColumn',
+                                        'template' => '{estado}',
+                                        'header' => 'INGRE. PACIENTES',
+                                        'buttons' => [
+                                            'estado' => function ($url, $model) {
+                                                return '<a class="btn btn-success" href="' . Yii::$app->request->hostInfo . Yii::$app->request->baseUrl . '/index.php?r=operativos/index-agrega-pacientes&dia=' . substr($model->DIA, -2) . "/" . substr($model->DIA, 4, -2) . "/" . substr($model->DIA, 0, -4) . '&hora=' . substr($model->HORA, 0, -2) . ":" . substr($model->HORA, -2) . '&rut=' . $model->RUT_DOCTOR . '">Asignar</a>';
+                                            },
+                                        ],
+                                    ],
+                                ],
+                            ]);
+                            ?>
+                            <?php \yii\widgets\Pjax::end(); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+<?php ActiveForm::end(); 
+$miUrlbase = Yii::$app->request->absoluteUrl;
+$scritp = <<<JS
+        $('#$nombreModelLow-dia').on('change', function (event) {
+            var _fecha = $('#$nombreModelLow-dia').val();
+            var id = _fecha.split('/');
+            var f = id[2] + id[1] + id[0];
+            var Url = '$miUrlbase&f=' + f;
+            $.pjax.reload({container: "#opera", url: Url, replace: false});
+        });
+JS;
+
+$this->registerJs(
+    $scritp,
+    yii\web\View::POS_READY,
+    $nombreModelLow.'-dia'
+);
