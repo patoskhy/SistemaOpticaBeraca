@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         <div class="form-group">
                             <div class="col-lg-12">
-                        <?= Html::submitButton('INGRESAR', ['class' => 'btn btn-block btn-google btn-flat', 'style' => 'background-color:#dd4b39; border-color:#dd4b39;', 'name' => 'login-button','VALUE' => 'INGRESAR']) ?>
+                        <?= Html::submitButton('INGRESAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'style' => 'background-color:#dd4b39; border-color:#dd4b39;', 'name' => 'login-button','VALUE' => 'INGRESAR']) ?>
                             </div>
                         </div>   
 <?php ActiveForm::end(); ?>

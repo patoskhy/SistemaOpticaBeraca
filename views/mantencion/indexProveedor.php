@@ -28,26 +28,31 @@ $form = ActiveForm::begin([
 
         <div class="col-md-12">
            <div class="row">
-                <div class="col-md-2">
+                <div  data-step="9" data-intro="Ingresa o actualiza los datos de un proveedor"  class="col-md-2">
 <?= Html::submitButton('GUARDAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'guardar-button']) ?>
                 </div>
-                <div class="col-md-2">	
+                <div data-step="10" data-intro="Elimina un proveedor" class="col-md-2">	
 <?= Html::button('ELIMINAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'eliminar-button', 'id' => 'eliminar-button']) ?>
                 </div>
-                <div class="col-md-2">	
+                <div data-step="11" data-intro="Busca a los proveedores de la base de datos" class="col-md-2">	
 <?= Html::button('BUSCAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'buscar-button', 'id' => 'buscar-button',"data-toggle"=>"modal","data-target"=>"#buscarModal"]) ?>
                 </div>
-                <div class="col-md-2">	
+                <div data-step="12" data-intro="Limpia el formulario" class="col-md-2">	
 <?= Html::resetButton('LIMPIAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'limpiar-button']) ?>
                 </div>
-                <div class="col-md-4">	
+                <div class="col-md-2">	
+                    <button type="button" class="btn btn-block btn-sistema btn-flat" data-step="1" data-intro="Esta formulario sirve para ingresar los proveedores de la optica" onclick="javascript:introJs().start();">
+                        <span class="glyphicon glyphicon-question-sign"></span> AYUDA
+                    </button>         
+                </div>
+                <div class="col-md-2">	
                     &nbsp;
                 </div>
             </div>
-            <hr style="border: #FF6000 1px solid;">
+            <hr style="border: #dd4b39 1px solid;">
             <div class="row">
                 <div  class="col-md-12">
-                    <div class="form-group">
+                    <div data-step="2" data-intro="Debe ingresar el nombre de la empresa proveedora" class="form-group">
 <?= $form->field($model, 'nombreEmpresa')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Nombre de Empresa", "required" => true, "autofocus" => true, "maxlength" => "255", "size" => "255"])
         ->label("NOMBRE EMPRESA:", ['class' => 'label label-default']); ?>
                     </div>
@@ -56,13 +61,13 @@ $form = ActiveForm::begin([
             <br>
             <div class="row">
                 <div  class="col-md-6">
-                    <div class="form-group">
+                    <div data-step="3" data-intro="Debe ingresar el RUT de la empresa proveedora" class="form-group">
 <?= $form->field($model, 'codigo')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Rut", "required" => true, "maxlength" => "11", "size" => "11"])
                 ->label("RUT:", ['class' => 'label label-default']); ?>
                     </div>
                 </div>
                 <div  class="col-md-6">
-                    <div class="form-group">
+                    <div data-step="4" data-intro="Debe ingresar la direccion de la empresa proveedora" class="form-group">
 <?= $form->field($model, 'direccion')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Direccion", "required" => true, "maxlength" => "255", "size" => "255"])
                         ->label("DIRECCIÓN:", ['class' => 'label label-default']); ?>
                     </div>
@@ -71,13 +76,13 @@ $form = ActiveForm::begin([
             <br>
             <div class="row">
                 <div  class="col-md-6">
-                    <div class="form-group">
+                    <div data-step="5" data-intro="Debe ingresar la ciudad de la empresa proveedora" class="form-group">
 <?= $form->field($model, 'ciudad')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Ciudad", "required" => true, "maxlength" => "50", "size" => "50"])
                                 ->label("CIUDAD:", ['class' => 'label label-default']); ?>
                     </div>
                 </div>
                 <div  class="col-md-6">
-                    <div class="form-group">
+                    <div data-step="6" data-intro="Debe ingresar el correo electronico de la empresa proveedora" class="form-group">
 <?= $form->field($model, 'mail')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Email", "required" => true, "maxlength" => "150", "size" => "150"])
                                         ->label("E-MAIL:", ['class' => 'label label-default']); ?>
                     </div>
@@ -86,13 +91,13 @@ $form = ActiveForm::begin([
             <br>		
             <div class="row">
                 <div  class="col-md-6">
-                    <div class="form-group">
+                    <div data-step="7" data-intro="Debe ingresar el telefono de la empresa proveedora" class="form-group">
 <?= $form->field($model, 'telefono')->widget(\yii\widgets\MaskedInput::className(), ['mask' => '+(99)-9-99-99-9999',])
                                                 ->label("TELÉFONO:", ['class' => 'label label-default']); ?>
                     </div>
                 </div>
                 <div  class="col-md-6">
-                    <div class="form-group">
+                    <div data-step="8" data-intro="Debe ingresar la persona de contacto de la empresa proveedora" class="form-group">
 <?= $form->field($model, 'contacto')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Contacto", "required" => true, "maxlength" => "255", "size" => "255"])
                                                         ->label("CONTACTO:", ['class' => 'label label-default']); ?>
                     </div>
@@ -108,7 +113,7 @@ $form = ActiveForm::begin([
     <div class="modal-dialog" style="width: 80% !important;" >
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header" style="background-color:#FF6000; color:white; font-weight: bold;">
+            <div class="modal-header" style="background-color:#DD4B39; color:white; font-weight: bold;">
                 <h4 class="modal-title text-center">BUSCAR PRODUCTOS POR PROVEEDORES</h4>
             </div>
             <div class="modal-body">
@@ -144,7 +149,7 @@ $form = ActiveForm::begin([
                     <div  class="col-md-12">
                     </div>
                 </div>
-                <hr style="border: #FF6000 1px solid;">
+                <hr style="border: #dd4b39 1px solid;">
                 <div class="row">
                     <div  class="col-md-12">	
                         <?php \yii\widgets\Pjax::begin(['id' => 'proveedorProductoBus', 'enablePushState' => false]); ?>

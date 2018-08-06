@@ -92,7 +92,7 @@ $form = ActiveForm::begin([
 
                 </div>
             </div>
-            <hr style="border: #FF6000 1px solid;">
+            <hr style="border: #dd4b39 1px solid;">
             <div class="row">
 
                 <div  class="col-md-12">	

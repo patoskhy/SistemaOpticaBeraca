@@ -26,37 +26,44 @@ $form = ActiveForm::begin([
     <div class="row-fluid">
         <div class="col-md-3">
             <div class="short-div">
-
-                <h3>CATEGORÍAS</h3>
-                <div id="jqxTree" style="float:left;"></div>
-                <button type="button" id="agUsu" class="btn btn-default">
-                    <span class="glyphicon glyphicon-plus"></span>
-                </button>
-                <button type="button" id="moUsu" class="btn btn-default">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                </button>
-                <hr style="border: #FF6000 1px solid;">
-                <h3>PRODUCTOS</h3>
-                <div id="jqxTree2" style="float:left;"></div>
-
+                <div data-step="2" data-intro="En esta seccion se ingresan las categorias de productos">
+                    <h3>CATEGORÍAS</h3>
+                    <div id="jqxTree" style="float:left;"></div>
+                    <button data-step="3" data-intro="Este boton sirve para ingresar una categoria" type="button" id="agUsu" class="btn btn-default">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                    <button data-step="4" data-intro="Este boton sirve para editar una categoria" type="button" id="moUsu" class="btn btn-default">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                </div>    
+                <hr style="border: #dd4b39 1px solid;">
+                <div data-step="5" data-intro="En esta seccion se muestran los productos que pertenecen a una categoria">
+                    <h3>PRODUCTOS</h3>
+                    <div id="jqxTree2" style="float:left;"></div>
+                </div>
             </div>
         </div>
         <div class="col-md-9">
             <div class="row">
-                <div class="col-md-2">
+                <div  data-step="13" data-intro="Guarda un producto en el sistema" class="col-md-2">
                     <?= Html::submitButton('GUARDAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'guardar-button']) ?>
                 </div>
-                <div class="col-md-2">	
+                <div  data-step="14" data-intro="Limpia el formulario" class="col-md-2">	
                     <?= Html::resetButton('LIMPIAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'limpiar-button']) ?>
                 </div>
-                <div class="col-md-8">	
+                <div class="col-md-2">	
+                    <button data-step="1" data-intro="Este formulario sirve para ingresar los productos que vendera o comprara la optica" onclick="javascript:introJs().start();" type="button" class="btn btn-block btn-sistema btn-flat" >
+                        <span class="glyphicon glyphicon-question-sign"></span> AYUDA
+                    </button>         
+                </div>
+                <div class="col-md-6">	
                     &nbsp;
                 </div>
             </div>
-            <hr style="border: #FF6000 1px solid;">
+            <hr style="border: #dd4b39 1px solid;">
             <div class="row">
-                <div  class="col-md-12">
-                    <div class="form-group">
+                <div class="col-md-12">
+                    <div data-step="6" data-intro="Codigo interno del producto. Este lo genera el sistema" class="form-group">
                         <?= $form->field($model, 'codigo')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Codigo", "required" => true, "readonly" => "readonly"])
                             ->label("CÓDIGO:", ['class' => 'label label-default']); ?>
                     </div>
@@ -65,7 +72,7 @@ $form = ActiveForm::begin([
             <br>
             <div class="row">
                 <div  class="col-md-12">
-                    <div class="form-group">
+                    <div data-step="7" data-intro="Nombre del producto" class="form-group">
                         <?= $form->field($model, 'descripcion')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Descripcion", "required" => true, "autofocus" => true])
                                     ->label("DESCRIPCIÓN:", ['class' => 'label label-default']); ?>
                     </div>
@@ -74,13 +81,13 @@ $form = ActiveForm::begin([
             <br>		
             <div class="row">
                 <div  class="col-md-6">
-                    <div class="form-group">
+                    <div  data-step="8" data-intro="stock minimo del producto, debe ser un numero" class="form-group">
                         <?= $form->field($model, 'stockCritico')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Stock Minimo", "required" => true, "maxlength" => "11", "size" => "11"])
                                             ->label("STOCK MÍNIMO:", ['class' => 'label label-default']); ?>
                     </div>
                 </div>
                 <div  class="col-md-6">
-                    <div class="form-group">
+                    <div  data-step="9" data-intro="debe elegir si el producto debe aparecer o no en el sistema" class="form-group">
                         <?=
                                 $form->field($model, 'vigencia')->widget(Select2::classname(), [
                                     'data' => ArrayHelper::map($vigencia, 'CODIGO', 'DESCRIPCION'),
@@ -96,20 +103,20 @@ $form = ActiveForm::begin([
             </div>
             <div class="row">
                 <div  class="col-md-6">
-                    <div class="input-group">
+                    <div  data-step="10" data-intro="Codigo de barras del producto." class="input-group">
                         <?= $form->field($model, 'codBarra')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Codigo de Barras", "readonly" => "readonly", "required" => true, "maxlength" => "12", "size" => "12"])
                                                             ->label("CÓDIGO DE BARRAS:", ['class' => 'label label-default']); ?>
                         <label for="verCodBarra" class="label ">&nbsp;</label>
                         <span class="input-group-btn">
 
-                            <button type="button" id="verCodBarra" class="btn btn-default">
+                            <button data-step="11" data-intro="Genera el codigo de barras del producto." type="button" id="verCodBarra" class="btn btn-default">
                                 <span class="glyphicon glyphicon-barcode"></span>
                             </button>
                         </span>
                     </div>
                 </div>
                 <div  class="col-md-6">
-                    <div class="form-group">
+                    <div  data-step="12" data-intro="Precio de venta del producto" class="form-group">
                         <?= $form->field($model, 'valorVenta')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Precio de Venta", "required" => true, "maxlength" => "12", "size" => "12"])
                                                                     ->label("PRECIO DE VENTA:", ['class' => 'label label-default']); ?>
                     </div>
@@ -124,7 +131,7 @@ $form = ActiveForm::begin([
         <div class="modal-dialog" style="width: 80% !important;" >
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header" style="background-color:#FF6000; color:white; font-weight: bold;">
+                <div class="modal-header" style="background-color:#DD4B39; color:white; font-weight: bold;">
                     <h4 class="modal-title">AGREGAR CATEGORÍA</h4>
                 </div>
                 <div class="modal-body">

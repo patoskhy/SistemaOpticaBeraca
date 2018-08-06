@@ -27,23 +27,28 @@ $form = ActiveForm::begin([
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-2">
+                <div data-step="4" data-intro="Guarda el nuevo codigo" class="col-md-2">
 <?= Html::submitButton('GUARDAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'guardar-button']) ?>
                 </div>
-                <div class="col-md-2">	
+                <div data-step="5" data-intro="Busca los codigos del sistema" class="col-md-2">	
 <?= Html::button('BUSCAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'buscar-button', 'id' => 'buscar-button',"data-toggle"=>"modal","data-target"=>"#buscarModal"]) ?>
                 </div>
-                <div class="col-md-2">	
+                <div data-step="6" data-intro="Limpia el formulario" class="col-md-2">	
 <?= Html::resetButton('LIMPIAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'limpiar-button']) ?>
                 </div>
-                <div class="col-md-6">	
+                <div class="col-md-2">	
+                    <button data-step="1" data-intro="Este formulario sirve para ingresar los codigos que usa el sistema de forma general. Esta pantalla la ocupa solo el desarrollador del sistema" onclick="javascript:introJs().start();" type="button" class="btn btn-block btn-sistema btn-flat" >
+                        <span class="glyphicon glyphicon-question-sign"></span> AYUDA
+                    </button>         
+                </div>
+                <div class="col-md-4">	
                     &nbsp;
                 </div>
             </div>
-            <hr style="border: #FF6000 1px solid;">
+            <hr style="border: #dd4b39 1px solid;">
             <div class="row">
                 <div  class="col-md-12">
-                    <div class="form-group">
+                    <div data-step="2" data-intro="Debe elegir a que tipo se va ingresar el nuevo codigo" class="form-group">
                         <?=
                                 $form->field($model, 'tipo')->widget(Select2::classname(), [
                                     'data' => $this->params['breadcrumbs']['tipo'],
@@ -60,7 +65,7 @@ $form = ActiveForm::begin([
             <br>	
             <div class="row">
                 <div  class="col-md-12">
-                    <div class="form-group">
+                    <div data-step="3" data-intro="La descripcion del nuevo codigo" class="form-group">
                         <?= $form->field($model, 'descripcion')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Descripciòn", "required" => true, "maxlength" => "50", "size" => "50"])
                                         ->label("DESCRIPCIÓN:", ['class' => 'label label-default']); ?>
                         <?= $form->field($model, 'codigo')->hiddenInput()->label(false); ?>
@@ -75,7 +80,7 @@ $form = ActiveForm::begin([
     <div class="modal-dialog" style="width: 80% !important;" >
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header" style="background-color:#FF6000; color:white; font-weight: bold;">
+            <div class="modal-header" style="background-color:#DD4B39; color:white; font-weight: bold;">
                 <h4 class="modal-title text-center">BUSCAR CÓDIGOS GENERALES</h4>
             </div>
             <div class="modal-body">
@@ -111,7 +116,7 @@ $form = ActiveForm::begin([
                     <div  class="col-md-12">
                     </div>
                 </div>
-                <hr style="border: #FF6000 1px solid;">
+                <hr style="border: #dd4b39 1px solid;">
                 <div class="row">
                     <div  class="col-md-12">	
                         <?php \yii\widgets\Pjax::begin(['id' => 'codigosBus', 'enablePushState' => false]); ?>

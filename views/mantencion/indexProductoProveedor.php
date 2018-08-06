@@ -30,26 +30,31 @@ $form = ActiveForm::begin([
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-2">
+                <div data-step="5" data-intro="Guarda la asignacion del producto al proveedor elegido" class="col-md-2">
 <?= Html::submitButton('GUARDAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'guardar-button']) ?>
                 </div>
-                <div class="col-md-2">	
+                <div data-step="6" data-intro="Elimina una asignacion" class="col-md-2">	
 <?= Html::button('ELIMINAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'eliminar-button', 'id' => 'eliminar-button']) ?>
                 </div>
-                <div class="col-md-2">	
+                <div data-step="7" data-intro="Busca las asignaciones ingresadas al sistema" class="col-md-2">	
 <?= Html::button('BUSCAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'buscar-button', 'id' => 'buscar-button',"data-toggle"=>"modal","data-target"=>"#buscarModal"]) ?>
                 </div>
-                <div class="col-md-2">	
+                <div data-step="8" data-intro="Limpia la pantalla" class="col-md-2">	
 <?= Html::resetButton('LIMPIAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'limpiar-button']) ?>
                 </div>
-                <div class="col-md-4">	
+                <div class="col-md-2">	
+                    <button data-step="1" data-intro="Esta formulario sirve para reconocer que productos vienen de los proveedores" onclick="javascript:introJs().start();" type="button" class="btn btn-block btn-sistema btn-flat" >
+                        <span class="glyphicon glyphicon-question-sign"></span> AYUDA
+                    </button>         
+                </div>
+                <div class="col-md-2">	
                     &nbsp;
                 </div>
             </div>
-            <hr style="border: #FF6000 1px solid;">
+            <hr style="border: #dd4b39 1px solid;">
             <div class="row">
                 <div  class="col-md-6">
-                    <div class="form-group">
+                    <div  data-step="2" data-intro="Debe elegir al proveedor. Este debe esta ingresado en la pantalla de proveedores" class="form-group">
                         <?= $form->field($model, 'id_proveedor')->widget(Select2::classname(), [
                                 'data' => $this->params['breadcrumbs']['proveedor'],
                                 'language' => 'es',
@@ -62,7 +67,7 @@ $form = ActiveForm::begin([
                     </div>
                 </div>
                 <div  class="col-md-6">
-                    <div class="form-group">
+                    <div data-step="3" data-intro="Debe elegir el producto. Este debe ser ingresado en la pantalla de productos" class="form-group">
                         <?= $form->field($model, 'id_producto')->widget(Select2::classname(), [
                                 'data' => $this->params['breadcrumbs']['producto'],
                                 'language' => 'es',
@@ -77,7 +82,7 @@ $form = ActiveForm::begin([
             </div>
             <div class="row">
                 <div  class="col-md-6">
-                    <div class="form-group">
+                    <div data-step="4" data-intro="Debe ingresar el precio de compra del producto de acuerdo a el proveedor" class="form-group">
 <?= $form->field($model, 'v_compra')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "000000000000", "required" => true, "maxlength" => "12", "size" => "12"])
                                 ->label("PRECIO DE COMPRA:", ['class' => 'label label-default']); ?>
                     </div>
@@ -95,7 +100,7 @@ $form = ActiveForm::begin([
     <div class="modal-dialog" style="width: 80% !important;" >
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header" style="background-color:#FF6000; color:white; font-weight: bold;">
+            <div class="modal-header" style="background-color:#DD4B39; color:white; font-weight: bold;">
                 <h4 class="modal-title text-center">BUSCAR PRODUCTOS POR PROVEEDORES</h4>
             </div>
             <div class="modal-body">
@@ -131,7 +136,7 @@ $form = ActiveForm::begin([
                     <div  class="col-md-12">
                     </div>
                 </div>
-                <hr style="border: #FF6000 1px solid;">
+                <hr style="border: #dd4b39 1px solid;">
                 <div class="row">
                     <div  class="col-md-12">	
                         <?php \yii\widgets\Pjax::begin(['id' => 'proveedorProductoBus', 'enablePushState' => false]); ?>

@@ -26,7 +26,19 @@ $nombreModel = substr(get_class($model), $posi + 1);
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <hr style="border: #FF6000 1px solid;">
+            <div>
+                <div class="col-md-2">	
+                    <button data-step="1" data-intro="En este formulario se agrega los pacientes que tendran los operativos" onclick="javascript:introJs().start();" type="button" class="btn btn-block btn-sistema btn-flat" >
+                        <span class="glyphicon glyphicon-question-sign"></span> AYUDA
+                    </button>         
+                </div>
+                <div class="col-md-10">	
+                    &nbsp;
+                </div>
+            </div>
+            <br>
+            <br>
+            <hr style="border: #dd4b39 1px solid;">
             <div id="tomaHora">
                 <div class="row">
                     <div class="col-md-10">
@@ -38,32 +50,32 @@ $nombreModel = substr(get_class($model), $posi + 1);
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="form-group">
+                        <div data-step="2" data-intro="Muestra el doctor acargo del operativo" class="form-group">
                             <span class="label label-default">DOCTOR:</span>
                             <input type="text" class="form-control" name="opDoctor" id="opDoctor" readonly="readonly" value="<?= $doctor ?>" />
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="form-group">
+                        <div data-step="3" data-intro="Muestra la hora del operativo" class="form-group">
                             <span class="label label-default">HORA:</span>
                             <input type="text" class="form-control" name="opHora" id="opHora" readonly="readonly" value="<?= $hora ?>" />
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="form-group">
+                        <div data-step="4" data-intro="Muestra el dia del operativo" class="form-group">
                             <span class="label label-default">DÍA:</span>
                             <input type="text" class="form-control" name="opDia" id="opDia" readonly="readonly" value="<?= $dia ?>" />
                         </div>
                     </div>
                     <div class="col-md-5">
-                        <div class="form-group">
+                        <div data-step="5" data-intro="Muestra la observacion del operativo" class="form-group">
                             <span class="label label-default">OBSERVACIÓN OPERATIVO:</span>
                             <input type="text" class="form-control" name="opObservacion" id="opObservacion" readonly="readonly" value="<?= $obser ?>" />
                         </div>
                     </div>
                 </div>
             </div>
-            <hr style="border: #FF6000 1px solid;">
+            <hr style="border: #dd4b39 1px solid;">
             <div id="detalleOperativo">
                 <div class="row">
                     <div class="col-md-12">
@@ -72,7 +84,7 @@ $nombreModel = substr(get_class($model), $posi + 1);
                             <div class="row">
                                  <?php $form = ActiveForm::begin(['id' => 'login-form']);?>
                                    
-                                <div class="col-md-4">
+                                <div data-step="6" data-intro="Debe elegir dentro de la lista al paciente" class="col-md-4">
                                    
                                     <?=
                                     $form->field($model, 'pacientes')->widget(Select2::classname(), [
@@ -86,7 +98,7 @@ $nombreModel = substr(get_class($model), $posi + 1);
                                     ?>
 
                                 </div>
-                                <div class="col-md-2" style="padding:15px;">
+                                <div data-step="7" data-intro="Agrega el paciente al operativo" class="col-md-2" style="padding:15px;">
 
                                     <?= Html::submitButton('AGREGA PACIENTE', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'guardar-button']); ?>
                                     <?= $form->field($model, 'dia')->hiddenInput(['value' => $diaSF])->label(false); ?>
@@ -97,7 +109,7 @@ $nombreModel = substr(get_class($model), $posi + 1);
                                 </div>
                                  <?php ActiveForm::end(); ?>
                                  
-                               <div class="col-md-2" style="padding:15px;">
+                               <div data-step="8" data-intro="Te lleva a la pantalla para realizar la gestion del operativo" class="col-md-2" style="padding:15px;">
                                     <?php $form = ActiveForm::begin(['id' => 'operativo-form','action' => Yii::$app->request->baseUrl . '/index.php?r=operativos/index-operativo&id=320000000&t=OPERATIVOS',"method"=>"post" ]);?>
                                  
                                      <?= Html::submitButton('IR OPERATIVO', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'guardar-button']); ?>
@@ -112,7 +124,7 @@ $nombreModel = substr(get_class($model), $posi + 1);
 
                                 </div>
                             </div>
-                            <div class="row">
+                            <div data-step="9" data-intro="Muestra los pacientes que estan en el operativo"  class="row">
                                 <?=
                                 GridView::widget([
                                     'dataProvider' => $dataProvider,

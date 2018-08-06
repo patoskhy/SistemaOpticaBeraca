@@ -30,23 +30,26 @@ $form = ActiveForm::begin([
 ?>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-3">
+        <div data-step="2" data-intro="En este sector se pueden ver a los usuarios creados" class="col-md-3">
             <h1>USUARIO</h1>
-            <hr style="border: #FF6000 1px solid;">
+            <hr style="border: #dd4b39 1px solid;">
             <div id="jqxTree" style="float:left;"></div>
-            <button type="button" id="agregarUsuario" class="btn btn-default" data-toggle="modal" data-target="#agregarUsuarioModal"><span class="glyphicon glyphicon-plus"></button> 
-            <button type="button" id="modificarUsuario" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></button>
+            <button data-step="3" data-intro="Este boton sirve para crear un nuevo usuario" type="button" id="agregarUsuario" class="btn btn-default" data-toggle="modal" data-target="#agregarUsuarioModal"><span class="glyphicon glyphicon-plus"></button> 
+            <button data-step="4" data-intro="Este boton sirve para editar un nuevo usuario" type="button" id="modificarUsuario" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></button>
         </div>
 
         <div class="col-md-9">
             <h1>PERFILES DE USUARIO</h1>
-            <hr style="border: #FF6000 1px solid;">
+            <hr style="border: #dd4b39 1px solid;">
             <div class="row">
                 <H2>
                     <div class="col-md-2">
                         <?= Html::resetButton('LIMPIAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'limpiar-button']) ?>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2">	
+                        <button type="button" class="btn btn-block btn-sistema btn-flat" data-step="1" data-intro="Esta formulario sirve para ingresar a los usuarios que pueden acceder al sistema" onclick="javascript:introJs().start();">
+                            <span class="glyphicon glyphicon-question-sign"></span> AYUDA
+                        </button>         
                     </div>
                     <div class="col-md-4 text-right">
                         <b>USUARIO:</b> 
@@ -60,8 +63,8 @@ $form = ActiveForm::begin([
                 <div class="row">
 
                     <div  class="col-md-12">
-                        <hr style="border: #FF6000 1px solid;">
-                        <div class="form-group">
+                        <hr style="border: #dd4b39 1px solid;">
+                        <div data-step="5" data-intro="Estos son los accesos que puede tener un usuario. Si esta en verde puede entrar en la pantalla, si esta en rojo no tiene acceso a la pantalla" class="form-group">
 
                             <?php \yii\widgets\Pjax::begin(['id' => 'perfiles', 'enablePushState' => false]); ?>
                             <?=
@@ -128,7 +131,7 @@ $form = ActiveForm::begin([
         <div class="modal-dialog" style="width: 80% !important;" >
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header" style="background-color:#FF6000; color:white; font-weight: bold;">
+                <div class="modal-header" style="background-color:#DD4B39; color:white; font-weight: bold;">
                     <h4 class="modal-title">AGREGAR USUARIO</h4>
                 </div>
                 <div class="modal-body">
@@ -186,7 +189,7 @@ $form = ActiveForm::begin([
                         </div>
                     </div>
                     <div id="agregarDoc">
-                        <hr style="border: #FF6000 1px solid;">
+                        <hr style="border: #dd4b39 1px solid;">
                     </div>
                 </div>
                 <div class="modal-footer">

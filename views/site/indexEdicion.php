@@ -6,7 +6,7 @@ $this->title = $titulo;
 ?>
 <div class="row">
     <div class="col-md-2">	
-        <button type="button" class="btn btn-block btn-google btn-flat" data-step="1" data-intro="Este formulario redimenciona las fotos al tamaño de las que se solicitan en el formulario de ingreso de productos web. Esta las deja del tamaño necesario para los catalogos" onclick="javascript:introJs().start();">
+        <button type="button" class="btn btn-block btn-sistema btn-flat" data-step="1" data-intro="Este formulario redimenciona las fotos al tamaño de las que se solicitan en el formulario de ingreso de productos web. Esta las deja del tamaño necesario para los catalogos" onclick="javascript:introJs().start();">
             <span class="glyphicon glyphicon-question-sign"></span> AYUDA
         </button>         
     </div>
@@ -38,7 +38,7 @@ $this->title = $titulo;
         ?>
 
         <br>
-        <a id="descarga" class="btn btn-block btn-google btn-flat" href="<?= Url::toRoute(["site/file-download"]) ?>">DESCARGAR IMÁGEN</a>
+        <a id="descarga" class="btn btn-block btn-sistema btn-flat" href="<?= Url::toRoute(["site/file-download"]) ?>">DESCARGAR IMÁGEN</a>
     </div>
 </div>
 

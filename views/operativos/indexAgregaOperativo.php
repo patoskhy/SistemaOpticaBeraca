@@ -30,22 +30,27 @@ $nombreModel = substr(get_class($model), $posi + 1);
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-2">
+                <div data-step="7" data-intro="Guarda el operativo" class="col-md-2">
                     <?= Html::submitButton('GUARDAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'guardar-button']) ?>
                 </div>
-                <div class="col-md-2">	
+                <div data-step="8" data-intro="Limpia el formulario" class="col-md-2">	
                     <?= Html::resetButton('LIMPIAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'limpiar-button']) ?>
                 </div>
-                <div class="col-md-8">	
+                <div class="col-md-2">	
+                    <button data-step="1" data-intro="En este formulario se agrega en que día habrá operativo. Este estara disponible en la pagina web de la optica" onclick="javascript:introJs().start();" type="button" class="btn btn-block btn-sistema btn-flat" >
+                        <span class="glyphicon glyphicon-question-sign"></span> AYUDA
+                    </button>         
+                </div>
+                <div class="col-md-6">	
                     &nbsp;
                 </div>
             </div>
-            <hr style="border: #FF6000 1px solid;">
+            <hr style="border: #dd4b39 1px solid;">
 
             <div id="tomaHora">
                 <div class="row">
                     <div class="col-md-2">
-                        <div class="form-group">
+                        <div data-step="2" data-intro="Debe elegir el dia del operativo" class="form-group">
                              <?= 
                                 $form->field($model, 'dia')->widget(DatePicker::className(),[
                                         'value' => date('d/m/Y'),
@@ -64,7 +69,7 @@ $nombreModel = substr(get_class($model), $posi + 1);
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="form-group">
+                        <div data-step="3" data-intro="Debe ingresar la hora del operativo" class="form-group">
                             <?= 
                                $form->field($model, 'hora')->widget(MaskedInput::className(),[
                                     'mask' => '##:##',
@@ -74,7 +79,7 @@ $nombreModel = substr(get_class($model), $posi + 1);
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="form-group">
+                        <div data-step="4" data-intro="Debe elegir el doctor del operativo" class="form-group">
                             <?= $form->field($model, 'doctor')->widget(Select2::classname(), [
                                     'data' => $this->params['breadcrumbs']['doctor'],
                                     'language' => 'es',
@@ -87,7 +92,7 @@ $nombreModel = substr(get_class($model), $posi + 1);
 						</div>
                     </div>
                     <div class="col-md-5">
-                        <div class="form-group">
+                        <div data-step="5" data-intro="Debe ingresar alguna observacion del operativo" class="form-group">
                             <?= $form->field($model, 'obser')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Observación Operativo"])
                                         ->label("OBSERVACIÓN OPERATIVO:", ['class' => 'label label-default']); ?>
                         </div>
@@ -95,9 +100,9 @@ $nombreModel = substr(get_class($model), $posi + 1);
                 </div>
             </div>
 
-            <hr style="border: #FF6000 1px solid;">
-            <div id="detalleOperativo">
-                <div class="row">
+            <hr style="border: #dd4b39 1px solid;">
+            <div data-step="6" data-intro="Aqui estan los operativos agendados para este dia"  id="detalleOperativo">
+                <div  class="row">
                     <div class="col-md-10">
                         <p class="lead">OPERATIVOS VIGENTES PARA EL DÍA</p>
                     </div>

@@ -47,7 +47,7 @@ $form = ActiveForm::begin([
                     &nbsp;
                 </div>
             </div>
-            <hr style="border: #FF6000 1px solid;">
+            <hr style="border: #dd4b39 1px solid;">
             <div id="tomaHora">
                 <div class="row">
                     <div class="col-md-9">
@@ -122,7 +122,7 @@ $form = ActiveForm::begin([
                     </div>
                 </div>
             </div>
-            <hr style="border: #FF6000 1px solid;">
+            <hr style="border: #dd4b39 1px solid;">
             <div id="detalleOperativo">
                 <div class="row">
                     <div class="col-md-10">
@@ -172,7 +172,7 @@ $form = ActiveForm::begin([
         <div class="modal-dialog" style="width: 80% !important;" >
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header" style="background-color:#FF6000; color:white; font-weight: bold;">
+                <div class="modal-header" style="background-color:#DD4B39; color:white; font-weight: bold;">
                     <h4 class="modal-title text-center">RECETA MÉDICA</h4>
                 </div>
                 <div class="modal-body">
@@ -193,7 +193,7 @@ $form = ActiveForm::begin([
                             </div>
                         </div>
                     </div>
-                    <hr style="border: #FF6000 1px solid;">
+                    <hr style="border: #dd4b39 1px solid;">
                     <div class="row">
                         <div class="col-md-12">
                             <h4 class="text-center"><strong>LEJOS</strong></h4>
@@ -231,7 +231,7 @@ $form = ActiveForm::begin([
 
                         </div>
                     </div>
-                    <hr style="border: #FF6000 1px solid;">
+                    <hr style="border: #dd4b39 1px solid;">
                     <div class="row">
                         <div class="col-md-12">
                             <h4 class="text-center"><strong>CERCA</strong></h4>
@@ -267,7 +267,7 @@ $form = ActiveForm::begin([
                             </div>
                         </div>
                     </div>
-                    <hr style="border: #FF6000 1px solid;">
+                    <hr style="border: #dd4b39 1px solid;">
                     <div class="row">
                         <div class="col-md-6">
                             <span class="label label-default">OBSERVACIÓN:</span>
@@ -407,7 +407,7 @@ echo json_encode(ArrayHelper::toArray($doctor, [
                  percent.html(percentVal);*/
             },
             complete: function (xhr) {
-                if (xhr.responseText == "OK") {
+                if (xhr.responseText.trim() == "OK") {
                     CargaOperativo(recRD, recH)
                     $("#recetaModal").modal("toggle");
                     $("#modTitulo").html("Validación");

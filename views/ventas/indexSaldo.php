@@ -72,7 +72,7 @@ $form = ActiveForm::begin([
                     <button type="button" id="btnBusSal" class="btn btn-block btn-sistema btn-flat">BUSCAR</button>
                 </div>
             </div>
-            <hr style="border: #FF6000 1px solid;">
+            <hr style="border: #dd4b39 1px solid;">
             <div class="row">
 
                 <div  class="col-md-12">	
@@ -159,7 +159,7 @@ $form = ActiveForm::begin([
                 </div>
             </div>
             <div id="div-saldos">
-                <hr style="border: #FF6000 1px solid;">
+                <hr style="border: #dd4b39 1px solid;">
                 <div class="row">
                     <div  class="col-md-4">
                         <span class="label label-default">FOLIO:</span>
@@ -236,7 +236,7 @@ $form = ActiveForm::begin([
     <div class="modal-dialog" style="width: 80% !important;" >
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header" style="background-color:#FF6000; color:white; font-weight: bold;">
+            <div class="modal-header" style="background-color:#DD4B39; color:white; font-weight: bold;">
                 <h4 class="modal-title text-center">INGRESAR ABONO</h4>
             </div>
             <div class="modal-body">
@@ -254,7 +254,7 @@ $form = ActiveForm::begin([
                         <input type="text" class="form-control" name="ingSalDeu" id="ingSalDeu" readonly="readonly">
                     </div>
                 </div>
-                <hr style="border: #FF6000 1px solid;">
+                <hr style="border: #dd4b39 1px solid;">
                 <div class="row">
                     <div  class="col-md-4">
                         <span class="label label-default">ABONADO:</span>
@@ -293,7 +293,7 @@ $form = ActiveForm::begin([
     <div class="modal-dialog" style="width: 80% !important;" >
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header" style="background-color:#FF6000; color:white; font-weight: bold;">
+            <div class="modal-header" style="background-color:#DD4B39; color:white; font-weight: bold;">
                 <h4 class="modal-title text-center">DETALLE DE VENTA</h4>
             </div>
             <div class="modal-body">
@@ -331,7 +331,7 @@ $form = ActiveForm::begin([
                         <input type="text" value="<?= isset($venta[0]["TOTAL"]) ? $venta[0]["TOTAL"] : "" ?>" class="form-control"  readonly="readonly">
                     </div>
                 </div>
-                <hr style="border: #FF6000 1px solid;">
+                <hr style="border: #dd4b39 1px solid;">
                 <div class="row">
                     <div  class="col-md-12">	
 

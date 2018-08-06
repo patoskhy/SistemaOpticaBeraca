@@ -42,7 +42,7 @@ $form = ActiveForm::begin([
                     &nbsp;
                 </div>
             </div>
-            <hr style="border: #FF6000 1px solid;">
+            <hr style="border: #dd4b39 1px solid;">
             <div class="row">
                 <div  class="col-md-12">
                     <div class="row">
@@ -83,7 +83,7 @@ $form = ActiveForm::begin([
                             </div>
                         </div>
                     </div>
-                     <hr style="border: #FF6000 1px solid;">
+                     <hr style="border: #dd4b39 1px solid;">
                     <div class="row">
                         <div  class="col-md-4">
                             <span class="label label-default">NOMBRE:</span>
@@ -116,7 +116,7 @@ $form = ActiveForm::begin([
                     <br>
                 </div>
             </div>
-            <hr style="border: #FF6000 1px solid;">
+            <hr style="border: #dd4b39 1px solid;">
             <?php // busqueda de codigo de barras   ?>
             <div class="row">
                 <div  class="col-md-4">
@@ -124,7 +124,7 @@ $form = ActiveForm::begin([
                     <input type="text" class="form-control" name="venCodigoBarra" id="venCodigoBarra">
                 </div>
             </div>
-            <hr style="border: #FF6000 1px solid;">
+            <hr style="border: #dd4b39 1px solid;">
             <div class="row">
                 <table id="detalleCompra" class="table table-bordered table-hover table-condensed">
                     <thead>
