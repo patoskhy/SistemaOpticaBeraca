@@ -717,7 +717,7 @@ class ComprasController extends Controller {
         
             <table style="width:100%">
                 <tr>
-                    <td style="text-align: center;font-weight: bold;" colspan="12">
+                    <td style="text-align: center;font-weight: bold; width:100%" colspan="12">
                         <h2 ><img style="vertical-align:text-bottom;" src="reportes/opBeTransparente.png" /></h2>
                         <hr style="border: dimgrey 2px solid;text-align: center;">
                     </td>

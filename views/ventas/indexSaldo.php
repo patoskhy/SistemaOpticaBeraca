@@ -37,19 +37,12 @@ $form = ActiveForm::begin([
         <div class="col-md-12">
 
             <div class="row">
-                <div  class="col-md-1">	
-
-                </div>
-                <div  class="col-md-1 text-right">	
+                <div  class="col-md-2 " data-step="2" data-intro="Filtra la busqueda por el rut del cliente">
                     <span class="label label-default">RUT:</span>
-                </div>
-                <div  class="col-md-2 text-left">
-                    <input type="text" class="form-control solo-numero" id="venRutBusSal" placeholder="000000000">
+                    <input type="text" class="form-control guion-rut" id="venRutBusSal" placeholder="000000000">
                 </div>	
-                <div  class="col-md-1 text-right">	
+                <div  class="col-md-2 " data-step="3" data-intro="Filtra por las ventas del dia seleccionado">
                     <span class="label label-default">DÍA:</span>
-                </div>
-                <div  class="col-md-2 text-left">
                      <?= DatePicker::widget([
                             'name' => 'venFecBusSal',
                             'type' => DatePicker::TYPE_INPUT,
@@ -62,18 +55,27 @@ $form = ActiveForm::begin([
                             ]
                     ]);?>
                 </div>	
-                <div  class="col-md-1 text-right">	
+			
+                <div  class="col-md-2 " data-step="4" data-intro="Filtra la busqueda por el folio del cliente">
                     <span class="label label-default">FOLIO:</span>
-                </div>						
-                <div  class="col-md-2 text-left">
                     <input type="text" class="form-control folio solo-numero" id="venFolBusSal" placeholder="000000000000">
                 </div>	
-                <div  class="col-md-2">	
+                <div  class="col-md-2" data-step="5" data-intro="Busca las ventas por los filtros">	
+                    <br>
                     <button type="button" id="btnBusSal" class="btn btn-block btn-sistema btn-flat">BUSCAR</button>
+                </div>
+                <div class="col-md-2">	
+                    <br>
+                    <button data-step="1" data-intro="En esta pantalla se registran los pagos de abonos de ventas anteriores" onclick="javascript:introJs().start();" type="button" class="btn btn-block btn-sistema btn-flat" >
+                        <span class="glyphicon glyphicon-question-sign"></span> AYUDA
+                    </button>         
+                </div>
+                <div class="col-md-2">	
+                    &nbsp;
                 </div>
             </div>
             <hr style="border: #dd4b39 1px solid;">
-            <div class="row">
+            <div class="row" data-step="6" data-intro="registros de las ventas">
 
                 <div  class="col-md-12">	
                     <?php \yii\widgets\Pjax::begin(['id' => 'ventas', 'enablePushState' => false]); ?>
@@ -341,11 +343,25 @@ $form = ActiveForm::begin([
                             'columns' => [
                                 'CANTIDAD',
                                 'DESCRIPCION',
-                                'VALOR_VENTA',
                                 [
                                     'class' => 'yii\grid\ActionColumn',
                                     'template' => '{estado}',
-                                    'header' => 'Valor Total',
+                                    'header' => 'Valor Unitario',
+                                    'buttons' => [
+                                        'estado' => function ($url, $model) {
+                                            //var_dump($model);
+                                            if ($model["VALOR_VENTA"] != "0") {
+                                                return $model["VALOR_VENTA"];
+                                            } else {
+                                                return "0";
+                                            }
+                                        }
+                                    ],
+                                ],
+                                [
+                                    'class' => 'yii\grid\ActionColumn',
+                                    'template' => '{estado}',
+                                    'header' => 'Valor Venta',
                                     'buttons' => [
                                         'estado' => function ($url, $model) {
                                             //var_dump($model);

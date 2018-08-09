@@ -182,7 +182,11 @@ $nombreModel = substr(get_class($model), $posi + 1);
     </div>
 </div>
 </div>
+<script type="text/javascript">
+    function initialComponets() {}
+</script>  
 <?php ActiveForm::end(); 
+
 $miUrlbase = Yii::$app->request->absoluteUrl;
 $scritp = <<<JS
         $('#$nombreModelLow-dia').on('change', function (event) {
@@ -192,6 +196,8 @@ $scritp = <<<JS
             var Url = '$miUrlbase&f=' + f;
             $.pjax.reload({container: "#opera", url: Url, replace: false});
         });
+
+ 
 JS;
 
 $this->registerJs(

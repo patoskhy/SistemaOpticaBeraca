@@ -30,20 +30,25 @@ $form = ActiveForm::begin([
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-2" data-step="12" data-intro="Guarda la donacion en el sistema">
 <?= Html::submitButton('GUARDAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'guardar-button']) ?>
                 </div>
-                <div class="col-md-2">	
+                <div class="col-md-2" data-step="13" data-intro="Limpia los datos del formulario">	
 <?= Html::resetButton('LIMPIAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'limpiar-button']) ?>
                 </div>
-                <div class="col-md-8">	
+                <div class="col-md-2">	
+                    <button data-step="1" data-intro="En esta pantalla se registran las donaciones de productos que se realizan" onclick="javascript:introJs().start();" type="button" class="btn btn-block btn-sistema btn-flat" >
+                        <span class="glyphicon glyphicon-question-sign"></span> AYUDA
+                    </button>         
+                </div>
+                <div class="col-md-6">	
                     &nbsp;
                 </div>
             </div>
             <hr style="border: #dd4b39 1px solid;">
 
 <?php //Encabezado  ?>
-            <div class="row">
+            <div class="row" data-step="2" data-intro="Los datos se registran como donaciones">
                 <div  class="col-md-12">
                     <div class="row">
                         <div  class="col-md-2">
@@ -104,13 +109,13 @@ $form = ActiveForm::begin([
             <hr style="border: #dd4b39 1px solid;">
             <?php // busqueda de codigo de barras   ?>
             <div class="row">
-                <div  class="col-md-4">
+                <div  class="col-md-4" data-step="3" data-intro="Se ingresa el codigo de barras del producto y este se carga en la tabla de productos a comprarse">
                     <span class="label label-default">INGRESE EL CÓDIGO DE BARRAS:</span>
                     <input type="text" class="form-control" name="venCodigoBarra" id="venCodigoBarra">
                 </div>
             </div>
             <hr style="border: #dd4b39 1px solid;">
-            <div class="row">
+            <div class="row" data-step="4" data-intro="Detalle de los productos a comprarse">
                 <table id="detalleCompra" class="table table-bordered table-hover table-condensed">
                     <thead>
                         <tr>
@@ -144,10 +149,10 @@ $form = ActiveForm::begin([
 
             <div class="row">
                 <div  class="col-md-2">
-                    <button type="button" id="insertaFila" class="btn btn-default">
+                    <button data-step="5" data-intro="Agrega a mano un producto" type="button" id="insertaFila" class="btn btn-default">
                         <span class="glyphicon glyphicon-plus"></span>
                     </button>
-                    <button type="button" id="borraFila" class="btn btn-default">
+                    <button data-step="6" data-intro="Elimina de la compra un producto" type="button" id="borraFila" class="btn btn-default">
                         <span class="glyphicon glyphicon-minus"></span>
                     </button>
                 </div>
@@ -157,9 +162,9 @@ $form = ActiveForm::begin([
                             &nbsp;
                         </div>
                         <div  class="col-md-1">
-                            <span class="label label-default">Subtotal:</span>
+                            <span class="label label-default">SUBTOTAL:</span>
                         </div>
-                        <div  class="col-md-2">
+                        <div data-step="7" data-intro="Este el subtotal de la compra" class="col-md-2">
 <?= $form->field($model, 'subTotal')->textInput(["class" => "form-control", "readonly" => "readonly", "placeholder" => "000000", "required" => true, "maxlength" => "12", "size" => "12"])
         ->label(false); ?>
                         </div>
@@ -169,9 +174,9 @@ $form = ActiveForm::begin([
                             &nbsp;
                         </div>
                         <div  class="col-md-1">
-                            <span class="label label-default">Descuento:</span>
+                            <span class="label label-default">DESCUENTO:</span>
                         </div>
-                        <div  class="col-md-2" >
+                        <div data-step="8" data-intro="se registra si en la compra realizaron un descuento" class="col-md-2" >
 <?= $form->field($model, 'descuento')->textInput(["class" => "form-control", "readonly" => "readonly", "placeholder" => "000000", "required" => true, "maxlength" => "12", "size" => "12"])
                 ->label(false)?>
                         </div>
@@ -181,9 +186,9 @@ $form = ActiveForm::begin([
                             &nbsp;
                         </div>
                         <div  class="col-md-1 ">
-                            <span class="label label-default">Valor Neto:</span>
+                            <span class="label label-default">VALOR NETO:</span>
                         </div>
-                        <div  class="col-md-2">
+                        <div data-step="9" data-intro="Valor neto con descuento" class="col-md-2">
 <?= $form->field($model, 'neto')->textInput(["class" => "form-control", "readonly" => "readonly", "placeholder" => "000000", "required" => true, "maxlength" => "12", "size" => "12"])
                 ->label(false); ?>
                         </div>
@@ -193,9 +198,9 @@ $form = ActiveForm::begin([
                             &nbsp;
                         </div>
                         <div  class="col-md-1">
-                            <span class="label label-default">Iva:</span>
+                            <span class="label label-default">IVA:</span>
                         </div>
-                        <div  class="col-md-2" >
+                        <div data-step="10" data-intro="Calculo del iva" class="col-md-2" >
 <?= $form->field($model, 'iva')->textInput(["class" => "form-control", "readonly" => "readonly", "placeholder" => "000000", "required" => true, "maxlength" => "12", "size" => "12"])
                         ->label(false); ?>
                         </div>
@@ -205,9 +210,9 @@ $form = ActiveForm::begin([
                             &nbsp;
                         </div>
                         <div  class="col-md-1">
-                            <span class="label label-default">Total:</span>
+                            <span class="label label-default">TOTAL:</span>
                         </div>
-                        <div  class="col-md-2">
+                        <div data-step="11" data-intro="Total de la compra" class="col-md-2">
 <?= $form->field($model, 'total')->textInput(["class" => "form-control", "readonly" => "readonly", "placeholder" => "000000", "required" => true, "maxlength" => "12", "size" => "12"])
                                 ->label(false); ?>
                         </div>

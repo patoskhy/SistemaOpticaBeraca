@@ -87,6 +87,21 @@ if (Yii::$app->controller->action->id === 'login') {
                         body.removeClass("sidebar-collapse");
                         //bf.slideDown();
                     }
+                    
+                    /* Guion al rut */
+                    $('.guion-rut').keyup(function (e) {
+                        var valor = $(this).val();
+                        var valorFinal = "";
+                        valor = valor.replace(/-/gi, "");
+                        var valorMax = valor.length;
+                        if (valorMax == 1) {
+                            valorFinal = "-" + valor.substring(valorMax - 1);
+                        } else {
+                            valorFinal = valor.substr(0, valorMax - 1) + "-" + valor.substring(valorMax - 1);
+                        }
+                        $(this).val(valorFinal);
+                    });
+
                 });
             </script>
 

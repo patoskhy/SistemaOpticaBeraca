@@ -139,7 +139,7 @@ $form = ActiveForm::begin([
                         <div class="col-md-6">
                             <div class="form-group">
                                 <?= $form->field($umodel, 'rut')
-                                        ->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "00000000-K", "required" => true, "maxlength" => "11", "size" => "11"])
+                                        ->textInput(["class" => "form-control guion-rut", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "00000000-K", "required" => true, "maxlength" => "11", "size" => "11"])
                                         ->label("RUT USUARIO", ['class' => 'label label-default']); ?>
                             </div>
                         </div>
@@ -155,7 +155,7 @@ $form = ActiveForm::begin([
                         <div class="col-md-6">
                             <div class="form-group">
                                 <?= $form->field($umodel, 'usuario')
-                                        ->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Usuario", "required" => true, "maxlength" => "11", "size" => "11"])
+                                        ->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Usuario", "required" => true, "maxlength" => "15", "size" => "15"])
                                         ->label("USUARIO DE INGRESO", ['class' => 'label label-default']); ?>
                             </div>
                         </div>

@@ -37,13 +37,18 @@ $form = ActiveForm::begin([
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-2" data-step="7" data-intro="limpia los datos del formulario">
 <?= Html::resetButton('LIMPIAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'limpiar-button']) ?>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2" data-step="8" data-intro="Te lleva a la pantalla para agendar un operativo">
 <?= Html::a('AGENDAR OPERATIVO', Yii::$app->request->baseUrl . '/index.php?r=operativos/index-agrega-operativo&id=310000000&t=AGENDAR%20OPERATIVO', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'salir-button']) ?>			
                 </div>
-                <div class="col-md-8">	
+                <div class="col-md-2">	
+                    <button data-step="1" data-intro="En esta pantalla se asignan los valores para que figuren en las recetas medicas que se almacenan en el sistema" onclick="javascript:introJs().start();" type="button" class="btn btn-block btn-sistema btn-flat" >
+                        <span class="glyphicon glyphicon-question-sign"></span> AYUDA
+                    </button>         
+                </div>
+                <div class="col-md-6">	
                     &nbsp;
                 </div>
             </div>
@@ -53,7 +58,7 @@ $form = ActiveForm::begin([
                     <div class="col-md-9">
 
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" data-step="2" data-intro="Selecciona la fecha de busqueda del operativo">
                             <label class="label label-default">FECHA BUSQUEDA:</label>;
                             <?= 
                                 DatePicker::widget([
@@ -75,7 +80,7 @@ $form = ActiveForm::begin([
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3" data-step="3" data-intro="se debe seleccionar el doctor">
                         <div class="form-group">
                             <span class="label label-default">DOCTOR:</span>
                             
@@ -91,7 +96,7 @@ $form = ActiveForm::begin([
                             ?>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2" data-step="4" data-intro="Selecciona la hora de busqueda del operativo">
                         <div class="form-group">
                             <span class="label label-default">HORA:</span>
                               </select>
@@ -108,13 +113,13 @@ $form = ActiveForm::begin([
                             ?>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2" data-step="5" data-intro="Muestra el dia del operativo">
                         <div class="form-group">
                             <span class="label label-default">DÍA:</span>
                             <input type="text" class="form-control" name="opDia" value="<?=(is_null($model->dia))? '' : $model->dia?>" id="opDia" readonly="readonly">
                         </div>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-5" data-step="6" data-intro="observacion del operativo">
                         <div class="form-group">
                             <span class="label label-default">OBSERVACIÓN OPERATIVO:</span>
                             <input type="text" class="form-control" name="opObservacion" value="<?=(is_null($model->obser))? '' : $model->obser?>" id="opObservacion" readonly="readonly">

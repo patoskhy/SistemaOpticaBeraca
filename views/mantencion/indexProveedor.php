@@ -62,7 +62,7 @@ $form = ActiveForm::begin([
             <div class="row">
                 <div  class="col-md-6">
                     <div data-step="3" data-intro="Debe ingresar el RUT de la empresa proveedora" class="form-group">
-<?= $form->field($model, 'codigo')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Rut", "required" => true, "maxlength" => "11", "size" => "11"])
+<?= $form->field($model, 'codigo')->textInput(["class" => "form-control guion-rut", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Rut", "required" => true, "maxlength" => "11", "size" => "11"])
                 ->label("RUT:", ['class' => 'label label-default']); ?>
                     </div>
                 </div>

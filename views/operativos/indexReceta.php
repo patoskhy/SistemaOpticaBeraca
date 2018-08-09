@@ -26,13 +26,18 @@ $form = ActiveForm::begin([
 ?>
 <div class="container-fluid">
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-2" data-step="4" data-intro="Busca la receta del cliente">
                     <button type="button" id="btnBusProd" class="btn btn-block btn-sistema btn-flat">BUSCAR</button>
                 </div>
-                <div class="col-md-2">	
+                <div class="col-md-2" data-step="5" data-intro="Limpia el formulario">	
                     <?= Html::resetButton('LIMPIAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'limpiar-button']) ?>
                 </div>
-                <div class="col-md-8">	
+                <div class="col-md-2">	
+                    <button data-step="1" data-intro="En esta pantalla se genera una receta de los pacientes" onclick="javascript:introJs().start();" type="button" class="btn btn-block btn-sistema btn-flat" >
+                        <span class="glyphicon glyphicon-question-sign"></span> AYUDA
+                    </button>         
+                </div>
+                <div class="col-md-6">	
                     &nbsp;
                 </div>
             </div>
@@ -43,7 +48,7 @@ $form = ActiveForm::begin([
   
 
                     <div class="col-md-12">
-                        <div class="form-group">
+                        <div class="form-group" data-step="2" data-intro="Seleccionar el cliente a generar la receta">
                             <?=
             Select2::widget([
                 'data' => $this->params['breadcrumbs']['pacientes'],
@@ -63,7 +68,7 @@ $form = ActiveForm::begin([
 <?php ActiveForm::end(); ?>
     <hr style="border: #dd4b39 1px solid;">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" data-step="3" data-intro="Receta">
             <iframe id="reporte" width="100%" height="600px" src=""></iframe>
 
         </div>

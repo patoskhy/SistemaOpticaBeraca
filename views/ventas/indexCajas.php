@@ -26,19 +26,24 @@ $form = ActiveForm::begin([
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-2" data-step="3" data-intro="Guarda la apertura en el sistema">
 <?= Html::submitButton('GUARDAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'guardar-button']) ?>
                 </div>
-                <div class="col-md-2">	
+                <div class="col-md-2" data-step="4" data-intro="Limpia los datos del formulario">	
 <?= Html::resetButton('LIMPIAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'limpiar-button']) ?>
                 </div>
-                <div class="col-md-8">	
+                <div class="col-md-2">	
+                    <button data-step="1" data-intro="En esta pantalla se registran las apertura de cajas diarias" onclick="javascript:introJs().start();" type="button" class="btn btn-block btn-sistema btn-flat" >
+                        <span class="glyphicon glyphicon-question-sign"></span> AYUDA
+                    </button>         
+                </div>
+                <div class="col-md-6">	
                     &nbsp;
                 </div>
             </div>
             <hr style="border: #dd4b39 1px solid;">
             <div class="row">
-                <div  class="col-md-12">
+                <div  class="col-md-12" data-step="2" data-intro="Se debe ingresar el monto con el que se comienza el dia">
                     <div class="form-group">
                         <?= $form->field($model, 'monto')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Monto", "required" => true, "maxlength" => "50", "size" => "50"])
                                         ->label("MONTO:", ['class' => 'label label-default']); ?>

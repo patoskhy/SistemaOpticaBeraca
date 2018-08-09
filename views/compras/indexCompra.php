@@ -28,17 +28,22 @@ $form = ActiveForm::begin([
         ]);
 ?>
 
-<div class="container">
+
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-2" data-step="15" data-intro="Guarda la compra en el sistema">
                     <?= Html::submitButton('GUARDAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'guardar-button']) ?>
                 </div>
-                <div class="col-md-2">	
+                <div class="col-md-2" data-step="16" data-intro="Limpia los datos del formulario">	
                     <?= Html::resetButton('LIMPIAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'limpiar-button']) ?>
                 </div>
-                <div class="col-md-8">	
+                <div class="col-md-2">	
+                    <button data-step="1" data-intro="En esta pantalla se registran las compras de productos que se realizan" onclick="javascript:introJs().start();" type="button" class="btn btn-block btn-sistema btn-flat" >
+                        <span class="glyphicon glyphicon-question-sign"></span> AYUDA
+                    </button>         
+                </div>
+                <div class="col-md-6">	
                     &nbsp;
                 </div>
             </div>
@@ -47,7 +52,7 @@ $form = ActiveForm::begin([
                 <div  class="col-md-12">
                     <div class="row">
                         <div  class="col-md-4">
-                            <div class="form-group">
+                            <div class="form-group" data-step="2" data-intro="Debe ingresar el numero de la factura, orden de compra, etc">
                                <?= $form->field($model, 'numDoc')->textInput([
                                         "class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "000000000000", "required" => true, "autofocus" => true, "maxlength" => "11", "size" => "11"
                                     ])->label("NÚMERO", ['class' => 'label label-default']); 
@@ -55,7 +60,7 @@ $form = ActiveForm::begin([
                             </div>
                         </div>
                         <div  class="col-md-4">
-                            <div class="form-group">
+                            <div class="form-group" data-step="3" data-intro="debe seleccionar el tipo de documento con la que se realizo la compra">
                                  <?=
                                      $form->field($model, 'tipDoc')->widget(Select2::classname(), [
                                          'data' => $this->params['breadcrumbs']['docList'],
@@ -69,7 +74,7 @@ $form = ActiveForm::begin([
                             </div>
                         </div>
                         <div  class="col-md-4">
-                            <div class="form-group">
+                            <div class="form-group" data-step="4" data-intro="Debe seleccionar al proveedor al que le hizo la compra">
                                 <?=
                                     $form->field($model, 'proveedor')->widget(Select2::classname(), [
                                         'data' => $this->params['breadcrumbs']['proveedor'],
@@ -84,49 +89,51 @@ $form = ActiveForm::begin([
                         </div>
                     </div>
                      <hr style="border: #dd4b39 1px solid;">
-                    <div class="row">
-                        <div  class="col-md-4">
-                            <span class="label label-default">NOMBRE:</span>
-                            <input type="text" class="form-control" name="<?= $nombreModel ?>[proNombre]" id="<?= $nombreModelLow ?>-proNombre" readonly="readonly">
+
+                        <div class="row" data-step="5" data-intro="Estos son los datos del proveedor">
+                            <div  class="col-md-4">
+                                <span class="label label-default">NOMBRE:</span>
+                                <input type="text" class="form-control" name="<?= $nombreModel ?>[proNombre]" id="<?= $nombreModelLow ?>-proNombre" readonly="readonly">
+                            </div>
+                            <div  class="col-md-4">
+                                <span class="label label-default">CONTACTO:</span>
+                                <input type="text" class="form-control" name="<?= $nombreModel ?>[proContacto]" id="<?= $nombreModelLow ?>-proContacto" readonly="readonly">
+                            </div>
+                            <div  class="col-md-4">
+                                <span class="label label-default">DIRECCIÓN:</span>
+                                <input type="text" class="form-control" name="<?= $nombreModel ?>[proDireccion]" id="<?= $nombreModelLow ?>-proDireccion" readonly="readonly">
+                            </div>
                         </div>
-                        <div  class="col-md-4">
-                            <span class="label label-default">CONTACTO:</span>
-                            <input type="text" class="form-control" name="<?= $nombreModel ?>[proContacto]" id="<?= $nombreModelLow ?>-proContacto" readonly="readonly">
+                        <br>
+                        <div class="row">
+                            <div  class="col-md-4">
+                                <span class="label label-default">CIUDAD:</span>
+                                <input type="text" class="form-control" name="<?= $nombreModel ?>[proCiudad]" id="<?= $nombreModelLow ?>-proCiudad" readonly="readonly">
+                            </div>
+                            <div  class="col-md-4">
+                                <span class="label label-default">E-MAIL:</span>
+                                <input type="text" class="form-control" name="<?= $nombreModel ?>[proMail]" id="<?= $nombreModelLow ?>-proMail" readonly="readonly">
+                            </div>
+                            <div  class="col-md-4">
+                                <span class="label label-default">TELÉFONO:</span>
+                                <input type="text" class="form-control" name="<?= $nombreModel ?>[proFono]" id="<?= $nombreModelLow ?>-proFono" readonly="readonly">
+                            </div>
                         </div>
-                        <div  class="col-md-4">
-                            <span class="label label-default">DIRECCIÓN:</span>
-                            <input type="text" class="form-control" name="<?= $nombreModel ?>[proDireccion]" id="<?= $nombreModelLow ?>-proDireccion" readonly="readonly">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div  class="col-md-4">
-                            <span class="label label-default">CIUDAD:</span>
-                            <input type="text" class="form-control" name="<?= $nombreModel ?>[proCiudad]" id="<?= $nombreModelLow ?>-proCiudad" readonly="readonly">
-                        </div>
-                        <div  class="col-md-4">
-                            <span class="label label-default">E-MAIL:</span>
-                            <input type="text" class="form-control" name="<?= $nombreModel ?>[proMail]" id="<?= $nombreModelLow ?>-proMail" readonly="readonly">
-                        </div>
-                        <div  class="col-md-4">
-                            <span class="label label-default">TELÉFONO:</span>
-                            <input type="text" class="form-control" name="<?= $nombreModel ?>[proFono]" id="<?= $nombreModelLow ?>-proFono" readonly="readonly">
-                        </div>
-                    </div>
-                    <br>
+                        <br>
+
                 </div>
             </div>
             <hr style="border: #dd4b39 1px solid;">
             <?php // busqueda de codigo de barras   ?>
             <div class="row">
-                <div  class="col-md-4">
+                <div class="col-md-4" data-step="6" data-intro="Se ingresa el codigo de barras del producto y este se carga en la tabla de productos a comprarse">
                     <span class="label label-default">INGRESE EL CÓDIGO DE BARRAS:</span>
                     <input type="text" class="form-control" name="venCodigoBarra" id="venCodigoBarra">
                 </div>
             </div>
             <hr style="border: #dd4b39 1px solid;">
             <div class="row">
-                <table id="detalleCompra" class="table table-bordered table-hover table-condensed">
+                <table id="detalleCompra" data-step="7" data-intro="Detalle de los productos a comprarse" class="table table-bordered table-hover table-condensed">
                     <thead>
                         <tr>
                             <th width="5%">
@@ -158,11 +165,11 @@ $form = ActiveForm::begin([
             <?php //calculo final ?>						
 
             <div class="row">
-                <div  class="col-md-2">
-                    <button type="button" id="insertaFila" class="btn btn-default">
+                <div  class="col-md-2" >
+                    <button data-step="8" data-intro="Agrega de la compra un producto" type="button" id="insertaFila" class="btn btn-default">
                         <span class="glyphicon glyphicon-plus"></span>
                     </button>
-                    <button type="button" id="borraFila" class="btn btn-default">
+                    <button data-step="9" data-intro="Elimina de la compra un producto" type="button" id="borraFila" class="btn btn-default">
                         <span class="glyphicon glyphicon-minus"></span>
                     </button>
                 </div>
@@ -174,7 +181,7 @@ $form = ActiveForm::begin([
                         <div  class="col-md-1">
                             <span class="label label-default">SUBTOTAL:</span>
                         </div>
-                        <div  class="col-md-2">
+                        <div  class="col-md-2" data-step="10" data-intro="Este el subtotal de la compra">
                             <?= $form->field($model, 'subTotal')->textInput([
                                 "class" => "form-control", "readonly" => "readonly", "placeholder" => "000000", "required" => true, "maxlength" => "12", "size" => "12"])->label(false); ?>
                         </div>
@@ -186,7 +193,7 @@ $form = ActiveForm::begin([
                         <div  class="col-md-1">
                             <span class="label label-default">DESCUENTO:</span>
                         </div>
-                        <div  class="col-md-2" >
+                        <div  class="col-md-2" data-step="11" data-intro="se registra si en la compra realizaron un descuento">
                             <?= $form->field($model, 'descuento')->textInput(["class" => "form-control", "placeholder" => "000000", "required" => true, "maxlength" => "12", "size" => "12"])->label(false); ?>
                         </div>
                     </div>
@@ -197,7 +204,7 @@ $form = ActiveForm::begin([
                         <div  class="col-md-1 ">
                             <span class="label label-default">VALOR NETO:</span>
                         </div>
-                        <div  class="col-md-2">
+                        <div  class="col-md-2" data-step="12" data-intro="Valor neto con descuento">
                             <?= $form->field($model, 'neto')->textInput(["class" => "form-control", "readonly" => "readonly", "placeholder" => "000000", "required" => true, "maxlength" => "12", "size" => "12"])->label(false); ?>
                         </div>
                     </div>
@@ -208,7 +215,7 @@ $form = ActiveForm::begin([
                         <div  class="col-md-1">
                             <span class="label label-default">IVA:</span>
                         </div>
-                        <div  class="col-md-2" >
+                        <div  class="col-md-2" data-step="13" data-intro="Calculo del iva">
                             <?= $form->field($model, 'iva')->textInput(["class" => "form-control", "readonly" => "readonly", "placeholder" => "000000", "required" => true, "maxlength" => "12", "size" => "12"])->label(false); ?>
                         </div>
                     </div>
@@ -219,7 +226,7 @@ $form = ActiveForm::begin([
                         <div  class="col-md-1">
                             <span class="label label-default">TOTAL:</span>
                         </div>
-                        <div  class="col-md-2">
+                        <div  class="col-md-2" data-step="14" data-intro="Total de la compra">
                             <?= $form->field($model, 'total')->textInput(["class" => "form-control", "readonly" => "readonly", "placeholder" => "000000", "required" => true, "maxlength" => "12", "size" => "12"])->label(false); ?>
                         </div>
                     </div>
@@ -227,7 +234,7 @@ $form = ActiveForm::begin([
             </div>
         </div>
     </div>
-</div>
+
 <?php ActiveForm::end(); ?>
 
 <script type="text/javascript">

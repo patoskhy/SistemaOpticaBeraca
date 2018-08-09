@@ -11,7 +11,11 @@ use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
-
+use yii\helpers\VarDumper;
+use yii\imagine\Image;
+use Imagine\Gd;
+use Imagine\Image\Box;
+use Imagine\Image\BoxInterface;
 
 /* ENTITIES */
 use app\models\entities\Producto;
@@ -200,8 +204,18 @@ class SitiowebController extends Controller {
                 $model->foto2 = UploadedFile::getInstance($model, "foto2");
                 $imageName1 = "foto1-" . $model->codigo . "." . $model->foto1->extension;
                 $imageName2 = "foto2-" . $model->codigo . "." . $model->foto2->extension;
-                $model->foto1->saveAs($pref . $imageName1, true);
-                $model->foto2->saveAs($pref . $imageName2, true);
+                //$model->foto1->saveAs($pref . $imageName1, true);
+                //$model->foto2->saveAs($pref . $imageName2, true);
+                //var_dump($model->foto1->tempName);die();
+                Image::getImagine()->open($model->foto1->tempName)
+                ->thumbnail(new Box(250, 250))
+                ->save($pref . $imageName1, ['quality' => 90]);
+
+                Image::getImagine()->open($model->foto2->tempName)
+                ->thumbnail(new Box(250, 250))
+                ->save($pref . $imageName2, ['quality' => 90]);
+
+
                 $currenProd = Producto::obtenerProductosByCodigoBarraWeb($model->codigo);
                 $model->descripcion = $currenProd[0]["DESCRIPCION"];
                 $model->valor = $currenProd[0]["VALOR_VENTA"];
@@ -247,7 +261,9 @@ class SitiowebController extends Controller {
                 }
                 */
                 $pw = ProductoWeb::find()->where("CODIGO='" . $model->codigo . "' AND COD_TIPO = '".$model->tipo."'  AND COD_MARCA = '".$model->marca."'  AND COD_MATERIAL = '".$model->material."' AND COD_COLOR = '".$model->color."' AND COD_FORMA = '".$model->forma."'")->one();
+                //var_dump($pw->createCommand()->sql);die();
                 if (is_null($pw)) {
+
                     if ($productoWeb->insert()) {
                         
                     } else {
@@ -258,7 +274,7 @@ class SitiowebController extends Controller {
                     if ($productoWeb->insert()) {
                         //var_dump("paso");die();
                     } else {
-                        var_dump($productoWeb->getErrors()); 
+                        //var_dump($productoWeb->getErrors()); 
                     }
                 }
 

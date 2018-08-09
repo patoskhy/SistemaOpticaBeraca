@@ -35,10 +35,7 @@ $form = ActiveForm::begin([
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div  class="col-md-1">	
-
-                </div>
-                <div  class="col-md-2">	
+                <div  class="col-md-2" data-step="2" data-intro="Filtra por el tipo de venta">	
                      <?=
                         $form->field($model, 'tipo')->widget(Select2::classname(), [
                             'data' => $this->params['breadcrumbs']['codigos'],
@@ -50,7 +47,7 @@ $form = ActiveForm::begin([
                         ])->label("TIPO:", ['class' => 'label label-default']); 
                         ?>
                 </div>	
-                <div  class="col-md-3">	
+                <div class="col-md-2" data-step="3" data-intro="Fecha incial para filtrar">	
                      <?= 
                                 $form->field($model, 'fecIni')->widget(DatePicker::className(),[
                                         'value' => date('d/m/Y'),
@@ -68,7 +65,7 @@ $form = ActiveForm::begin([
                             ?>
 
                 </div>
-                <div  class="col-md-3">	
+                <div  class="col-md-2" data-step="4" data-intro="Fecha final para filtrar">	
                     <?= 
                                 $form->field($model, 'fecFin')->widget(DatePicker::className(),[
                                         'value' => date('d/m/Y'),
@@ -85,17 +82,24 @@ $form = ActiveForm::begin([
                                 ])->label("FEC. FIN:", ['class' => 'label label-default']);
                             ?>
                 </div>
-                <div style="margin-top: 18px;"  class="col-md-2 text-left">
+                <div  class="col-md-2" data-step="5" data-intro="Busca las ventas en el rango de fecha seleccionadas">
+                    <br>
                     <button type="button" id="btnBusPro" class="btn btn-block btn-sistema btn-flat">BUSCAR</button>
                 </div>	
-                <div  class="col-md-1">	
-
+                <div class="col-md-2">	
+                    <br>
+                    <button data-step="1" data-intro="En esta pantalla se ven las ventas realizadas en un rango de fecha" onclick="javascript:introJs().start();" type="button" class="btn btn-block btn-sistema btn-flat" >
+                        <span class="glyphicon glyphicon-question-sign"></span> AYUDA
+                    </button>         
+                </div>
+                <div class="col-md-2">	
+                    &nbsp;
                 </div>
             </div>
             <hr style="border: #dd4b39 1px solid;">
             <div class="row">
 
-                <div  class="col-md-12">	
+                <div  class="col-md-12" data-step="6" data-intro="Resultados de las ventas realizadas">	
                     <?php \yii\widgets\Pjax::begin(['id' => 'ventas', 'enablePushState' => false]); ?>
                     <?=
                     GridView::widget([

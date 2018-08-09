@@ -29,13 +29,18 @@ $form = ActiveForm::begin([
 ?>
 <div class="container-fluid">
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-2"  data-step="6" data-intro="Busca el operativo para ser mostrado">
                     <button type="button" id="btnBusProd" class="btn btn-block btn-sistema btn-flat">BUSCAR</button>
                 </div>
-                <div class="col-md-2">	
+                <div class="col-md-2"  data-step="7" data-intro="limpia el formulario">	
                     <?= Html::resetButton('LIMPIAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'limpiar-button']) ?>
                 </div>
-                <div class="col-md-8">	
+                <div class="col-md-2">	
+                    <button data-step="1" data-intro="En esta pantalla se genera un reporte que muestra los pacientes ingresados a un operativo" onclick="javascript:introJs().start();" type="button" class="btn btn-block btn-sistema btn-flat" >
+                        <span class="glyphicon glyphicon-question-sign"></span> AYUDA
+                    </button>         
+                </div>
+                <div class="col-md-6">	
                     &nbsp;
                 </div>
             </div>
@@ -44,7 +49,7 @@ $form = ActiveForm::begin([
             <div id="tomaHora">
                 <div class="row">
                     <div class="col-md-2">
-                        <div class="form-group">
+                        <div class="form-group" data-step="2" data-intro="Seleccionar la fecha del operativo">
                              <?= 
                                 $form->field($model, 'fecha')->widget(DatePicker::className(),[
                                         'value' => date('d/m/Y'),
@@ -63,7 +68,7 @@ $form = ActiveForm::begin([
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="form-group">
+                        <div class="form-group" data-step="3" data-intro="Ingresar la hora del operativo">
                             <?= 
                                $form->field($model, 'hora')->widget(MaskedInput::className(),[
                                     'mask' => '##:##',
@@ -73,7 +78,7 @@ $form = ActiveForm::begin([
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="form-group">
+                        <div class="form-group" data-step="4" data-intro="Seleccionar el doctor del operativo">
                             <?= $form->field($model, 'doctor')->widget(Select2::classname(), [
                                     'data' => $this->params['breadcrumbs']['doctor'],
                                     'language' => 'es',
@@ -93,7 +98,7 @@ $form = ActiveForm::begin([
 <?php ActiveForm::end(); ?>
     <hr style="border: #dd4b39 1px solid;">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" data-step="5" data-intro="Reporte">
             <iframe id="reporte" width="100%" height="600px" src=""></iframe>
 
         </div>

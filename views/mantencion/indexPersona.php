@@ -69,7 +69,7 @@ $form = ActiveForm::begin([
                 </div>
                 <div  class="col-md-6">
                     <div data-step="3" data-intro="Debe ingresar el RUT de la persona" class="form-group">
-                        <?= $form->field($model, 'rut')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "00000000-K", "required" => true, "maxlength" => "12", "size" => "12"])
+                        <?= $form->field($model, 'rut')->textInput(["class" => "form-control guion-rut", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "00000000-K", "required" => true, "maxlength" => "12", "size" => "12"])
                 ->label("RUT:", ['class' => 'label label-default']); ?>
                     </div>
                 </div>

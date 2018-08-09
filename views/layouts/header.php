@@ -12,7 +12,7 @@ use yii\helpers\Html;
     <nav class="navbar navbar-static-top" role="navigation">
 
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">OPT. BERACA</span>
+            <span class="sr-only">OPT. ISOOD</span>
         </a>
         
         <div class="navbar-custom-menu">
