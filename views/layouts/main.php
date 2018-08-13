@@ -61,6 +61,7 @@ if (Yii::$app->controller->action->id === 'login') {
 
             </div>
             <script src="<?= Yii::$app->request->baseUrl ?>/js/jquery-3.2.1.min.js"></script>
+            <script src="<?= Yii::$app->request->baseUrl ?>/js/jquery-migrate-3.0.0.js"></script>
             <?php $this->endBody() ?>
             <script type="text/javascript">
 

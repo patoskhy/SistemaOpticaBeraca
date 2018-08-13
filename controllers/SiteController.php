@@ -21,6 +21,9 @@ use app\models\entities\Compras;
 use app\models\entities\ComprasDetalle;
 use app\models\entities\Operativo;
 use app\models\entities\OperativosDetalle;
+use app\models\entities\Persona;
+use app\models\entities\Proveedor;
+use yii\helpers\Json;
 
 class SiteController extends Controller {
 
@@ -205,4 +208,57 @@ class SiteController extends Controller {
         }
     }
 
+    public function actionBuscarCliente($term) {
+        if (Yii::$app->request->isAjax) {
+            $persona =  Persona::find()
+                            ->where("CAT_PERSONA = 'P00001' AND (RUT like '%" .$term."%' OR NOMBRE LIKE '%" .$term."%')")
+                              ->all();
+            
+             foreach($persona as $model) {
+                $results[] = [
+                    'id' => $model['RUT'],
+                    'label' => $model['NOMBRE'] . ' (' . $model['RUT'] . '-'.$model['DV'] .')',
+                ];
+            }
+            //var_dump($persona);die();
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+             echo Json::encode($results);
+        }
+    }
+
+    public function actionBuscarDoctor($term) {
+        if (Yii::$app->request->isAjax) {
+            $persona =  Persona::find()
+                            ->where("CAT_PERSONA = 'P00002' AND (RUT like '%" .$term."%' OR NOMBRE LIKE '%" .$term."%')")
+                              ->all();
+            
+             foreach($persona as $model) {
+                $results[] = [
+                    'id' => $model['RUT'],
+                    'label' => $model['NOMBRE'] . ' (' . $model['RUT'] . '-'.$model['DV'] .')',
+                ];
+            }
+            //var_dump($persona);die();
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+             echo Json::encode($results);
+        }
+    }
+
+    public function actionBuscarProveedor($term) {
+        if (Yii::$app->request->isAjax) {
+            $persona =  Proveedor::find()
+                            ->where(" (ID_PROVEEDOR like '%" .$term."%' OR CONTACTO LIKE '%" .$term."%' OR NOMBRE_EMPRESA LIKE '%" .$term."%')")
+                              ->all();
+            
+             foreach($persona as $model) {
+                $results[] = [
+                    'id' => $model['ID_PROVEEDOR'],
+                    'label' => $model['NOMBRE_EMPRESA'] . ' (' . $model['ID_PROVEEDOR'] . ')',
+                ];
+            }
+            //var_dump($persona);die();
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+             echo Json::encode($results);
+        }
+    }
 }

@@ -5,6 +5,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
 use yii\grid\GridView;
+use keygenqt\autocompleteAjax\AutocompleteAjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\BrcUsuariosSearch */
@@ -86,17 +87,28 @@ $nombreModel = substr(get_class($model), $posi + 1);
                                    
                                 <div data-step="6" data-intro="Debe elegir dentro de la lista al paciente" class="col-md-4">
                                    
-                                    <?=
-                                    $form->field($model, 'pacientes')->widget(Select2::classname(), [
+                                    <?php
+                                    /*$form->field($model, 'pacientes')->widget(Select2::classname(), [
                                         'data' => $this->params['breadcrumbs']['pacientes'],
                                         'language' => 'es',
                                         'options' => ['placeholder' => 'ELEGIR', "class" => "form-control select2", "style" => 'width: 100%;'],
                                         'pluginOptions' => [
                                             'allowClear' => true
                                         ],
-                                    ])->label("PACIENTE:", ['class' => 'label label-default']);
+                                    ])->label("PACIENTE:", ['class' => 'label label-default']);*/
                                     ?>
-
+                                    <?= $form->field($model, 'pacientes')->widget(AutocompleteAjax::classname(), [
+                                        'multiple' => false,
+                                        'url' => ['site/buscar-cliente'],
+                                        'options' => [
+                                            'placeholder' => 'Ingrese el rut o nombre del cliente.',
+                                            "class" => "form-control",
+                                            "onkeyup" => "javascript:this.value=this.value.toUpperCase();",
+                                            "required" => true, 
+                                            "maxlength" => "50", 
+                                            "size" => "50"
+                                        ]
+                                    ])->label("PACIENTE:", ['class' => 'label label-default']); ?>
                                 </div>
                                 <div data-step="7" data-intro="Agrega el paciente al operativo" class="col-md-2" style="padding:15px;">
 
@@ -218,7 +230,9 @@ HTML;
     </div>
 </div>
 <script type="text/javascript">
-    function initialComponets() {}
+    function initialComponets() {
+        
+    }
 </script>  
 <?php
 $miUrlbase = Yii::$app->request->absoluteUrl;

@@ -5,6 +5,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
 use kartik\date\DatePicker;
+use keygenqt\autocompleteAjax\AutocompleteAjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\BrcUsuariosSearch */
@@ -75,16 +76,27 @@ $form = ActiveForm::begin([
                         </div>
                         <div  class="col-md-4">
                             <div class="form-group" data-step="4" data-intro="Debe seleccionar al proveedor al que le hizo la compra">
-                                <?=
-                                    $form->field($model, 'proveedor')->widget(Select2::classname(), [
+                                <?php
+                                   /* $form->field($model, 'proveedor')->widget(Select2::classname(), [
                                         'data' => $this->params['breadcrumbs']['proveedor'],
                                         'language' => 'es',
                                         'options' => ['placeholder' => 'ELEGIR', "class" => "form-control select2", "style" => 'width: 100%;'],
                                         'pluginOptions' => [
                                             'allowClear' => true
                                         ],
-                                    ])->label("PROVEEDOR:", ['class' => 'label label-default']);
+                                    ])->label("PROVEEDOR:", ['class' => 'label label-default']);*/
                                 ?>
+                                 <?= $form->field($model, 'proveedor')->widget(AutocompleteAjax::classname(), [
+                                    'multiple' => false,
+                                    'url' => ['site/buscar-proveedor'],
+                                    'options' => [
+                                        'placeholder' => 'Ingrese el rut o nombre del proveedor.',
+                                        "class" => "form-control",
+                                        "onkeyup" => "javascript:this.value=this.value.toUpperCase();",
+                                        "required" => true, 
+                                        "maxlength" => "50", "size" => "50"
+                                    ]
+                                ])->label("PROVEEDOR:", ['class' => 'label label-default']); ?>
                             </div>
                         </div>
                     </div>
@@ -239,9 +251,7 @@ $form = ActiveForm::begin([
 
 <script type="text/javascript">
     document.getElementById("insertaFila").addEventListener("click", insertaFila, false);
-    document.getElementById("<?= $nombreModelLow ?>-proveedor").addEventListener("change", function () {
-        cargaDatosProveedor(document.getElementById("<?= $nombreModelLow ?>-proveedor"))
-    }, false);
+   
     document.getElementById("borraFila").addEventListener("click", eliminaFila, false);
     document.getElementById("<?= $nombreModelLow ?>-descuento").addEventListener("change", function () {
         calculaValores()
@@ -249,8 +259,8 @@ $form = ActiveForm::begin([
     document.getElementById("venCodigoBarra").addEventListener("keyup", buscarCodigoBarra, false);
     
     function initialComponets() {
-        $("#" + "<?= $nombreModelLow ?>-proveedor").change(function () {
-            cargaDatosProveedor(document.getElementById("<?= $nombreModelLow ?>-proveedor"));
+        $("#w0").blur(function () {
+            cargaDatosProveedor(document.getElementById("w0-hidden"));
         });
 <?php if ($exito == true && $folio != "000000000000") { ?>
             $("#modTitulo").html("Compra Ingresada");

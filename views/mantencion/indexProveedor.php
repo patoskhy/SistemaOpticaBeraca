@@ -113,7 +113,7 @@ $form = ActiveForm::begin([
     <div class="modal-dialog" style="width: 80% !important;" >
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header" class="headModal">
+            <div class="modal-header headModal">
                 <h4 class="modal-title text-center">BUSCAR PRODUCTOS POR PROVEEDORES</h4>
             </div>
             <div class="modal-body">

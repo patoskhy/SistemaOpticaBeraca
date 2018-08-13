@@ -9,6 +9,7 @@ use app\models\entity\Perfiles;
 use kartik\date\DatePicker;
 use kartik\select2\Select2;
 use yii\widgets\MaskedInput;
+use keygenqt\autocompleteAjax\AutocompleteAjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\BrcUsuariosSearch */
@@ -81,15 +82,26 @@ $nombreModel = substr(get_class($model), $posi + 1);
                     </div>
                     <div class="col-md-2">
                         <div data-step="4" data-intro="Debe elegir el doctor del operativo" class="form-group">
-                            <?= $form->field($model, 'doctor')->widget(Select2::classname(), [
+                            <?php /*$form->field($model, 'doctor')->widget(Select2::classname(), [
                                     'data' => $this->params['breadcrumbs']['doctor'],
                                     'language' => 'es',
                                     'options' => ['placeholder' => 'ELEGIR', "class" => "form-control select2", "style" => 'width: 100%;'],
                                     'pluginOptions' => [
                                         'allowClear' => true
                                     ],
-                                ])->label("DOCTOR:", ['class' => 'label label-default']);
-							?>
+                                ])->label("DOCTOR:", ['class' => 'label label-default']);*/
+                            ?>
+                           <?= $form->field($model, 'doctor')->widget(AutocompleteAjax::classname(), [
+                                'multiple' => false,
+                                'url' => ['site/buscar-doctor'],
+                                'options' => [
+                                    'placeholder' => 'Ingrese el rut o nombre del doctor.',
+                                    "class" => "form-control",
+                                    "onkeyup" => "javascript:this.value=this.value.toUpperCase();",
+                                    "required" => true, 
+                                    "maxlength" => "50", "size" => "50"
+                                ]
+                            ])->label("DOCTOR:", ['class' => 'label label-default']); ?>
 						</div>
                     </div>
                     <div class="col-md-2">
@@ -212,7 +224,29 @@ $nombreModel = substr(get_class($model), $posi + 1);
 </div>
 </div>
 <script type="text/javascript">
-    function initialComponets() {}
+    function initialComponets() {
+        /*$.ajax({
+            url: '<?php echo Yii::$app->request->baseUrl . '/index.php?r=site/buscar-doctor' ?>',
+            method: 'GET',
+            async: false,
+            data: {
+                term: "DOCT",
+                _csrf: '<?= Yii::$app->request->getCsrfToken() ?>'
+            },
+            dataType: 'json',
+            success: function (data, textStatus, xhr) {
+                console.log(data);
+            },
+            error: function (request, status, error) {
+                console.log(request.responseText);
+                $("#modTitulo").html("Validación");
+                $("#modBody").html("Fallo en el sistema. Error: " + request.responseText);
+                $("#myModal").removeClass();
+                $("#myModal").addClass("modal modal-danger fade");
+                $("#myModal").modal();
+            }
+        });*/
+    }
 </script>  
 <?php ActiveForm::end(); 
 

@@ -7,6 +7,7 @@ use yii\widgets\Pjax;
 use yii\grid\GridView;
 use kartik\select2\Select2;
 use kartik\date\DatePicker;
+use keygenqt\autocompleteAjax\AutocompleteAjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\BrcUsuariosSearch */
@@ -67,17 +68,28 @@ $form = ActiveForm::begin([
                         </div>
                         <div  class="col-md-4">
                             <div class="form-group" data-step="3" data-intro="Debe elegir al cliente al que se le vendera el producto">
-                                <?=
-                                $form->field($model, 'cliente')->widget(Select2::classname(), [
+                                <?php
+                                /*$form->field($model, 'cliente')->widget(Select2::classname(), [
                                     'data' => $this->params['breadcrumbs']['clientes'],
                                     'language' => 'es',
                                     'options' => ['placeholder' => 'ELEGIR', "class" => "form-control select2", "style" => 'width: 100%;'],
                                     'pluginOptions' => [
                                         'allowClear' => true
                                     ],
-                                ])->label("CLIENTE:", ['class' => 'label label-default']);
+                                ])->label("CLIENTE:", ['class' => 'label label-default']);*/
                                 ?>
-
+                                <?= $form->field($model, 'cliente')->widget(AutocompleteAjax::classname(), [
+                                    'multiple' => false,
+                                    'url' => ['site/buscar-cliente'],
+                                    'options' => [
+                                        'placeholder' => 'Ingrese el rut o nombre del doctor.',
+                                        "class" => "form-control",
+                                        "onkeyup" => "javascript:this.value=this.value.toUpperCase();",
+                                        "required" => true, 
+                                        "maxlength" => "50", 
+                                        "size" => "50"
+                                    ]
+                                ])->label("CLIENTE:", ['class' => 'label label-default']); ?>
                             </div>
                         </div>
                         <div  data-step="4" data-intro="Nombre del cliente" class="col-md-4">
@@ -218,7 +230,7 @@ $form = ActiveForm::begin([
     <div class="modal-dialog" style="width: 80% !important;" >
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header" class="headModal">
+            <div class="modal-header headModal">
                 <h4 class="modal-title text-center">BUSCAR PACIENTES DE OPERATIVOS</h4>
             </div>
             <div class="modal-body">
@@ -271,7 +283,7 @@ $form = ActiveForm::begin([
                                         'estado' => function ($url, $model) {
                                             //var_dump($model);
                                             if ($model["RUT_CLIENTE"] != "0-0" || IS_NULL($model["RUT_CLIENTE"])) {
-                                                return '<button type="button" onClick="javascript:asignarCliente(\'' . $model["RUT_CLIENTE"] . '\')" class="btn btn-default"><span class="glyphicon glyphicon-check"></span></button>';
+                                                return '<button type="button" onClick="javascript:asignarCliente(\'' . $model["RUT_CLIENTE"] . '\',\'' . $model["NOMBRE"] . '\')" class="btn btn-default"><span class="glyphicon glyphicon-check"></span></button>';
                                             } else {
                                                 return "";
                                             }
@@ -305,8 +317,8 @@ $form = ActiveForm::begin([
 
     function initialComponets() {
         //$("#tblOpePac").DataTable();
-        $(document).on('change', '.select2', function() {
-            cargaDatosCliente(this);
+        $("#w0").on('blur', function() {
+            cargaDatosCliente(document.getElementById("w0-hidden"));
         });
         $("#btnBusPac").click(function () {
             var id = $("#venFecBusPac").val();
@@ -330,17 +342,20 @@ $form = ActiveForm::begin([
         $("#operativoModal").modal();
     }
 
-    function asignarCliente(rut) {
+    function asignarCliente(rut, nombre) {
         miRut = rut.split('-')
-        var id = "<?= $nombreModelLow ?>-cliente";
+        /*var id = "<?= $nombreModelLow ?>-cliente";
         var combo = document.getElementById(id);
         for (var i = 1; i < combo.length; i++) {
             if (combo.options[i].value == miRut[0]) {
                 combo.selectedIndex = i;
                 $("#" + id).trigger('change.select2');
             }
-        }
-        cargaDatosCliente(combo);
+        }*/
+        var input = document.getElementById("w0");
+        input.value = nombre + " (" + miRut[0] + ")";
+        document.getElementById("w0-hidden").value = miRut[0];
+        cargaDatosCliente(document.getElementById("w0-hidden"));
 
         $("#operativoModal").modal("toggle");
     }

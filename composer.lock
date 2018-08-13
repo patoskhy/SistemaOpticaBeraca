@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f0162013cfd6b8c6a6e6518b984fce0",
+    "content-hash": "e40b43c8690a120b55957690adf7c55b",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -3429,6 +3429,55 @@
             "time": "2017-03-20T17:10:46+00:00"
         },
         {
+            "name": "keygenqt/yii2-autocomplete-ajax",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/keygenqt/yii2-autocomplete-ajax.git",
+                "reference": "f4e2c9f5bf9c253ad2d7911024384f3d37ad9260"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/keygenqt/yii2-autocomplete-ajax/zipball/f4e2c9f5bf9c253ad2d7911024384f3d37ad9260",
+                "reference": "f4e2c9f5bf9c253ad2d7911024384f3d37ad9260",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "keygenqt\\autocompleteAjax\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Vitaliy Zarubin",
+                    "email": "keygenqt@gmail.com",
+                    "homepage": "http://keygenqt.ru/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple way to search model id of the attributes model.",
+            "homepage": "https://github.com/keygenqt/yii2-autocomplete-ajax",
+            "keywords": [
+                "ajax",
+                "autocomplete",
+                "extension",
+                "jquery",
+                "plugin",
+                "widget",
+                "yii2"
+            ],
+            "time": "2016-12-26T10:04:13+00:00"
+        },
+        {
             "name": "phar-io/manifest",
             "version": "1.0.3",
             "source": {
@@ -5488,11 +5537,12 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
         "kartik-v/yii2-widget-select2": 20,
         "kartik-v/yii2-widget-datepicker": 20,
-        "kartik-v/bootstrap-fileinput": 20
+        "kartik-v/bootstrap-fileinput": 20,
+        "keygenqt/yii2-autocomplete-ajax": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

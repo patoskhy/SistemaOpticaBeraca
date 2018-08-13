@@ -37,7 +37,7 @@ class SystemAsset extends AssetBundle
         'js/jquery.form.js',
         'js/jquery.dataTables.min.js',
         'js/dataTables.bootstrap.min.js',
-        'introjs/intro.js',
+        'introjs/intro.js',   
     ];
     public $depends = [
         'yii\web\YiiAsset',
