@@ -32,7 +32,7 @@ $form = ActiveForm::begin([
     <div class="row">
         <div data-step="2" data-intro="En este sector se pueden ver a los usuarios creados" class="col-md-3">
             <h1>USUARIO</h1>
-            <hr style="border: #dd4b39 1px solid;">
+            <hr class="linea">
             <div id="jqxTree" style="float:left;"></div>
             <button data-step="3" data-intro="Este boton sirve para crear un nuevo usuario" type="button" id="agregarUsuario" class="btn btn-default" data-toggle="modal" data-target="#agregarUsuarioModal"><span class="glyphicon glyphicon-plus"></button> 
             <button data-step="4" data-intro="Este boton sirve para editar un nuevo usuario" type="button" id="modificarUsuario" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></button>
@@ -40,7 +40,7 @@ $form = ActiveForm::begin([
 
         <div class="col-md-9">
             <h1>PERFILES DE USUARIO</h1>
-            <hr style="border: #dd4b39 1px solid;">
+            <hr class="linea">
             <div class="row">
                 <H2>
                     <div class="col-md-2">
@@ -63,7 +63,7 @@ $form = ActiveForm::begin([
                 <div class="row">
 
                     <div  class="col-md-12">
-                        <hr style="border: #dd4b39 1px solid;">
+                        <hr class="linea">
                         <div data-step="5" data-intro="Estos son los accesos que puede tener un usuario. Si esta en verde puede entrar en la pantalla, si esta en rojo no tiene acceso a la pantalla" class="form-group">
 
                             <?php \yii\widgets\Pjax::begin(['id' => 'perfiles', 'enablePushState' => false]); ?>
@@ -131,7 +131,7 @@ $form = ActiveForm::begin([
         <div class="modal-dialog" style="width: 80% !important;" >
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header" style="background-color:#DD4B39; color:white; font-weight: bold;">
+                <div class="modal-header" class="headModal">
                     <h4 class="modal-title">AGREGAR USUARIO</h4>
                 </div>
                 <div class="modal-body">
@@ -189,7 +189,7 @@ $form = ActiveForm::begin([
                         </div>
                     </div>
                     <div id="agregarDoc">
-                        <hr style="border: #dd4b39 1px solid;">
+                        <hr class="linea">
                     </div>
                 </div>
                 <div class="modal-footer">

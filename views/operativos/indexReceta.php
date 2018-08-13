@@ -41,7 +41,7 @@ $form = ActiveForm::begin([
                     &nbsp;
                 </div>
             </div>
-            <hr style="border: #dd4b39 1px solid;">
+            <hr class="linea">
 
             <div id="tomaHora">
                 <div class="row">
@@ -66,7 +66,7 @@ $form = ActiveForm::begin([
                 </div>
             </div>
 <?php ActiveForm::end(); ?>
-    <hr style="border: #dd4b39 1px solid;">
+    <hr class="linea">
     <div class="row">
         <div class="col-md-12" data-step="3" data-intro="Receta">
             <iframe id="reporte" width="100%" height="600px" src=""></iframe>

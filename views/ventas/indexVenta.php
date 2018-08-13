@@ -53,7 +53,7 @@ $form = ActiveForm::begin([
                 </div>
             </div>
 
-            <hr style="border: #dd4b39 1px solid;">
+            <hr class="linea">
 
             <?php //Encabezado  ?>
             <div class="row">
@@ -103,7 +103,7 @@ $form = ActiveForm::begin([
                     <br>
                 </div>
             </div>
-            <hr style="border: #dd4b39 1px solid;">
+            <hr class="linea">
 <?php // busqueda de codigo de barras   ?>
             <div class="row">
                 <div  data-step="8" data-intro="Se ingresa el codigo de barras del producto y este se carga en la tabla de productos a venderse" class="col-md-4">
@@ -111,7 +111,7 @@ $form = ActiveForm::begin([
                     <input type="text" class="form-control" name="venCodigoBarra" id="venCodigoBarra">
                 </div>
             </div>
-            <hr style="border: #dd4b39 1px solid;">
+            <hr class="linea">
 <?php // detalle venta   ?>
             <div class="row" data-step="9" data-intro="Detalle de los productos a venderse">
                 <table id="detalleCompra" class="table table-bordered table-hover table-condensed">
@@ -218,7 +218,7 @@ $form = ActiveForm::begin([
     <div class="modal-dialog" style="width: 80% !important;" >
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header" style="background-color:#DD4B39; color:white; font-weight: bold;">
+            <div class="modal-header" class="headModal">
                 <h4 class="modal-title text-center">BUSCAR PACIENTES DE OPERATIVOS</h4>
             </div>
             <div class="modal-body">
@@ -250,7 +250,7 @@ $form = ActiveForm::begin([
                         <button type="button" class="btn btn-block btn-sistema btn-flat" data-dismiss="modal">CANCELAR</button>
                     </div>
                 </div>
-                <hr style="border: #dd4b39 1px solid;">
+                <hr class="linea">
                 <div class="row">
 
                     <div  class="col-md-12">	

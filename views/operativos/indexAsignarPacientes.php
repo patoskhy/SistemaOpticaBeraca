@@ -38,7 +38,7 @@ $nombreModel = substr(get_class($model), $posi + 1);
             </div>
             <br>
             <br>
-            <hr style="border: #dd4b39 1px solid;">
+            <hr class="linea">
             <div id="tomaHora">
                 <div class="row">
                     <div class="col-md-10">
@@ -75,7 +75,7 @@ $nombreModel = substr(get_class($model), $posi + 1);
                     </div>
                 </div>
             </div>
-            <hr style="border: #dd4b39 1px solid;">
+            <hr class="linea">
             <div id="detalleOperativo">
                 <div class="row">
                     <div class="col-md-12">

@@ -96,7 +96,7 @@ $form = ActiveForm::begin([
                     &nbsp;
                 </div>
             </div>
-            <hr style="border: #dd4b39 1px solid;">
+            <hr class="linea">
             <div class="row">
 
                 <div  class="col-md-12" data-step="6" data-intro="Resultados de las ventas realizadas">	

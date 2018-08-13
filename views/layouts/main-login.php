@@ -16,7 +16,15 @@ dmstr\web\AdminLteAsset::register($this);
     <link rel="icon" type="image/png" href="<?php echo Yii::$app->request->baseUrl. '/img/icono-beraca.png' ?>" />
  
     <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
+    <?php 
+        $this->head();
+        if (class_exists('backend\assets\AppAsset')) {
+            backend\assets\AppAsset::register($this);
+        } else {
+            app\assets\SystemAsset::register($this);
+        }
+    ?>
+    
 </head>
 <body class="login-page bodyLogin" >
 

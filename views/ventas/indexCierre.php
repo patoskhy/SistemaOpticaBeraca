@@ -42,7 +42,7 @@ $form = ActiveForm::begin([
                     &nbsp;
                 </div>
             </div>
-            <hr style="border: #dd4b39 1px solid;">
+            <hr class="linea">
             <div class="row">
                 <div  class="col-md-6">
                     <div class="form-group" data-step="2" data-intro="Se debe seleccionar si se va abrir o cerrar la caja del dia a elegir">

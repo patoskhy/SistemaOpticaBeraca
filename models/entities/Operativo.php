@@ -20,14 +20,16 @@ class Operativo extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [[
-            'DIA',
-            'HORA',
-            'RUT_DOCTOR'
+                'DIA',
+                'HORA',
+                'RUT_DOCTOR',
+                'TIPO_OPERATIVO'
                 ],
                 'required'],
             [['RUT_DOCTOR',], 'integer'],
             [['DIA'], 'string', 'max' => 8],
             [['HORA'], 'string', 'max' => 6],
+            [['TIPO_OPERATIVO'], 'string', 'max' => 6],
             [['OBSERVACION'], 'string', 'max' => 500],
         ];
     }

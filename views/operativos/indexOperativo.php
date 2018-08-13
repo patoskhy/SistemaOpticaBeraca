@@ -52,7 +52,7 @@ $form = ActiveForm::begin([
                     &nbsp;
                 </div>
             </div>
-            <hr style="border: #dd4b39 1px solid;">
+            <hr class="linea">
             <div id="tomaHora">
                 <div class="row">
                     <div class="col-md-9">
@@ -127,7 +127,7 @@ $form = ActiveForm::begin([
                     </div>
                 </div>
             </div>
-            <hr style="border: #dd4b39 1px solid;">
+            <hr class="linea">
             <div id="detalleOperativo">
                 <div class="row">
                     <div class="col-md-10">
@@ -177,7 +177,7 @@ $form = ActiveForm::begin([
         <div class="modal-dialog" style="width: 80% !important;" >
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header" style="background-color:#DD4B39; color:white; font-weight: bold;">
+                <div class="modal-header" class="headModal">
                     <h4 class="modal-title text-center">RECETA MÉDICA</h4>
                 </div>
                 <div class="modal-body">
@@ -198,7 +198,7 @@ $form = ActiveForm::begin([
                             </div>
                         </div>
                     </div>
-                    <hr style="border: #dd4b39 1px solid;">
+                    <hr class="linea">
                     <div class="row">
                         <div class="col-md-12">
                             <h4 class="text-center"><strong>LEJOS</strong></h4>
@@ -236,7 +236,7 @@ $form = ActiveForm::begin([
 
                         </div>
                     </div>
-                    <hr style="border: #dd4b39 1px solid;">
+                    <hr class="linea">
                     <div class="row">
                         <div class="col-md-12">
                             <h4 class="text-center"><strong>CERCA</strong></h4>
@@ -272,7 +272,7 @@ $form = ActiveForm::begin([
                             </div>
                         </div>
                     </div>
-                    <hr style="border: #dd4b39 1px solid;">
+                    <hr class="linea">
                     <div class="row">
                         <div class="col-md-6">
                             <span class="label label-default">OBSERVACIÓN:</span>

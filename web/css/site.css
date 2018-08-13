@@ -3,7 +3,7 @@ body {
     height: 100%;
 }
 
-.bodyLogin{
+.bodyLogin {
     background-color: #ecf0f5;
 }
 
@@ -14,7 +14,7 @@ body {
     padding: 0 0 60px;
 }
 
-.wrap > .container {
+.wrap>.container {
     padding: 70px 15px 20px;
 }
 
@@ -40,8 +40,11 @@ body {
     font-style: italic;
 }
 
+
 /* add sorting icons to gridview sort links */
-a.asc:after, a.desc:after {
+
+a.asc:after,
+a.desc:after {
     position: relative;
     top: 1px;
     display: inline-block;
@@ -53,11 +56,13 @@ a.asc:after, a.desc:after {
 }
 
 a.asc:after {
-    content: /*"\e113"*/ "\e151";
+    content: /*"\e113"*/
+    "\e151";
 }
 
 a.desc:after {
-    content: /*"\e114"*/ "\e152";
+    content: /*"\e114"*/
+    "\e152";
 }
 
 .sort-numerical a.asc:after {
@@ -94,44 +99,55 @@ a.desc:after {
     margin: 0 0 15px 0;
 }
 
+
 /* align the logout "link" (button in form) of the navbar */
-.nav li > form > button.logout {
+
+.nav li>form>button.logout {
     padding: 15px;
     border: none;
 }
 
 @media(max-width:767px) {
-    .nav li > form > button.logout {
-        display:block;
+    .nav li>form>button.logout {
+        display: block;
         text-align: left;
         width: 100%;
         padding: 10px 15px;
     }
 }
 
-.nav > li > form > button.logout:focus,
-.nav > li > form > button.logout:hover {
+.nav>li>form>button.logout:focus,
+.nav>li>form>button.logout:hover {
     text-decoration: none;
 }
 
-.nav > li > form > button.logout:focus {
+.nav>li>form>button.logout:focus {
     outline: none;
 }
-.sombra{
-    border: #999 1px solid;
-    -webkit-box-shadow: 15px 15px 32px 0px rgba(0,0,0,0.49);
-    -moz-box-shadow: 15px 15px 32px 0px rgba(0,0,0,0.49);
-    box-shadow: 15px 15px 32px 0px rgba(0,0,0,0.49);
-}
 
+.sombra {
+    border: #999 1px solid;
+    -webkit-box-shadow: 15px 15px 32px 0px rgba(0, 0, 0, 0.49);
+    -moz-box-shadow: 15px 15px 32px 0px rgba(0, 0, 0, 0.49);
+    box-shadow: 15px 15px 32px 0px rgba(0, 0, 0, 0.49);
+}
 
 .btn-sistema {
     color: #fff;
     background-color: #dd4b39;
-    border-color: rgba(0,0,0,0.2);
+    border-color: rgba(0, 0, 0, 0.2);
 }
-
 
 .skin-red .main-header .navbar {
     background-color: #dd4b39;
+}
+
+.linea {
+    border: #dd4b39 1px solid;
+}
+
+.headModal {
+    background-color: #DD4B39;
+    color: white;
+    font-weight: bold;
 }

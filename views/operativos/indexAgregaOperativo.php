@@ -18,6 +18,7 @@ $this->title = $titulo;
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['breadcrumbs']['rutaR'] = $rutaR;
 $this->params['breadcrumbs']['doctor'] = ArrayHelper::map($doctor, 'RUT', 'NOMBRE');
+$this->params['breadcrumbs']['tipoOper'] = ArrayHelper::map($tipoOper, 'CODIGO', 'DESCRIPCION');
 //$this->params['breadcrumbs']['proveedor'] = ArrayHelper::map($proveedor,'ID_PROVEEDOR','NOMBRE_EMPRESA');
 $indice = 1;
 $posi = strrpos(get_class($model), "\\");
@@ -30,10 +31,10 @@ $nombreModel = substr(get_class($model), $posi + 1);
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div data-step="7" data-intro="Guarda el operativo" class="col-md-2">
+                <div data-step="8" data-intro="Guarda el operativo" class="col-md-2">
                     <?= Html::submitButton('GUARDAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'guardar-button']) ?>
                 </div>
-                <div data-step="8" data-intro="Limpia el formulario" class="col-md-2">	
+                <div data-step="9" data-intro="Limpia el formulario" class="col-md-2">	
                     <?= Html::resetButton('LIMPIAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'limpiar-button']) ?>
                 </div>
                 <div class="col-md-2">	
@@ -45,7 +46,7 @@ $nombreModel = substr(get_class($model), $posi + 1);
                     &nbsp;
                 </div>
             </div>
-            <hr style="border: #dd4b39 1px solid;">
+            <hr class="linea">
 
             <div id="tomaHora">
                 <div class="row">
@@ -78,7 +79,7 @@ $nombreModel = substr(get_class($model), $posi + 1);
 
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div data-step="4" data-intro="Debe elegir el doctor del operativo" class="form-group">
                             <?= $form->field($model, 'doctor')->widget(Select2::classname(), [
                                     'data' => $this->params['breadcrumbs']['doctor'],
@@ -91,8 +92,21 @@ $nombreModel = substr(get_class($model), $posi + 1);
 							?>
 						</div>
                     </div>
-                    <div class="col-md-5">
-                        <div data-step="5" data-intro="Debe ingresar alguna observacion del operativo" class="form-group">
+                    <div class="col-md-2">
+                        <div data-step="5" data-intro="Debe elegir el tipo del operativo" class="form-group">
+                            <?= $form->field($model, 'tipo')->widget(Select2::classname(), [
+                                    'data' => $this->params['breadcrumbs']['tipoOper'],
+                                    'language' => 'es',
+                                    'options' => ['placeholder' => 'ELEGIR', "class" => "form-control select2", "style" => 'width: 100%;'],
+                                    'pluginOptions' => [
+                                        'allowClear' => true
+                                    ],
+                                ])->label("TIPO:", ['class' => 'label label-default']);
+							?>
+						</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div data-step="6" data-intro="Debe ingresar alguna observacion del operativo" class="form-group">
                             <?= $form->field($model, 'obser')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Observación Operativo"])
                                         ->label("OBSERVACIÓN OPERATIVO:", ['class' => 'label label-default']); ?>
                         </div>
@@ -100,8 +114,8 @@ $nombreModel = substr(get_class($model), $posi + 1);
                 </div>
             </div>
 
-            <hr style="border: #dd4b39 1px solid;">
-            <div data-step="6" data-intro="Aqui estan los operativos agendados para este dia"  id="detalleOperativo">
+            <hr class="linea">
+            <div data-step="7" data-intro="Aqui estan los operativos agendados para este dia"  id="detalleOperativo">
                 <div  class="row">
                     <div class="col-md-10">
                         <p class="lead">OPERATIVOS VIGENTES PARA EL DÍA</p>
@@ -156,6 +170,21 @@ $nombreModel = substr(get_class($model), $posi + 1);
                                                 $s = $utils->ejecutaQuery($sql);
                                                 //var_dump($s);
                                                 return $s[0]["NOMBRE"];
+                                            },
+                                        ],
+                                    ],
+                                    [
+                                        'class' => 'yii\grid\ActionColumn',
+                                        'header' => 'TIPO',
+                                        'template' => '{tipo}',
+                                        'buttons' => [
+                                            'tipo' => function ($url, $model) {
+                                                $sql = "SELECT DESCRIPCION FROM brc_codigos WHERE TIPO='OPERAT' AND CODIGO='" . $model->TIPO_OPERATIVO."'";
+                                                //var_dump($sql);
+                                                $utils = new app\models\utilities\Utils;
+                                                $s = $utils->ejecutaQuery($sql);
+                                                //var_dump($s);
+                                                return $s[0]["DESCRIPCION"];
                                             },
                                         ],
                                     ],

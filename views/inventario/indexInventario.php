@@ -65,7 +65,7 @@ $form = ActiveForm::begin([
 
                 </div>
             </div>
-            <hr style="border: #dd4b39 1px solid;">
+            <hr class="linea">
             <div class="row">
 
                 <div data-step="4" data-intro="se muestra el resultado de la busqueda" class="col-md-12">	

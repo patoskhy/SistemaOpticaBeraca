@@ -66,6 +66,7 @@ class OperativosController extends Controller {
                 $model->hora = Yii::$app->request->post('horaO');
                 $model->doctor = Yii::$app->request->post('doctorO');
                 $model->obser = Yii::$app->request->post('obserO');
+                $model->tipo = Yii::$app->request->post('tipoO');
             }
             //var_dump($model);die();
             return $this->render('indexOperativo', [
@@ -106,14 +107,16 @@ class OperativosController extends Controller {
                 $tmpHora = str_replace(":", "", $hora);
                 $rut = $model->doctor;
                 $obser = $model->obser;
+                $tipo = $model->tipo;
 
                 $o = new Operativo;
-                if ($o->find()->where("DIA='" . $tmpDia . "' AND HORA='" . $tmpHora . "' AND RUT_DOCTOR =" . $rut)->one()) {
-                    if ($o->deleteAll("DIA='" . $tmpDia . "' AND HORA='" . $tmpHora . "' AND RUT_DOCTOR =" . $rut)) {
+                if ($o->find()->where("DIA='" . $tmpDia . "' AND HORA='" . $tmpHora . "' AND RUT_DOCTOR =" . $rut . " AND TIPO_OPERATIVO = ' ".$tipo."'")->one()) {
+                    if ($o->deleteAll("DIA='" . $tmpDia . "' AND HORA='" . $tmpHora . "' AND RUT_DOCTOR =" . $rut . " AND TIPO_OPERATIVO = ' ".$tipo."'")) {
                         $o->DIA = $tmpDia;
                         $o->HORA = $tmpHora;
                         $o->RUT_DOCTOR = $rut;
                         $o->OBSERVACION = $obser;
+                        $o->TIPO_OPERATIVO = $tipo;
                         if ($o->insert()) {
                             $res = "OK";
                         } else {
@@ -126,6 +129,7 @@ class OperativosController extends Controller {
                     $o->HORA = $tmpHora;
                     $o->RUT_DOCTOR = $rut;
                     $o->OBSERVACION = $obser;
+                    $o->TIPO_OPERATIVO = $tipo;
                     if ($o->insert()) {
                         $res = "OK";
                     } else {
@@ -136,18 +140,20 @@ class OperativosController extends Controller {
             }
             $model = new OperativoForm;
             $doctor = Persona::find()->where(['brc_persona.CAT_PERSONA' => "P00002"])->all();
+            $tipos = Codigos::find()->where(['brc_codigos.TIPO' => 'OPERAT'])->all();
             $query = Operativo::find()->where(['brc_operativos.DIA' => $f]);
             $dataProvider = new ActiveDataProvider([
                 'query' => $query,
                 'pagination' => [
                     'pagesize' => 7,
                 ],
-            ]);
+            ]);         
             //var_dump($dataProvider);
 
             return $this->render('indexAgregaOperativo', [
                         'doctor' => $doctor,
                         'dataProvider' => $dataProvider,
+                        'tipoOper' => $tipos,
                         'model' => $model,
                         'titulo' => $titulo,
                         'rutaR' => $rutaR,
@@ -425,6 +431,7 @@ class OperativosController extends Controller {
                 $sql = "insert into brc_operativos_detalle values (";
                 $sql = $sql."'".  $recFecha . "',";
                 $sql = $sql."'".  $recHora . "',";
+                $sql = $sql."'',";
                 $sql = $sql."".  $recRutDoc . ",";
                 $sql = $sql."".  $recRut . ",";
                 $sql = $sql."'".  $recOjoDerCerEsf . "',";

@@ -41,7 +41,7 @@ $form = ActiveForm::begin([
                     &nbsp;
                 </div>
             </div>
-            <hr style="border: #dd4b39 1px solid;">
+            <hr class="linea">
             <div class="row">
                 <div  class="col-md-12" data-step="2" data-intro="Se debe ingresar el monto con el que se comienza el dia">
                     <div class="form-group">

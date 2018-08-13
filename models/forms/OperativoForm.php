@@ -17,6 +17,7 @@ class OperativoForm extends Model {
     public $dia;
     public $hora;
     public $doctor;
+    public $tipo;
     public $obser;
     public $pacientes;
 
@@ -27,6 +28,7 @@ class OperativoForm extends Model {
             }],
             [['dia'], 'required', 'message' => 'El día debe estar ingresado'],
             [['hora'], 'required', 'message' => 'La hora debe estar ingresada'],
+            [['tipo'], 'required', 'message' => 'La seleccionar el tipo de operativo'],
             [['doctor'], 'required', 'message' => 'Debe seleccionar un doctor de la lista'],
         ];
     }

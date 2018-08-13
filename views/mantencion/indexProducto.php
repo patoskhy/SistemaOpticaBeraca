@@ -36,7 +36,7 @@ $form = ActiveForm::begin([
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
                 </div>    
-                <hr style="border: #dd4b39 1px solid;">
+                <hr class="linea">
                 <div data-step="5" data-intro="En esta seccion se muestran los productos que pertenecen a una categoria">
                     <h3>PRODUCTOS</h3>
                     <div id="jqxTree2" style="float:left;"></div>
@@ -60,7 +60,7 @@ $form = ActiveForm::begin([
                     &nbsp;
                 </div>
             </div>
-            <hr style="border: #dd4b39 1px solid;">
+            <hr class="linea">
             <div class="row">
                 <div class="col-md-12">
                     <div data-step="6" data-intro="Codigo interno del producto. Este lo genera el sistema" class="form-group">
@@ -131,7 +131,7 @@ $form = ActiveForm::begin([
         <div class="modal-dialog" style="width: 80% !important;" >
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header" style="background-color:#DD4B39; color:white; font-weight: bold;">
+                <div class="modal-header" class="headModal">
                     <h4 class="modal-title">AGREGAR CATEGORÍA</h4>
                 </div>
                 <div class="modal-body">

@@ -47,7 +47,7 @@ $this->params['breadcrumbs']['categorias'] = ArrayHelper::map($categorias, 'DESC
         <div  class="col-md-1">	
         </div>
     </div>
-    <hr style="border: #dd4b39 1px solid;">
+    <hr class="linea">
     <div class="row">
         <div class="col-md-12">
             <iframe id="reporte" width="100%" height="600px" src=""></iframe>
