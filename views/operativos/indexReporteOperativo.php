@@ -18,9 +18,6 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->params['breadcrumbs']['rutaR'] = $rutaR;
 $this->params['breadcrumbs']['doctor'] = ArrayHelper::map($doctores, 'RUT', 'NOMBRE');
 
-$posi = strrpos(get_class($model), "\\");
-$nombreModelLow = strtolower(substr(get_class($model), $posi + 1));
-$nombreModel = substr(get_class($model), $posi + 1);
 ?>
 <?php
 $form = ActiveForm::begin([
@@ -50,47 +47,40 @@ $form = ActiveForm::begin([
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group" data-step="2" data-intro="Seleccionar la fecha del operativo">
-                             <?= 
-                                $form->field($model, 'fecha')->widget(DatePicker::className(),[
-                                        'value' => date('d/m/Y'),
+                            <label class="label label-default">FECHA BUSQUEDA:</label>
+                            <?= 
+                                DatePicker::widget([
+                                        'value' => date("d/m/Y"),
                                         'language' => 'es',
+                                        'name' => "fechaOperativo",
                                         'type' =>  DatePicker::TYPE_INPUT,
                                         'pickerButton' => [
                                             'icon'=>'ok',
                                         ],
-                                        'options' => ['placeholder' => 'ELEGIR'],
+                                        'options' => ['placeholder' => 'ELEGIR','id'=>'fechaOperativo'],
                                         'pluginOptions' => [
                                                 'format' => 'dd/mm/yyyy',
                                                 'todayHighlight' => true
                                         ]
-                                ])->label("DÍA:", ['class' => 'label label-default']);
+                                ]);
                             ?>
                         </div>
+                    </div>
+                    <div class="col-md-8">
+                    <label class="label label-default">OPERATIVO:</label>
+                        <?= 
+                            Select2::widget([
+                                'name' => 'dataOperativo', 
+                                'theme' => Select2::THEME_BOOTSTRAP,                              
+                                'options' => ['placeholder' => 'Seleccione un operativo','id'=>'dataOperativo'],
+                                'pluginOptions' => [
+                                    'allowClear' => true,
+                                    'width' => '100%'
+                                ],
+                            ]);
+                        ?>
                     </div>
                     <div class="col-md-2">
-                        <div class="form-group" data-step="3" data-intro="Ingresar la hora del operativo">
-                            <?= 
-                               $form->field($model, 'hora')->widget(MaskedInput::className(),[
-                                    'mask' => '##:##',
-                                ])->label("HORA:", ['class' => 'label label-default']);
-                            ?>
-
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group" data-step="4" data-intro="Seleccionar el doctor del operativo">
-                            <?= $form->field($model, 'doctor')->widget(Select2::classname(), [
-                                    'data' => $this->params['breadcrumbs']['doctor'],
-                                    'language' => 'es',
-                                    'options' => ['placeholder' => 'ELEGIR', "class" => "form-control select2", "style" => 'width: 100%;'],
-                                    'pluginOptions' => [
-                                        'allowClear' => true
-                                    ],
-                                ])->label("DOCTOR:", ['class' => 'label label-default']);
-							?>
-						</div>
-                    </div>
-                    <div class="col-md-5">
                         
                     </div>
                 </div>
@@ -108,11 +98,13 @@ $form = ActiveForm::begin([
 
     function initialComponets() {
         $("#reporte").hide();
+        BuscarDatosOperativo();
         $("#btnBusProd").click(function(){
             $("#reporte").hide();
-            var doc = $("#<?=$nombreModelLow?>-doctor").val();
-            var dia = $("#<?=$nombreModelLow?>-fecha").val();
-            var hora = $("#<?=$nombreModelLow?>-hora").val();
+            var control = $("#dataOperativo").val().split("-");
+            var doc = control[2];
+            var hora =control[1];
+            var dia = $("#fechaOperativo").val();
             if(doc != "" && dia != "" && hora != ""){
                 miArray = dia.split("/");
                 dia = miArray[2].concat(miArray[1]).concat(miArray[0]);
@@ -134,7 +126,79 @@ $form = ActiveForm::begin([
         var mes = (d.getMonth() < 9) ? "0".concat(d.getMonth()+ 1) : (d.getMonth()+ 1);
         var ano = d.getFullYear()
         var fecha = dia + '/' + mes+ '/' + ano;
-        $("#<?= $nombreModelLow ?>-fecha").val(fecha);
+        $("#fechaOperativo").val(fecha);
+    }
+
+     function BuscarDatosOperativo() {
+        $("#detalleOperativo").hide("slow");
+        var doc = <?php
+                            echo json_encode(ArrayHelper::toArray($doctores, [
+                                        'app\models\entity\Persona' => [
+                                            'RUT',
+                                            'DV',
+                                            'CAT_PERSONA',
+                                            'NOMBRE',
+                                            'DIRECCION',
+                                            'TELEFONO',
+                                            'EMAIL'
+                                        ],
+                            ]));
+                        ?>;
+        comboOperativo = document.getElementById("dataOperativo");
+        comboOperativo.length = 0
+        $("#dataOperativo").trigger("change.select");
+        var arrayFecha = $('#fechaOperativo').val().split("/");
+        var dia = arrayFecha[0];
+        var mes = arrayFecha[1];
+        var anio = arrayFecha[2];
+        fecha = anio + mes + dia;
+        $.ajax({
+            url: '<?php echo Yii::$app->request->baseUrl . '/index.php?r=operativos/buscar-datos-operativo' ?>',
+            method: 'POST',
+            async: false,
+            data: {
+                fecha: fecha,
+                _csrf: '<?= Yii::$app->request->getCsrfToken() ?>'
+            },
+            dataType: 'json',
+            success: function (data, textStatus, xhr) {
+                largoOperativo = data.operativo.length;
+                if (largoOperativo > 0) {
+
+                    option = document.createElement("option");
+                    option.text = "Seleccione un operativo";
+                    option.value = "";
+                    comboOperativo.add(option, comboOperativo[0]);
+                    for (i = 1; i <= largoOperativo; i++) {
+                        var nameDoc = "";
+                        var horaOpe = data.operativo[i - 1]["HORA"].substring(0, 2) + ":" + data.operativo[i - 1]["HORA"].substring(2, 4);
+                        var diaOpe = data.operativo[i - 1]["DIA"].substring(6, 8) + "/" + data.operativo[i - 1]["DIA"].substring(4, 6) + "/" + data.operativo[i - 1]["DIA"].substring(0, 4);
+                        for(x = 0; x < doc.length; x++){
+                            if(doc[x]["RUT"] ==  data.operativo[i - 1]["RUT_DOCTOR"]){
+                                nameDoc = doc[x]["NOMBRE"] 
+                            }
+                        }
+
+                        var miText = diaOpe + " - " + horaOpe + " - " + nameDoc + " - " + data.operativo[i - 1]["OBSERVACION"];
+                        var miValue = data.operativo[i - 1]["DIA"] + "-" + data.operativo[i - 1]["HORA"] + "-" + data.operativo[i - 1]["RUT_DOCTOR"] + "-" + data.operativo[i - 1]["OBSERVACION"] + "-" + data.operativo[i - 1]["TIPO_OPERATIVO"];
+                        var option = document.createElement("option");
+                        option.text = miText;
+                        option.value = miValue;
+                        comboOperativo.add(option, comboOperativo[i]);
+                        
+                    }
+                    operativo = data.operativo;
+                }
+            },
+            error: function (request, status, error) {
+                console.log(request.responseText);
+                $("#modTitulo").html("Validación");
+                $("#modBody").html("Fallo en el sistema. Error: " + request.responseText);
+                $("#myModal").removeClass();
+                $("#myModal").addClass("modal modal-danger fade");
+                $("#myModal").modal();
+            }
+        });
     }
 </script>
 

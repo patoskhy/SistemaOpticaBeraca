@@ -354,13 +354,10 @@ class OperativosController extends Controller {
         if (Yii::$app->request->isAjax) {
             $data = Yii::$app->request->post();
             $dataPost1 = explode(":", $data['fecha']);
-            $dataPost3 = explode(":", $data['rut_doc']);
             $fechaPost = $dataPost1[0];
-            $rutPost = $dataPost3[0];
 
             $operativo = Operativo::find()
-                    ->where(['brc_operativos.RUT_DOCTOR' => $rutPost])
-                    ->andWhere(['brc_operativos.DIA' => $fechaPost])
+                    ->where(['brc_operativos.DIA' => $fechaPost])
                     ->all();
             $paciente = Persona::find()
                     ->where(['brc_persona.CAT_PERSONA' => "P00001"])
@@ -504,7 +501,6 @@ class OperativosController extends Controller {
             $titulo = $GLOBALS["nombreSistema"];
             $rutaR = "&rt=" . $id . "&t=" . $t;
             $doctores = Persona::find()->where("CAT_PERSONA = 'P00002'")->all();
-            $model = new InformeOperativoForm;
             $this->view->params['titlePage'] = strtoupper($t);
             $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
             $this->layout = 'main';
@@ -512,7 +508,6 @@ class OperativosController extends Controller {
                         'titulo' => $titulo,
                         'rutaR' => $rutaR,
                         'doctores' => $doctores,
-                        'model' => $model,
             ]);
         }
         return $this->redirect("index.php");
