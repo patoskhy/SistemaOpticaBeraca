@@ -191,7 +191,8 @@ class OperativosDetalle extends \yii\db\ActiveRecord {
                 ->from('brc_operativos_detalle')
                 ->join('INNER JOIN', 'brc_persona', 'brc_persona.RUT = brc_operativos_detalle.RUT_CLIENTE')
                 ->Where(['brc_operativos_detalle.RUT_CLIENTE' => $rut])
-                ->andWhere(['brc_persona.CAT_PERSONA' => $tipo]);
+                ->andWhere(['brc_persona.CAT_PERSONA' => $tipo])
+                ->orderBy(['brc_operativos_detalle.DIA'=>SORT_DESC]);
 
         
           $command = $query->createCommand();

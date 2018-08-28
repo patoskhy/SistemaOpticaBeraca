@@ -97,8 +97,15 @@ $form = ActiveForm::begin([
 <script type="text/javascript">
 
     function initialComponets() {
+
         $("#reporte").hide();
         BuscarDatosOperativo();
+
+        $('#fechaOperativo').on('change', function () {
+            $("#reporte").hide("slow");
+            BuscarDatosOperativo();
+        });
+  
         $("#btnBusProd").click(function(){
             $("#reporte").hide();
             var control = $("#dataOperativo").val().split("-");
