@@ -93,7 +93,7 @@ $form = ActiveForm::begin([
             <div class="row">
                 <div  class="col-md-6">
                     <div data-step="6" data-intro="Debe ingresar el telefono de la persona" class="form-group">
-                        <?= $form->field($model, 'telefono')->widget(\yii\widgets\MaskedInput::className(), ['mask' => '+(99)-9-99-99-9999',])
+                        <?= $form->field($model, 'telefono')->widget(\yii\widgets\MaskedInput::className(), ['mask' => '+(99)-999-999-999',])
                                         ->label("TELÉFONO:", ['class' => 'label label-default']); ?>
                     </div>
                 </div>

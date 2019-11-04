@@ -157,6 +157,7 @@ class OperativosController extends Controller {
                         'model' => $model,
                         'titulo' => $titulo,
                         'rutaR' => $rutaR,
+                        
             ]);
         }
         return $this->redirect("index.php");
@@ -164,22 +165,24 @@ class OperativosController extends Controller {
 
     public function actionIndexAgregaPacientes($dia, $hora, $rut) {
         if (!Yii::$app->user->isGuest) {
-
+            $msg = "";
             $titulo = $GLOBALS["nombreSistema"];
             $arrDia = explode("/", $dia);
             $tmpDia = $arrDia[2] . $arrDia[1] . $arrDia[0];
             $tmpHora = str_replace(":", "", $hora);
             //var_dump(Yii::$app->request->post());die();
+            //var_dump($_POST);die();
             $model = new AgregaPacienteForm;
             if ($model->load(Yii::$app->request->post())) {
-                //var_dump($model);die();
+                //var_dump($model->pacientes);die();
+                $model->pacientes = ($model->pacientes == "") ? "0" : $model->pacientes;
                 $persona = Persona::find()->where("CAT_PERSONA = 'P00001' AND RUT=" . $model->pacientes)->one();
                 if (is_null($persona)) {
-                    $persona = "NOK: No se encontro la persona seleccionada";
+                    $msg = "NOK: No se encontro la persona seleccionada. Debe ser ingresada al sistema.";
                 } else {
                     $deOp = OperativosDetalle::find()->where("HORA='" . $model->hora . "' AND DIA = '" . $model->dia . "' AND RUT_DOCTOR=" . $model->doctor . " AND RUT_CLIENTE=" . $model->pacientes)->one();
                     if (!is_null($deOp)) {
-                        $persona = "NOK: El paciente ya tiene una hora tomada para el dia y hora seleccionado";
+                        $msg  = "NOK: El paciente ya tiene una hora tomada para el dia y hora seleccionado";
                     } else {
                         $deOp = new OperativosDetalle;
                         $deOp->DIA = $model->dia;
@@ -212,8 +215,8 @@ class OperativosController extends Controller {
                             $tmpHora = $model->hora;
                             $rut = $model->doctor;
                         } else {
-                            $persona = "ERROR: hubo un problema al guardar el paciente, comuniquese con el administrador del sistema.";
-                            var_dump($deOp->getErrors());
+                            $msg  = "ERROR: hubo un problema al guardar el paciente, comuniquese con el administrador del sistema.";
+                            //var_dump($deOp->getErrors());
                         }
                     }
                 }
@@ -245,7 +248,8 @@ class OperativosController extends Controller {
                         'model' => $model,
                         'pacientes' => $pacientes,
                         'dataProvider' => $data,
-                        'titulo' => $titulo
+                        'titulo' => $titulo,
+                        'msg' => $msg
             ]);
         }
 

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\web\JsExpression;
 use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
 use yii\grid\GridView;
@@ -101,9 +102,11 @@ $nombreModel = substr(get_class($model), $posi + 1);
                                         'multiple' => false,
                                         'url' => ['site/buscar-cliente'],
                                         'options' => [
+                                            'autoFill'=>true,
                                             'placeholder' => 'Ingrese el rut o nombre del cliente.',
                                             "class" => "form-control",
                                             "onkeyup" => "javascript:this.value=this.value.toUpperCase();",
+                                            "onkeypress" =>  "actualizaW0(this,event)",
                                             "required" => true, 
                                             "maxlength" => "50", 
                                             "size" => "50"
@@ -112,7 +115,7 @@ $nombreModel = substr(get_class($model), $posi + 1);
                                 </div>
                                 <div data-step="7" data-intro="Agrega el paciente al operativo" class="col-md-2" style="padding:15px;">
 
-                                    <?= Html::submitButton('AGREGA PACIENTE', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'guardar-button']); ?>
+                                    <?= Html::submitButton('ASIGNAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'guardar-button']); ?>
                                     <?= $form->field($model, 'dia')->hiddenInput(['value' => $diaSF])->label(false); ?>
                                     <?= $form->field($model, 'hora')->hiddenInput(['value' => $horaSF])->label(false); ?>
                                     <?= $form->field($model, 'doctor')->hiddenInput(['value' => $rdoc])->label(false); ?>
@@ -121,22 +124,24 @@ $nombreModel = substr(get_class($model), $posi + 1);
                                 </div>
                                  <?php ActiveForm::end(); ?>
                                  
-                               <div data-step="8" data-intro="Te lleva a la pantalla para realizar la gestion del operativo" class="col-md-2" style="padding:15px;">
+                               <div data-step="8" data-intro="Te lleva a la pantalla para ingresar los pacientes"  class="col-md-2" style="padding:15px;">
+                                   <a href="<?=Yii::$app->request->baseUrl?>/index.php?r=mantencion/index-persona&id=550000000&t=PERSONAS" class="btn btn-block btn-sistema btn-flat">INGRESAR</a>
+                                </div>
+                                <div data-step="9" data-intro="Te lleva a la pantalla para realizar la gestion del operativo" class="col-md-2" style="padding:15px;">
                                     <?php $form = ActiveForm::begin(['id' => 'operativo-form','action' => Yii::$app->request->baseUrl . '/index.php?r=operativos/index-operativo&id=320000000&t=OPERATIVOS',"method"=>"post" ]);?>
-                                 
-                                     <?= Html::submitButton('IR OPERATIVO', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'guardar-button']); ?>
-                                    <?= '<input name="diaO" id="diaO" type="hidden" value="'.$dia.'">' ?>
-                                    <?= '<input name="horaO" id="horaO" type="hidden" value="'.$hora.'" />' ?>
-                                    <?= '<input name="doctorO" id="doctorO" type="hidden" value="'.$rdoc.'" />' ?>
-                                    <?= '<input name="obserO" id="obserO" type="hidden" value="'.$obser.'" />' ?>
+                                    
+                                        <?= Html::submitButton('IR OPERATIVO', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'guardar-button']); ?>
+                                        <?= '<input name="diaO" id="diaO" type="hidden" value="'.$dia.'">' ?>
+                                        <?= '<input name="horaO" id="horaO" type="hidden" value="'.$hora.'" />' ?>
+                                        <?= '<input name="doctorO" id="doctorO" type="hidden" value="'.$rdoc.'" />' ?>
+                                        <?= '<input name="obserO" id="obserO" type="hidden" value="'.$obser.'" />' ?>
                                     <?php ActiveForm::end(); ?>
                                 </div>
-                                
-                                <div class="col-md-4">
+                                <div class="col-md-2">
 
                                 </div>
                             </div>
-                            <div data-step="9" data-intro="Muestra los pacientes que estan en el operativo"  class="row">
+                            <div data-step="10" data-intro="Muestra los pacientes que estan en el operativo"  class="row">
                                 <?=
                                 GridView::widget([
                                     'dataProvider' => $dataProvider,
@@ -231,8 +236,23 @@ HTML;
 </div>
 <script type="text/javascript">
     function initialComponets() {
-        
+        var msg = "<?=$msg?>"
+        if(msg != ""){
+            
+            $("#modTitulo").html("Validación");
+            $("#modBody").html("<?=$msg?>");
+            $("#myModal").removeClass();
+            if(msg == "OK"){
+                $("#modBody").html("Estado cambiado con éxito");
+                $("#myModal").addClass("modal modal-success fade");
+            }else{
+                $("#myModal").addClass("modal modal-danger fade");
+            }
+            $("#myModal").modal();
+        }
     }
+
+    
 </script>  
 <?php
 $miUrlbase = Yii::$app->request->absoluteUrl;
@@ -240,6 +260,7 @@ $scritp = <<<JS
         $('#quitaPaciente').on('click', function (event) {
             $.pjax.reload({container: "#detalleOpera", url: '$miUrlbase', replace: false});
         });
+       
 JS;
 
 $this->registerJs(

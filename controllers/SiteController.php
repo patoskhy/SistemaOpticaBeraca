@@ -209,6 +209,7 @@ class SiteController extends Controller {
     }
 
     public function actionBuscarCliente($term) {
+        
         if (Yii::$app->request->isAjax) {
             $persona =  Persona::find()
                             ->where("CAT_PERSONA = 'P00001' AND (RUT like '%" .$term."%' OR NOMBRE LIKE '%" .$term."%')")
