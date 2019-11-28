@@ -202,8 +202,16 @@ class SitiowebController extends Controller {
                 $pref = "uploads/";
                 $model->foto1 = UploadedFile::getInstance($model, "foto1");
                 $model->foto2 = UploadedFile::getInstance($model, "foto2");
-                $imageName1 = "foto1-" . $model->codigo . "." . $model->foto1->extension;
-                $imageName2 = "foto2-" . $model->codigo . "." . $model->foto2->extension;
+                $imageName1 = "";
+                $imageName2 = "";
+                if($model->tipo == "000002"){
+                    $imageName1 = "foto1-" . $model->codigo . "-". $model->modelo . "." . $model->foto1->extension;
+                    $imageName2 = "foto2-" . $model->codigo . "-". $model->modelo . "." . $model->foto2->extension;
+                }else{
+                    $imageName1 = "foto1-" . $model->codigo . "." . $model->foto1->extension;
+                    $imageName2 = "foto2-" . $model->codigo . "." . $model->foto2->extension;
+                }
+                
                 //$model->foto1->saveAs($pref . $imageName1, true);
                 //$model->foto2->saveAs($pref . $imageName2, true);
                 //var_dump($model->foto1->tempName);die();
@@ -260,7 +268,7 @@ class SitiowebController extends Controller {
                     );
                 }
                 */
-                $pw = ProductoWeb::find()->where("CODIGO='" . $model->codigo . "' AND COD_TIPO = '".$model->tipo."'  AND COD_MARCA = '".$model->marca."'  AND COD_MATERIAL = '".$model->material."' AND COD_COLOR = '".$model->color."' AND COD_FORMA = '".$model->forma."'")->one();
+                $pw = ProductoWeb::find()->where("CODIGO='" . $model->codigo . "' AND COD_TIPO = '".$model->tipo."'  AND COD_MARCA = '".$model->marca."'  AND COD_MATERIAL = '".$model->material."' AND COD_COLOR = '".$model->color."' AND COD_FORMA = '".$model->forma."' AND MODELO = '".$model->modelo."'")->one();
                 //var_dump($pw->createCommand()->sql);die();
                 if (is_null($pw)) {
 
