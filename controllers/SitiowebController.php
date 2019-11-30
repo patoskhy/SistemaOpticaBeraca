@@ -22,10 +22,12 @@ use app\models\entities\Producto;
 use app\models\entities\Codigos;
 use app\models\entities\CodigosWeb;
 use app\models\entities\ProductoWeb;
+use app\models\entities\ConveniosWeb;
 
 /* FORM */
 use app\models\forms\CodigosWebForm;
 use app\models\forms\ProductoWebForm;
+use app\models\forms\ConveniosWebForm;
 
 /* UTILIDADES */
 use app\models\utilities\Utils;
@@ -100,7 +102,7 @@ class SitiowebController extends Controller {
                     $codigo->DESCRIPCION = $model->descripcion;
                     $codigo->IMG = "/uploads/codWeb/" . $imageName1;
                     $codigo->insert();
-                    VAR_DUMP($codigo->getErrors());die();
+                    //VAR_DUMP($codigo->getErrors());die();
                 } else {
                     if (CodigosWeb::deleteAll("TIPO='" . $model->tipo . "' AND CODIGO='" . $cod . "'")) {
                         $codigo = new CodigosWeb;
@@ -323,6 +325,312 @@ class SitiowebController extends Controller {
                             'dataProvider' => $dataProvider,
                 ]);
             }
+        }
+        return $this->redirect("index.php");
+    }
+
+    public function actionIndexConvenios($id, $t) {
+        if (!Yii::$app->user->isGuest && Utils::validateIfUser($id)) {
+            if (empty($id)) {
+                $id = 0;
+            }
+            $titulo = $GLOBALS["nombreSistema"];
+            $rutaR = "&rt=" . $id . "&t=" . $t;
+            $pref = "uploads/convenios/";
+            $model = new ConveniosWebForm;
+
+            if ($model->load(Yii::$app->request->post())) {
+                //var_dump($cod);die();
+                $model->foto = UploadedFile::getInstance($model, "foto");
+                $imageName1 = str_replace(" ","-",$model->titulo) . "." . $model->foto->extension;
+                $model->foto->saveAs($pref . $imageName1, true);
+
+                $pathImg1 = Yii::$app->basePath . "/web/uploads/convenios/" . $imageName1;
+                $gestor1 = fopen($pathImg1, "rb");
+                $base64image1 = base64_encode(fread($gestor1, filesize($pathImg1)));
+                fclose($gestor1);
+                
+
+                $model->id = ($_POST["ConveniosWebForm"]["id"] == "") ?  "0" : $_POST["ConveniosWebForm"]["id"];
+                //var_dump($model->id );die();
+                $existe = ConveniosWeb::find()->where(['ID' => $model->id])->all();
+                //var_dump($existe);die();
+                if (empty($existe)) {
+                    $convenio = new ConveniosWeb;
+
+                    $convenio->TITULO = $model->titulo;
+                    $convenio->DESCRIPCION = $model->descripcion;
+                    $convenio->VIGENCIA = $model->vigencia;
+                    $convenio->FOTO =  $base64image1;
+                    $convenio->insert();
+                    //VAR_DUMP($codigo->getErrors());die();
+                } else {
+                    if (ConveniosWeb::deleteAll("ID=" . $model->id  . "")) {
+                        $convenio = new ConveniosWeb;
+                        $convenio->TITULO = $model->titulo;
+                        $convenio->DESCRIPCION = $model->descripcion;
+                        $convenio->VIGENCIA = $model->vigencia;
+                        $convenio->FOTO = $base64image1;
+                        $convenio->insert();
+                    }
+                }
+                /*
+                // SE ELIMINO POR NO SER SERVIDOR LOCAS Y PUBLIAR EN LA NUBE
+                //programar el ingreso al web service
+                $ip = "www.google.com";
+                if (Utils::GetPing($ip) == 'perdidos),') {
+                    
+                } else if (Utils::GetPing($ip) == '0ms') {
+                    
+                } else {
+                    $soapClient = Yii::$app->siteApi;
+                    $res = $soapClient->InsertarCodWeb(
+                            $model->tipo, $cod, $model->descripcion, $base64image1
+                    );
+                    //var_dump($res);die();
+                }
+                */
+            }
+            $codi = "TODOS";
+            if (Yii::$app->request->get()) {
+                if (!empty($_GET['tipBus'])) {
+                    $codi = $_GET['tipBus'];
+                }
+            }
+            $query = ConveniosWeb::find();
+            if ($codi != "TODOS") {
+                $query = ConveniosWeb::find()->where("VIGENCIA='" . $codi . "'");
+            }
+
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+                'pagination' => [
+                    'pagesize' => 7,
+                ],
+            ]);
+            $utils = new Utils;
+            $sql = "SELECT CODIGO,DESCRIPCION FROM brc_codigos WHERE TIPO = 'EST_BO'";
+            $vigencia = $utils->ejecutaQuery($sql);
+            $this->view->params['titlePage'] = strtoupper($t);
+            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
+            $this->layout = 'main';
+            return $this->render('indexConveniosWeb', [
+                        'titulo' => $titulo,
+                        'rutaR' => $rutaR,
+                        'model' => $model,
+                        'vigencia' => $vigencia,
+                        'dataProvider' => $dataProvider,
+            ]);
+        }
+        return $this->redirect("index.php");
+    }
+
+    public function actionIndexHistorias($id, $t) {
+        if (!Yii::$app->user->isGuest && Utils::validateIfUser($id)) {
+            if (empty($id)) {
+                $id = 0;
+            }
+            $titulo = $GLOBALS["nombreSistema"];
+            $rutaR = "&rt=" . $id . "&t=" . $t;
+            $pref = "uploads/codWeb/";
+            $model = new CodigosWebForm;
+
+            if ($model->load(Yii::$app->request->post())) {
+                //var_dump($model);die();
+                $cod = $model->codigo;
+                $res = "";
+                if (empty($cod) || is_null($cod)) {
+                    $res = CodigosWeb::find()->where("TIPO='" . $model->tipo . "'")->max('CODIGO');
+                    //var_dump($res);die();
+                    if (is_null($res)) {
+                        $cod = "000001";
+                    } else {
+                        $tmpH = $res + 1;
+                        $cod = str_pad($tmpH, 6, "0", STR_PAD_LEFT);
+                    }
+                }
+                //var_dump($cod);die();
+                $model->img = UploadedFile::getInstance($model, "img");
+                $imageName1 = $model->tipo . "-" . $cod . "." . $model->img->extension;
+                $model->img->saveAs($pref . $imageName1, true);
+                $pathImg1 = Yii::$app->basePath . "/web/uploads/codWeb/" . $imageName1;
+                $gestor1 = fopen($pathImg1, "rb");
+                $base64image1 = base64_encode(fread($gestor1, filesize($pathImg1)));
+                fclose($gestor1);
+
+                $existe = CodigosWeb::find()->where("TIPO='" . $model->tipo . "' AND CODIGO='" . $cod . "'")->all();
+
+                if (empty($existe)) {
+                    $codigo = new CodigosWeb;
+
+                    $codigo->TIPO = $model->tipo;
+                    $codigo->CODIGO = $cod;
+                    $codigo->DESCRIPCION = $model->descripcion;
+                    $codigo->IMG = "/uploads/codWeb/" . $imageName1;
+                    $codigo->insert();
+                    VAR_DUMP($codigo->getErrors());die();
+                } else {
+                    if (CodigosWeb::deleteAll("TIPO='" . $model->tipo . "' AND CODIGO='" . $cod . "'")) {
+                        $codigo = new CodigosWeb;
+                        $codigo->TIPO = $model->tipo;
+                        $codigo->CODIGO = $cod;
+                        $codigo->DESCRIPCION = $model->descripcion;
+                        $codigo->IMG = "/uploads/codWeb/" . $imageName1;
+                        $codigo->insert();
+                    }
+                }
+                /*
+                // SE ELIMINO POR NO SER SERVIDOR LOCAS Y PUBLIAR EN LA NUBE
+                //programar el ingreso al web service
+                $ip = "www.google.com";
+                if (Utils::GetPing($ip) == 'perdidos),') {
+                    
+                } else if (Utils::GetPing($ip) == '0ms') {
+                    
+                } else {
+                    $soapClient = Yii::$app->siteApi;
+                    $res = $soapClient->InsertarCodWeb(
+                            $model->tipo, $cod, $model->descripcion, $base64image1
+                    );
+                    //var_dump($res);die();
+                }
+                */
+            }
+            $codi = "TODOS";
+            if (Yii::$app->request->get()) {
+                if (!empty($_GET['tipBus'])) {
+                    $codi = $_GET['tipBus'];
+                }
+            }
+            $query = CodigosWeb::find();
+            if ($codi != "TODOS") {
+                $query = CodigosWeb::find()->where("TIPO='" . $codi . "'");
+            }
+
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+                'pagination' => [
+                    'pagesize' => 7,
+                ],
+            ]);
+            $utils = new Utils;
+            $sql = "SELECT DESCRIPCION FROM brc_codigos WHERE TIPO = 'WEB_CA'";
+            $tipo = $utils->ejecutaQuery($sql);
+            $this->view->params['titlePage'] = strtoupper($t);
+            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
+            $this->layout = 'main';
+            return $this->render('indexHistoriasWeb', [
+                        'titulo' => $titulo,
+                        'rutaR' => $rutaR,
+                        'model' => $model,
+                        'tipo' => $tipo,
+                        'dataProvider' => $dataProvider,
+            ]);
+        }
+        return $this->redirect("index.php");
+    }
+
+    public function actionIndexPromociones($id, $t) {
+        if (!Yii::$app->user->isGuest && Utils::validateIfUser($id)) {
+            if (empty($id)) {
+                $id = 0;
+            }
+            $titulo = $GLOBALS["nombreSistema"];
+            $rutaR = "&rt=" . $id . "&t=" . $t;
+            $pref = "uploads/codWeb/";
+            $model = new CodigosWebForm;
+
+            if ($model->load(Yii::$app->request->post())) {
+                //var_dump($model);die();
+                $cod = $model->codigo;
+                $res = "";
+                if (empty($cod) || is_null($cod)) {
+                    $res = CodigosWeb::find()->where("TIPO='" . $model->tipo . "'")->max('CODIGO');
+                    //var_dump($res);die();
+                    if (is_null($res)) {
+                        $cod = "000001";
+                    } else {
+                        $tmpH = $res + 1;
+                        $cod = str_pad($tmpH, 6, "0", STR_PAD_LEFT);
+                    }
+                }
+                //var_dump($cod);die();
+                $model->img = UploadedFile::getInstance($model, "img");
+                $imageName1 = $model->tipo . "-" . $cod . "." . $model->img->extension;
+                $model->img->saveAs($pref . $imageName1, true);
+                $pathImg1 = Yii::$app->basePath . "/web/uploads/codWeb/" . $imageName1;
+                $gestor1 = fopen($pathImg1, "rb");
+                $base64image1 = base64_encode(fread($gestor1, filesize($pathImg1)));
+                fclose($gestor1);
+
+                $existe = CodigosWeb::find()->where("TIPO='" . $model->tipo . "' AND CODIGO='" . $cod . "'")->all();
+
+                if (empty($existe)) {
+                    $codigo = new CodigosWeb;
+
+                    $codigo->TIPO = $model->tipo;
+                    $codigo->CODIGO = $cod;
+                    $codigo->DESCRIPCION = $model->descripcion;
+                    $codigo->IMG = "/uploads/codWeb/" . $imageName1;
+                    $codigo->insert();
+                    VAR_DUMP($codigo->getErrors());die();
+                } else {
+                    if (CodigosWeb::deleteAll("TIPO='" . $model->tipo . "' AND CODIGO='" . $cod . "'")) {
+                        $codigo = new CodigosWeb;
+                        $codigo->TIPO = $model->tipo;
+                        $codigo->CODIGO = $cod;
+                        $codigo->DESCRIPCION = $model->descripcion;
+                        $codigo->IMG = "/uploads/codWeb/" . $imageName1;
+                        $codigo->insert();
+                    }
+                }
+                /*
+                // SE ELIMINO POR NO SER SERVIDOR LOCAS Y PUBLIAR EN LA NUBE
+                //programar el ingreso al web service
+                $ip = "www.google.com";
+                if (Utils::GetPing($ip) == 'perdidos),') {
+                    
+                } else if (Utils::GetPing($ip) == '0ms') {
+                    
+                } else {
+                    $soapClient = Yii::$app->siteApi;
+                    $res = $soapClient->InsertarCodWeb(
+                            $model->tipo, $cod, $model->descripcion, $base64image1
+                    );
+                    //var_dump($res);die();
+                }
+                */
+            }
+            $codi = "TODOS";
+            if (Yii::$app->request->get()) {
+                if (!empty($_GET['tipBus'])) {
+                    $codi = $_GET['tipBus'];
+                }
+            }
+            $query = CodigosWeb::find();
+            if ($codi != "TODOS") {
+                $query = CodigosWeb::find()->where("TIPO='" . $codi . "'");
+            }
+
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+                'pagination' => [
+                    'pagesize' => 7,
+                ],
+            ]);
+            $utils = new Utils;
+            $sql = "SELECT DESCRIPCION FROM brc_codigos WHERE TIPO = 'WEB_CA'";
+            $tipo = $utils->ejecutaQuery($sql);
+            $this->view->params['titlePage'] = strtoupper($t);
+            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
+            $this->layout = 'main';
+            return $this->render('indexPromocionesWeb', [
+                        'titulo' => $titulo,
+                        'rutaR' => $rutaR,
+                        'model' => $model,
+                        'tipo' => $tipo,
+                        'dataProvider' => $dataProvider,
+            ]);
         }
         return $this->redirect("index.php");
     }
