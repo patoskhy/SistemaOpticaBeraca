@@ -30,17 +30,17 @@ $form = ActiveForm::begin([
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div data-step="5" data-intro="Se presiona el boton para guardar los datos" class="col-md-2">
+                <div data-step="6" data-intro="Se presiona el boton para guardar los datos" class="col-md-2">
 <?= Html::submitButton('GUARDAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'guardar-button']) ?>
                 </div>
-                <div data-step="7" data-intro="busca los codigos ingresados en el sitio web" class="col-md-2">	
+                <div data-step="7" data-intro="busca los convenios ingresados en el sitio web" class="col-md-2">	
 <?= Html::button('BUSCAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'buscar-button', 'id' => 'buscar-button',"data-toggle"=>"modal","data-target"=>"#buscarModal"]) ?>
                 </div>
-                <div data-step="6" data-intro="limpia el formulario de los datos ingresados" class="col-md-2">	
+                <div data-step="8" data-intro="limpia el formulario de los datos ingresados" class="col-md-2">	
 <?= Html::resetButton('LIMPIAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'limpiar-button']) ?>
                 </div>
                 <div class="col-md-2">	
-                    <button type="button" class="btn btn-block btn-sistema btn-flat" data-step="1" data-intro="Esta formulario sirve para ingresar los codigos con los que se trabaja en la sitio web de la optica" onclick="javascript:introJs().start();">
+                    <button type="button" class="btn btn-block btn-sistema btn-flat" data-step="1" data-intro="Esta formulario sirve para ingresar los convenios con los que se trabaja en la optica" onclick="javascript:introJs().start();">
                         <span class="glyphicon glyphicon-question-sign"></span> AYUDA
                     </button>         
                 </div>
@@ -52,19 +52,19 @@ $form = ActiveForm::begin([
             <div class="row">
                
                 <div  class="col-md-6">
-                    <div data-step="3" data-intro="se debe ingresar la descripcion relacionado con el tipo de codigo" class="form-group" >
+                    <div data-step="2" data-intro="se debe ingresar el titulo relacionado con el convenio" class="form-group" >
                         <?= $form->field($model, 'titulo')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Título", "required" => true, "maxlength" => "50", "size" => "50"])
                                         ->label("TÍTULO:", ['class' => 'label label-default']); ?>
                         <?= $form->field($model, 'id')->hiddenInput(["id" => "convenioswebform-id"])->label(false); ?>
                     </div>
                 </div>
                 <div  class="col-md-6">
-                    <div data-step="3" data-intro="se debe ingresar la descripcion relacionado con el tipo de codigo" class="form-group" >
+                    <div data-step="3" data-intro="se debe ingresar la descripcion relacionado con el convenio" class="form-group" >
                         <?= $form->field($model, 'descripcion')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Descripciòn", "required" => true, "maxlength" => "3000", "size" => "3000"])
                                         ->label("DESCRIPCIÓN:", ['class' => 'label label-default']); ?>
                     </div>
                 </div>
-                <div data-step="2" data-intro="Se debe seleccionar el tipo de codigo a ingresar" class="col-md-6">
+                <div data-step="4" data-intro="Se debe seleccionar si se muestra el convenio en la pagina web" class="col-md-6">
                     <div class="form-group">
                         <?=
                                 $form->field($model, 'vigencia')->widget(Select2::classname(), [
@@ -78,7 +78,7 @@ $form = ActiveForm::begin([
                                 ?>
                     </div>
                 </div>
-                <div data-step="4" data-intro="Se debe seleccionar la foto relacionada con el codigo" class="col-md-6">
+                <div data-step="5" data-intro="Se debe seleccionar la foto relacionada con el convenio" class="col-md-6">
                     <div class="form-group">
                         <?= $form->field($model, 'foto')->fileInput(["class" => "filestyle", "data-btnClass" => "btn btn-block btn-warning btn-flat"])
                                 ->label("FOTO:", ['class' => 'label label-default']); ?>
@@ -94,7 +94,7 @@ $form = ActiveForm::begin([
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header headModal">
-                <h4 class="modal-title text-center">BUSCAR CÓDIGOS WEB</h4>
+                <h4 class="modal-title text-center">BUSCAR CONVENIOS WEB</h4>
             </div>
             <div class="modal-body">
 <?php //\yii\widgets\Pjax::begin(['id' => 'detalle', 'enablePushState' => false]); ?>

@@ -12,7 +12,7 @@ use kartik\date\DatePicker;
 $this->title = $titulo;
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['breadcrumbs']['rutaR'] = $rutaR;
-$this->params['breadcrumbs']['tipo'] = ArrayHelper::map($tipo, 'DESCRIPCION', 'DESCRIPCION');
+$this->params['breadcrumbs']['vigencia'] = ArrayHelper::map($vigencia, 'CODIGO', 'DESCRIPCION');
 
 $posi = strrpos(get_class($model), "\\");
 $nombreModelLow = strtolower(substr(get_class($model), $posi + 1));
@@ -28,17 +28,17 @@ $form = ActiveForm::begin([
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div data-step="5" data-intro="Se presiona el boton para guardar los datos" class="col-md-2">
+                <div data-step="6" data-intro="Se presiona el boton para guardar los datos" class="col-md-2">
 <?= Html::submitButton('GUARDAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'guardar-button']) ?>
                 </div>
-                <div data-step="7" data-intro="busca los codigos ingresados en el sitio web" class="col-md-2">	
+                <div data-step="7" data-intro="busca las promociones ingresadas en el sitio web" class="col-md-2">	
 <?= Html::button('BUSCAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'buscar-button', 'id' => 'buscar-button',"data-toggle"=>"modal","data-target"=>"#buscarModal"]) ?>
                 </div>
-                <div data-step="6" data-intro="limpia el formulario de los datos ingresados" class="col-md-2">	
+                <div data-step="8" data-intro="limpia el formulario de los datos ingresados" class="col-md-2">	
 <?= Html::resetButton('LIMPIAR', ['class' => 'btn btn-block btn-sistema btn-flat', 'name' => 'limpiar-button']) ?>
                 </div>
                 <div class="col-md-2">	
-                    <button type="button" class="btn btn-block btn-sistema btn-flat" data-step="1" data-intro="Esta formulario sirve para ingresar los codigos con los que se trabaja en la sitio web de la optica" onclick="javascript:introJs().start();">
+                    <button type="button" class="btn btn-block btn-sistema btn-flat" data-step="1" data-intro="Esta formulario sirve para ingresar las prmociones con los que se trabaja en la sitio web de la optica" onclick="javascript:introJs().start();">
                         <span class="glyphicon glyphicon-question-sign"></span> AYUDA
                     </button>         
                 </div>
@@ -47,37 +47,48 @@ $form = ActiveForm::begin([
                 </div>
             </div>
             <hr class="linea">
+            
             <div class="row">
-                <div data-step="2" data-intro="Se debe seleccionar el tipo de codigo a ingresar" class="col-md-12">
+                <div  class="col-md-6">
+                    <div data-step="2" data-intro="se debe ingresar la descripcion relacionada con la promoción" class="form-group" >
+                        <?= $form->field($model, 'validez')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Promocion valida hasta XX/XX/XXXX", "required" => true, "maxlength" => "50", "size" => "50"])
+                                        ->label("TITULO:", ['class' => 'label label-default']); ?>
+                        <?= $form->field($model, 'id')->hiddenInput(["id" => "promocioneswebform-id"])->label(false); ?>
+                    </div>
+                </div>
+				 <div data-step="3" data-intro="Se debe seleccionar si se muestra la promocion en la pagina web" class="col-md-6">
                     <div class="form-group">
                         <?=
-                                $form->field($model, 'tipo')->widget(Select2::classname(), [
-                                    'data' => $this->params['breadcrumbs']['tipo'],
+                                $form->field($model, 'vigencia')->widget(Select2::classname(), [
+                                    'data' => $this->params['breadcrumbs']['vigencia'],
                                     'language' => 'es',
                                     'options' => ['placeholder' => 'ELEGIR', "class" => "form-control select2", "style" => 'width: 100%;'],
                                     'pluginOptions' => [
                                         'allowClear' => true
                                     ],
-                                ])->label("TIPO:", ['class' => 'label label-default']);
+                                ])->label("VIGENCIA:", ['class' => 'label label-default']);
                                 ?>
                     </div>
                 </div>
             </div>
-            <br>	
             <div class="row">
-                <div  class="col-md-12">
-                    <div data-step="3" data-intro="se debe ingresar la descripcion relacionado con el tipo de codigo" class="form-group" >
-                        <?= $form->field($model, 'descripcion')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Descripciòn", "required" => true, "maxlength" => "50", "size" => "50"])
-                                        ->label("DESCRIPCIÓN:", ['class' => 'label label-default']); ?>
-                        <?= $form->field($model, 'codigo')->hiddenInput(["id" => "codigoswebform-codigo"])->label(false); ?>
+				<div data-step="4" data-intro="Se debe seleccionar si esta promocion figura en la pagina principal" class="col-md-6">
+                    <div class="form-group">
+                        <?=
+                                $form->field($model, 'principal')->widget(Select2::classname(), [
+                                    'data' => $this->params['breadcrumbs']['vigencia'],
+                                    'language' => 'es',
+                                    'options' => ['placeholder' => 'ELEGIR', "class" => "form-control select2", "style" => 'width: 100%;'],
+                                    'pluginOptions' => [
+                                        'allowClear' => true
+                                    ],
+                                ])->label("PUBLICIDAD PRINCIPAL:", ['class' => 'label label-default']);
+                                ?>
                     </div>
                 </div>
-            </div>
-            <br>	
-            <div class="row">
-                <div data-step="4" data-intro="Se debe seleccionar la foto relacionada con el codigo" class="col-md-12">
+                <div data-step="5" data-intro="Se debe seleccionar la foto relacionada con la promoción" class="col-md-6">
                     <div class="form-group">
-                        <?= $form->field($model, 'img')->fileInput(["class" => "filestyle", "data-btnClass" => "btn btn-block btn-warning btn-flat"])
+                        <?= $form->field($model, 'foto')->fileInput(["class" => "filestyle", "data-btnClass" => "btn btn-block btn-warning btn-flat"])
                                 ->label("FOTO:", ['class' => 'label label-default']); ?>
                     </div>
                 </div>
@@ -91,7 +102,7 @@ $form = ActiveForm::begin([
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header headModal">
-                <h4 class="modal-title text-center">BUSCAR CÓDIGOS WEB</h4>
+                <h4 class="modal-title text-center">BUSCAR PROMOCIONES WEB</h4>
             </div>
             <div class="modal-body">
 <?php //\yii\widgets\Pjax::begin(['id' => 'detalle', 'enablePushState' => false]); ?>
@@ -100,11 +111,11 @@ $form = ActiveForm::begin([
                         
                     </div>
                     <div  class="col-md-2">	
-                        <span class="label label-default text-right">SELECCIONAR TIPO:</span>
+                        <span class="label label-default text-right">SELECCIONAR VIGENCIA:</span>
                     </div>
                     <div  class="col-md-4">
                          <?= Select2::widget([
-                            'data' => $this->params['breadcrumbs']['tipo'],
+                            'data' => $this->params['breadcrumbs']['vigencia'],
                             'language' => 'es',
                             'name' => 'tipoBuscar',
                             'options' => ['placeholder' => 'ELEGIR', "class" => "form-control select2","id"=>"tipoBuscar","style" => 'width: 100%;'],
@@ -134,8 +145,17 @@ $form = ActiveForm::begin([
                         GridView::widget([
                             'dataProvider' => $dataProvider,
                             'columns' => [
-                                'TIPO',
-                                'DESCRIPCION',
+                                'VALIDEZ',
+								[
+                                    'class' => 'yii\grid\ActionColumn',
+                                    'template' => '{principal}',
+                                    'header' => 'PRINCIPAL',
+                                    'buttons' => [
+                                        'principal' => function ($url, $model) {
+                                            return ($model["PRINCIPAL"] == "S") ? "PRINCIPAL" : "SECUNDARIO";
+                                        }
+                                    ],
+                                ],
                                 [
                                     'class' => 'yii\grid\ActionColumn',
                                     'template' => '{estado}',
@@ -143,8 +163,8 @@ $form = ActiveForm::begin([
                                     'buttons' => [
                                         'estado' => function ($url, $model) {
                                             //var_dump($model);
-                                            if ($model["TIPO"] != "0-0" || IS_NULL($model["TIPO"])) {
-                                                return '<button type="button" onClick="javascript:asignarCodigo(\'' . $model["TIPO"] . '\',\'' . $model["CODIGO"] . '\',\'' . $model["DESCRIPCION"] . '\')" class="btn btn-default"><span class="glyphicon glyphicon-check"></span></button>';
+                                            if ($model["ID"] != "0" || IS_NULL($model["ID"])) {
+                                                return '<button type="button" onClick="javascript:asignarCodigo(\'' . $model["ID"] . '\',\'' . $model["VALIDEZ"]. '\',\'' . $model["PRINCIPAL"] . '\',\'' . $model["VIGENCIA"] . '\')" class="btn btn-default"><span class="glyphicon glyphicon-check"></span></button>';
                                             } else {
                                                 return "";
                                             }
@@ -174,9 +194,9 @@ $form = ActiveForm::begin([
 <script type="text/javascript">
 
     function initialComponets() {
-        document.forms["login-form"]["<?= $nombreModelLow ?>-tipo"].value = "";
-        document.forms["login-form"]["<?= $nombreModelLow ?>-codigo"].value = "";
-        document.forms["login-form"]["<?= $nombreModelLow ?>-descripcion"].value = "";
+
+        document.forms["login-form"]["<?= $nombreModelLow ?>-id"].value = "";
+        document.forms["login-form"]["<?= $nombreModelLow ?>-validez"].value = "";
         $("#btnBusProveProd").click(function () {
             var tipBus = $("#tipoBuscar").val();
            
@@ -187,11 +207,12 @@ $form = ActiveForm::begin([
     
     }
 
-    function asignarCodigo(tipo,codigo,descripcion){
+    function asignarCodigo(id,validez,principal,vigencia){
 
-        $("#<?= $nombreModelLow ?>-tipo").val(tipo).trigger("change.select2");
-        $("#<?= $nombreModelLow ?>-descripcion").val(descripcion);
-        $("#<?= $nombreModelLow ?>-codigo").val(codigo);
+        $("#<?= $nombreModelLow ?>-validez").val(validez).trigger("change.select2");
+		$("#<?= $nombreModelLow ?>-vigencia").val(vigencia).trigger("change.select2");
+        $("#<?= $nombreModelLow ?>-id").val(id);
+        $("#<?= $nombreModelLow ?>-validez").val(validez);
         $("#buscarModal").modal("toggle");
     }
     

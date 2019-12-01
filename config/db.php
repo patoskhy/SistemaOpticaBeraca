@@ -15,7 +15,7 @@ return [
 /*
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:dbname=opticabe_optica;host=127.0.0.1',
+    'dsn' => 'mysql:dbname=opticabe_optica;host=localhost',
     'username' => 'opticabe_admin',
     'password' => '0pt1c4.$',
     'charset' => 'utf8',

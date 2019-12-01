@@ -23,11 +23,17 @@ use app\models\entities\Codigos;
 use app\models\entities\CodigosWeb;
 use app\models\entities\ProductoWeb;
 use app\models\entities\ConveniosWeb;
+use app\models\entities\HistoriasWeb;
+use app\models\entities\PromocionesWeb;
+use app\models\entities\DestacadosWeb;
 
 /* FORM */
 use app\models\forms\CodigosWebForm;
 use app\models\forms\ProductoWebForm;
 use app\models\forms\ConveniosWebForm;
+use app\models\forms\HistoriasWebForm;
+use app\models\forms\PromocionesWebForm;
+use app\models\forms\DestacadosWebForm;
 
 /* UTILIDADES */
 use app\models\utilities\Utils;
@@ -343,8 +349,10 @@ class SitiowebController extends Controller {
                 //var_dump($cod);die();
                 $model->foto = UploadedFile::getInstance($model, "foto");
                 $imageName1 = str_replace(" ","-",$model->titulo) . "." . $model->foto->extension;
-                $model->foto->saveAs($pref . $imageName1, true);
-
+                //$model->foto->saveAs($pref . $imageName1, true);
+				
+				
+				
                 $pathImg1 = Yii::$app->basePath . "/web/uploads/convenios/" . $imageName1;
                 $gestor1 = fopen($pathImg1, "rb");
                 $base64image1 = base64_encode(fread($gestor1, filesize($pathImg1)));
@@ -432,51 +440,45 @@ class SitiowebController extends Controller {
             }
             $titulo = $GLOBALS["nombreSistema"];
             $rutaR = "&rt=" . $id . "&t=" . $t;
-            $pref = "uploads/codWeb/";
-            $model = new CodigosWebForm;
+            $pref = "uploads/historias/";
+            $model = new HistoriasWebForm;
 
             if ($model->load(Yii::$app->request->post())) {
-                //var_dump($model);die();
-                $cod = $model->codigo;
-                $res = "";
-                if (empty($cod) || is_null($cod)) {
-                    $res = CodigosWeb::find()->where("TIPO='" . $model->tipo . "'")->max('CODIGO');
-                    //var_dump($res);die();
-                    if (is_null($res)) {
-                        $cod = "000001";
-                    } else {
-                        $tmpH = $res + 1;
-                        $cod = str_pad($tmpH, 6, "0", STR_PAD_LEFT);
-                    }
-                }
-                //var_dump($cod);die();
-                $model->img = UploadedFile::getInstance($model, "img");
-                $imageName1 = $model->tipo . "-" . $cod . "." . $model->img->extension;
-                $model->img->saveAs($pref . $imageName1, true);
-                $pathImg1 = Yii::$app->basePath . "/web/uploads/codWeb/" . $imageName1;
+                
+                $model->foto = UploadedFile::getInstance($model, "foto");
+                $imageName1 = random_int(0, 100000) . "." . $model->foto->extension;
+				//var_dump($pref . $imageName1);die();
+                //$model->foto->saveAs($pref . $imageName1, true);
+				
+				 Image::getImagine()->open($model->foto->tempName)
+					->thumbnail(new Box(350, 350))
+					->save($pref . $imageName1, ['quality' => 90]);
+				
+                $pathImg1 = Yii::$app->basePath . "/web/uploads/historias/" . $imageName1;
                 $gestor1 = fopen($pathImg1, "rb");
                 $base64image1 = base64_encode(fread($gestor1, filesize($pathImg1)));
                 fclose($gestor1);
-
-                $existe = CodigosWeb::find()->where("TIPO='" . $model->tipo . "' AND CODIGO='" . $cod . "'")->all();
+                
+				
+				$model->id = ($_POST["HistoriasWebForm"]["id"] == "") ?  "0" : $_POST["HistoriasWebForm"]["id"];
+				//var_dump($model->id );die();
+                $existe = HistoriasWeb::find()->where(['ID' => $model->id])->all();
 
                 if (empty($existe)) {
-                    $codigo = new CodigosWeb;
+                    $historias = new HistoriasWeb;
 
-                    $codigo->TIPO = $model->tipo;
-                    $codigo->CODIGO = $cod;
-                    $codigo->DESCRIPCION = $model->descripcion;
-                    $codigo->IMG = "/uploads/codWeb/" . $imageName1;
-                    $codigo->insert();
-                    VAR_DUMP($codigo->getErrors());die();
+                    $historias->TITULO = $model->titulo;
+					$historias->VIGENCIA = $model->vigencia;
+                    $historias->FOTO = $base64image1;
+                    $historias->insert();
+
                 } else {
-                    if (CodigosWeb::deleteAll("TIPO='" . $model->tipo . "' AND CODIGO='" . $cod . "'")) {
-                        $codigo = new CodigosWeb;
-                        $codigo->TIPO = $model->tipo;
-                        $codigo->CODIGO = $cod;
-                        $codigo->DESCRIPCION = $model->descripcion;
-                        $codigo->IMG = "/uploads/codWeb/" . $imageName1;
-                        $codigo->insert();
+                    if (HistoriasWeb::deleteAll("ID=" . $model->id)) {
+                        $historias = new HistoriasWeb;
+                        $historias->TITULO = $model->titulo;
+						$historias->VIGENCIA = $model->vigencia;
+                        $historias->FOTO = $base64image1;
+                        $historias->insert();
                     }
                 }
                 /*
@@ -502,9 +504,9 @@ class SitiowebController extends Controller {
                     $codi = $_GET['tipBus'];
                 }
             }
-            $query = CodigosWeb::find();
+            $query = HistoriasWeb::find();
             if ($codi != "TODOS") {
-                $query = CodigosWeb::find()->where("TIPO='" . $codi . "'");
+                $query = HistoriasWeb::find()->where("VIGENCIA='" . $codi . "'");
             }
 
             $dataProvider = new ActiveDataProvider([
@@ -514,8 +516,8 @@ class SitiowebController extends Controller {
                 ],
             ]);
             $utils = new Utils;
-            $sql = "SELECT DESCRIPCION FROM brc_codigos WHERE TIPO = 'WEB_CA'";
-            $tipo = $utils->ejecutaQuery($sql);
+            $sql = "SELECT CODIGO,DESCRIPCION FROM brc_codigos WHERE TIPO = 'EST_BO'";
+            $vigencia = $utils->ejecutaQuery($sql);
             $this->view->params['titlePage'] = strtoupper($t);
             $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
             $this->layout = 'main';
@@ -523,7 +525,7 @@ class SitiowebController extends Controller {
                         'titulo' => $titulo,
                         'rutaR' => $rutaR,
                         'model' => $model,
-                        'tipo' => $tipo,
+                        'vigencia' => $vigencia,
                         'dataProvider' => $dataProvider,
             ]);
         }
@@ -537,51 +539,56 @@ class SitiowebController extends Controller {
             }
             $titulo = $GLOBALS["nombreSistema"];
             $rutaR = "&rt=" . $id . "&t=" . $t;
-            $pref = "uploads/codWeb/";
-            $model = new CodigosWebForm;
+            $pref = "uploads/promociones/";
+            $model = new PromocionesWebForm;
 
             if ($model->load(Yii::$app->request->post())) {
-                //var_dump($model);die();
-                $cod = $model->codigo;
-                $res = "";
-                if (empty($cod) || is_null($cod)) {
-                    $res = CodigosWeb::find()->where("TIPO='" . $model->tipo . "'")->max('CODIGO');
-                    //var_dump($res);die();
-                    if (is_null($res)) {
-                        $cod = "000001";
-                    } else {
-                        $tmpH = $res + 1;
-                        $cod = str_pad($tmpH, 6, "0", STR_PAD_LEFT);
-                    }
-                }
-                //var_dump($cod);die();
-                $model->img = UploadedFile::getInstance($model, "img");
-                $imageName1 = $model->tipo . "-" . $cod . "." . $model->img->extension;
-                $model->img->saveAs($pref . $imageName1, true);
-                $pathImg1 = Yii::$app->basePath . "/web/uploads/codWeb/" . $imageName1;
+                
+                $model->foto = UploadedFile::getInstance($model, "foto");
+                $imageName1 = random_int(0, 100000) . "." . $model->foto->extension;
+				//var_dump($pref . $imageName1);die();
+                //$model->foto->saveAs($pref . $imageName1, true);
+				
+				 Image::getImagine()->open($model->foto->tempName)
+					->thumbnail(new Box(350, 350))
+					->save($pref . $imageName1, ['quality' => 90]);
+				
+                $pathImg1 = Yii::$app->basePath . "/web/uploads/promociones/" . $imageName1;
                 $gestor1 = fopen($pathImg1, "rb");
                 $base64image1 = base64_encode(fread($gestor1, filesize($pathImg1)));
                 fclose($gestor1);
-
-                $existe = CodigosWeb::find()->where("TIPO='" . $model->tipo . "' AND CODIGO='" . $cod . "'")->all();
+                
+				
+				$model->id = ($_POST["PromocionesWebForm"]["id"] == "") ?  "0" : $_POST["PromocionesWebForm"]["id"];
+				//var_dump($model->id );die();
+                $existe = PromocionesWeb::find()->where(['ID' => $model->id])->all();
 
                 if (empty($existe)) {
-                    $codigo = new CodigosWeb;
+                    $promociones = new PromocionesWeb;
+					if($model->principal == "S"){
+						\Yii::$app->db->createCommand("UPDATE brc_promociones_web SET PRINCIPAL=:principal")
+							->bindValue(':principal', "N")
+							->execute();
+					}
+                    $promociones->VALIDEZ = $model->validez;
+					$promociones->PRINCIPAL = $model->principal;
+					$promociones->VIGENCIA = $model->vigencia;
+                    $promociones->FOTO = $base64image1;
+                    $promociones->insert();
 
-                    $codigo->TIPO = $model->tipo;
-                    $codigo->CODIGO = $cod;
-                    $codigo->DESCRIPCION = $model->descripcion;
-                    $codigo->IMG = "/uploads/codWeb/" . $imageName1;
-                    $codigo->insert();
-                    VAR_DUMP($codigo->getErrors());die();
                 } else {
-                    if (CodigosWeb::deleteAll("TIPO='" . $model->tipo . "' AND CODIGO='" . $cod . "'")) {
-                        $codigo = new CodigosWeb;
-                        $codigo->TIPO = $model->tipo;
-                        $codigo->CODIGO = $cod;
-                        $codigo->DESCRIPCION = $model->descripcion;
-                        $codigo->IMG = "/uploads/codWeb/" . $imageName1;
-                        $codigo->insert();
+                    if (PromocionesWeb::deleteAll("ID=" . $model->id)) {
+						if($model->principal == "S"){
+							\Yii::$app->db->createCommand("UPDATE brc_promociones_web SET PRINCIPAL=:principal")
+								->bindValue(':principal', "N")
+								->execute();
+						}
+                        $promociones = new PromocionesWeb;
+                        $promociones->VALIDEZ = $model->validez;
+						$promociones->PRINCIPAL = $model->principal;
+						$promociones->VIGENCIA = $model->vigencia;
+                        $promociones->FOTO = $base64image1;
+                        $promociones->insert();
                     }
                 }
                 /*
@@ -607,9 +614,9 @@ class SitiowebController extends Controller {
                     $codi = $_GET['tipBus'];
                 }
             }
-            $query = CodigosWeb::find();
+            $query = PromocionesWeb::find();
             if ($codi != "TODOS") {
-                $query = CodigosWeb::find()->where("TIPO='" . $codi . "'");
+                $query = PromocionesWeb::find()->where("VIGENCIA='" . $codi . "'");
             }
 
             $dataProvider = new ActiveDataProvider([
@@ -619,8 +626,8 @@ class SitiowebController extends Controller {
                 ],
             ]);
             $utils = new Utils;
-            $sql = "SELECT DESCRIPCION FROM brc_codigos WHERE TIPO = 'WEB_CA'";
-            $tipo = $utils->ejecutaQuery($sql);
+            $sql = "SELECT CODIGO,DESCRIPCION FROM brc_codigos WHERE TIPO = 'EST_BO'";
+            $vigencia = $utils->ejecutaQuery($sql);
             $this->view->params['titlePage'] = strtoupper($t);
             $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
             $this->layout = 'main';
@@ -628,7 +635,106 @@ class SitiowebController extends Controller {
                         'titulo' => $titulo,
                         'rutaR' => $rutaR,
                         'model' => $model,
-                        'tipo' => $tipo,
+                        'vigencia' => $vigencia,
+                        'dataProvider' => $dataProvider,
+            ]);
+        }
+        return $this->redirect("index.php");
+    }
+
+	public function actionIndexDestacados($id, $t) {
+        if (!Yii::$app->user->isGuest && Utils::validateIfUser($id)) {
+            if (empty($id)) {
+                $id = 0;
+            }
+            $titulo = $GLOBALS["nombreSistema"];
+            $rutaR = "&rt=" . $id . "&t=" . $t;
+            $pref = "uploads/destacados/";
+            $model = new DestacadosWebForm;
+
+            if ($model->load(Yii::$app->request->post())) {
+                
+                $model->foto = UploadedFile::getInstance($model, "foto");
+                $imageName1 = random_int(0, 100000) . "." . $model->foto->extension;
+				//var_dump($pref . $imageName1);die();
+                //$model->foto->saveAs($pref . $imageName1, true);
+				
+				 Image::getImagine()->open($model->foto->tempName)
+					->thumbnail(new Box(350, 350))
+					->save($pref . $imageName1, ['quality' => 90]);
+				
+                $pathImg1 = Yii::$app->basePath . "/web/uploads/destacados/" . $imageName1;
+                $gestor1 = fopen($pathImg1, "rb");
+                $base64image1 = base64_encode(fread($gestor1, filesize($pathImg1)));
+                fclose($gestor1);
+                
+				
+				$model->id = ($_POST["DestacadosWebForm"]["id"] == "") ?  "0" : $_POST["DestacadosWebForm"]["id"];
+				//var_dump($model->id );die();
+                $existe = DestacadosWeb::find()->where(['ID' => $model->id])->all();
+
+                if (empty($existe)) {
+                    $destacados = new DestacadosWeb;
+
+                    $destacados->TITULO = $model->titulo;
+					$destacados->VIGENCIA = $model->vigencia;
+                    $destacados->FOTO = $base64image1;
+                    $destacados->insert();
+
+                } else {
+                    if (DestacadosWeb::deleteAll("ID=" . $model->id)) {
+                        $destacados = new DestacadosWeb;
+                        $destacados->TITULO = $model->titulo;
+						$destacados->VIGENCIA = $model->vigencia;
+                        $destacados->FOTO = $base64image1;
+                        $destacados->insert();
+                    }
+                }
+                /*
+                // SE ELIMINO POR NO SER SERVIDOR LOCAS Y PUBLIAR EN LA NUBE
+                //programar el ingreso al web service
+                $ip = "www.google.com";
+                if (Utils::GetPing($ip) == 'perdidos),') {
+                    
+                } else if (Utils::GetPing($ip) == '0ms') {
+                    
+                } else {
+                    $soapClient = Yii::$app->siteApi;
+                    $res = $soapClient->InsertarCodWeb(
+                            $model->tipo, $cod, $model->descripcion, $base64image1
+                    );
+                    //var_dump($res);die();
+                }
+                */
+            }
+            $codi = "TODOS";
+            if (Yii::$app->request->get()) {
+                if (!empty($_GET['tipBus'])) {
+                    $codi = $_GET['tipBus'];
+                }
+            }
+            $query = DestacadosWeb::find();
+            if ($codi != "TODOS") {
+                $query = DestacadosWeb::find()->where("VIGENCIA='" . $codi . "'");
+            }
+
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+                'pagination' => [
+                    'pagesize' => 7,
+                ],
+            ]);
+            $utils = new Utils;
+            $sql = "SELECT CODIGO,DESCRIPCION FROM brc_codigos WHERE TIPO = 'EST_BO'";
+            $vigencia = $utils->ejecutaQuery($sql);
+            $this->view->params['titlePage'] = strtoupper($t);
+            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
+            $this->layout = 'main';
+            return $this->render('indexDestacadosWeb', [
+                        'titulo' => $titulo,
+                        'rutaR' => $rutaR,
+                        'model' => $model,
+                        'vigencia' => $vigencia,
                         'dataProvider' => $dataProvider,
             ]);
         }

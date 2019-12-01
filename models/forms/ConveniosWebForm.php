@@ -24,7 +24,7 @@ class ConveniosWebForm extends Model {
             [['titulo'], 'required', 'message' => 'Debe ingresar el titulo'],
             [['descripcion'], 'required', 'message' => 'Debe ingresar la descripción'],
             [['foto'], 'required', 'message' => 'Debe ingresar una imagen'],
-            [['foto'], 'file'],
+            [['foto'], 'file','extensions'=>'jpg'],
             [['vigencia'], 'string'],
             [['id'], 'integer'],
         ];
