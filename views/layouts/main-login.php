@@ -13,7 +13,7 @@ dmstr\web\AdminLteAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <link rel="icon" type="image/png" href="<?php echo Yii::$app->request->baseUrl. '/img/icono-beraca.png' ?>" />
+    <link rel="icon" type="image/png" href="<?php echo Yii::$app->request->baseUrl. '/img/icono-isood.png' ?>" />
  
     <title><?= Html::encode($this->title) ?></title>
     <?php 

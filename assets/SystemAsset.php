@@ -18,7 +18,7 @@ class SystemAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/site.css',
+        'css/site.css.php',
         'jqwidgets/styles/jqx.base.css',
         'css/dataTables.bootstrap.css',
         'introjs/introjs.css',

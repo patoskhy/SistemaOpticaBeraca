@@ -11,7 +11,7 @@ use kartik\date\DatePicker;
 /* @var $searchModel app\models\BrcUsuariosSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = $titulo;
+$this->title = $this->params['titulo'];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['breadcrumbs']['rutaR'] = $rutaR;
 $this->params['breadcrumbs']['producto'] = ArrayHelper::map($producto, 'CODIGO', 'DESCRIPCION');

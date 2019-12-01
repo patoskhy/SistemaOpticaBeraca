@@ -2,7 +2,7 @@
 use kartik\switchinput\SwitchInput;
 use kartik\file\FileInput;
 use yii\helpers\Url;
-$this->title = $titulo;
+$this->title = $this->params['titulo'];
 ?>
 <div class="row">
     <div class="col-md-2">	

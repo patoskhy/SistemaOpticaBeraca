@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 <header class="main-header" >
 
-    <?= Html::a('<span class="logo-mini"><img style="padding-top:7px; padding-left:7px;" src="'. Yii::$app->request->baseUrl. '/img/icono-beraca.png" class="img-responsive"></span><span class="logo-lg"><img style="padding-top:10px" src="'. Yii::$app->request->baseUrl. '/img/opBeTransparente.png" class="img-responsive"></span>', Yii::$app->homeUrl, ['class' => 'logo',"style" => "background-color:white"]) ?>
+    <?= Html::a('<span class="logo-mini"><img style="padding-top:7px; padding-left:7px;" src="'. Yii::$app->request->baseUrl. $this->params["icono"].'" class="img-responsive"></span><span class="logo-lg"><img style="padding-top:10px" src="'. Yii::$app->request->baseUrl. $this->params['logo'] . '" class="img-responsive"></span>', Yii::$app->homeUrl, ['class' => 'logo',"style" => "background-color:white"]) ?>
 
     <nav class="navbar navbar-static-top" role="navigation">
 

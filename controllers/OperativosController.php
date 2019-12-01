@@ -19,48 +19,24 @@ use app\models\forms\InformeOperativoForm;
 use JasperPHP\JasperPHP;
 use app\models\utilities\Utils;
 
+/* CONTROLLER */
+use app\controllers\BaseController;
 
 /**
  * BrcUsuariosController implements the CRUD actions for BrcUsuarios model.
  */
-class OperativosController extends Controller {
+class OperativosController extends BaseController {
 
-    /**
-     * @inheritdoc
-     */
-    public function behaviors() {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     public function actionIndexOperativo($id, $t) {
         if (!Yii::$app->user->isGuest && Utils::validateIfUser($id)) {
            
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $rutaR = "&rt=" . $id . "&t=" . $t;
             $doctor = Persona::find()->where(['brc_persona.CAT_PERSONA' => "P00002"])->all();
             //var_dump($doctor);
             $model = new OperativoForm;
-            $this->view->params['titlePage'] = strtoupper($t);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->layout = 'main';
+            $this->datosPaginasWeb($t,"main");
             if(Yii::$app->request->post()){
                 $model->dia = Yii::$app->request->post('diaO');
                 $model->hora = Yii::$app->request->post('horaO');
@@ -72,7 +48,7 @@ class OperativosController extends Controller {
             return $this->render('indexOperativo', [
                         'doctor' => $doctor,
                         'model' => $model,
-                        'titulo' => $titulo,
+                        
                         'rutaR' => $rutaR,
             ]);
         }
@@ -81,9 +57,7 @@ class OperativosController extends Controller {
 
     public function actionIndexAgregaOperativo($id, $t) {
         if (!Yii::$app->user->isGuest && Utils::validateIfUser($id)) {
-            $this->view->params['titlePage'] = strtoupper($t);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->layout = 'main';
+            $this->datosPaginasWeb($t,"main");
 
             $reload = false;
             $model = new OperativoForm;
@@ -91,7 +65,7 @@ class OperativosController extends Controller {
             if (empty($id)) {
                 $id = 0;
             }
-            $titulo = $GLOBALS["nombreSistema"];
+            
             if (empty($f)) {
                 $f = date("Ymd");
             }
@@ -155,7 +129,7 @@ class OperativosController extends Controller {
                         'dataProvider' => $dataProvider,
                         'tipoOper' => $tipos,
                         'model' => $model,
-                        'titulo' => $titulo,
+                        
                         'rutaR' => $rutaR,
                         
             ]);
@@ -166,7 +140,7 @@ class OperativosController extends Controller {
     public function actionIndexAgregaPacientes($dia, $hora, $rut) {
         if (!Yii::$app->user->isGuest) {
             $msg = "";
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $arrDia = explode("/", $dia);
             $tmpDia = $arrDia[2] . $arrDia[1] . $arrDia[0];
             $tmpHora = str_replace(":", "", $hora);
@@ -234,9 +208,7 @@ class OperativosController extends Controller {
             ]);
             //var_dump($data);die();
             $model = new AgregaPacienteForm;
-            $this->view->params['titlePage'] = strtoupper("AGREGAR PACIENTE");
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->layout = 'main';
+            $this->datosPaginasWeb($t,"main");
             return $this->render('indexAsignarPacientes', [
                         'doctor' => $doctor->NOMBRE,
                         'rdoc' => $doctor->RUT,
@@ -248,7 +220,7 @@ class OperativosController extends Controller {
                         'model' => $model,
                         'pacientes' => $pacientes,
                         'dataProvider' => $data,
-                        'titulo' => $titulo,
+                        
                         'msg' => $msg
             ]);
         }
@@ -502,14 +474,12 @@ class OperativosController extends Controller {
             if (empty($id)) {
                 $id = 0;
             }
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $rutaR = "&rt=" . $id . "&t=" . $t;
             $doctores = Persona::find()->where("CAT_PERSONA = 'P00002'")->all();
-            $this->view->params['titlePage'] = strtoupper($t);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->layout = 'main';
+            $this->datosPaginasWeb($t,"main");
             return $this->render('indexReporteOperativo', [
-                        'titulo' => $titulo,
+                        
                         'rutaR' => $rutaR,
                         'doctores' => $doctores,
             ]);
@@ -565,14 +535,12 @@ class OperativosController extends Controller {
             if (empty($id)) {
                 $id = 0;
             }
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $rutaR = "&rt=" . $id . "&t=" . $t;
             $pacientes = Persona::find()->where("CAT_PERSONA = 'P00001'")->all();
-            $this->view->params['titlePage'] = strtoupper($t);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->layout = 'main';
+            $this->datosPaginasWeb($t,"main");
             return $this->render('indexReceta', [
-                        'titulo' => $titulo,
+                        
                         'rutaR' => $rutaR,
                         'pacientes' => $pacientes,
             ]);

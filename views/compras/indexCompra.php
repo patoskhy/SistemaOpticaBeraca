@@ -11,7 +11,7 @@ use keygenqt\autocompleteAjax\AutocompleteAjax;
 /* @var $searchModel app\models\BrcUsuariosSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = $titulo;
+$this->title = $this->params['titulo'];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['breadcrumbs']['rutaR'] = $rutaR;
 $this->params['breadcrumbs']['docList'] = ArrayHelper::map($tipDoc, 'CODIGO', 'DESCRIPCION');

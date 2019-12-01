@@ -11,6 +11,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Html;
 use yii\data\ActiveDataProvider;
+/* CONTROLLER */
+use app\controllers\BaseController;
 /* ENTITY */
 use app\models\entities\Usuario;
 use app\models\entities\Perfiles;
@@ -32,36 +34,14 @@ use app\models\forms\CodigosForm;
 /* UTILIDADES */
 use app\models\utilities\Utils;
 
-class MantencionController extends Controller {
-
-    public function behaviors() {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+class MantencionController extends BaseController {
 
     public function actionIndexUsuario($id, $t) {
         if (!Yii::$app->user->isGuest && Utils::validateIfUser($id)) {
             if (empty($id)) {
                 $id = 0;
             }
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $rut = 0;
             if (Yii::$app->request->get()) {
                 if (!empty($_GET['rut'])) {
@@ -81,14 +61,12 @@ class MantencionController extends Controller {
                 ],
             ]);
             $conx = \Yii::$app->db;
-            $this->view->params['titlePage'] = strtoupper($t);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->layout = 'main';
+            $this->datosPaginasWeb($t,"main");
             return $this->render('indexUsuario', [
                         'model' => $model,
                         'umodel' => $uModel,
                         'dataProvider' => $dataProvider,
-                        'titulo' => $titulo,
+                        
                         'rutaR' => $rutaR,
                         'vigencia' => $vigencia,
             ]);
@@ -265,7 +243,7 @@ class MantencionController extends Controller {
             if (empty($id)) {
                 $id = 0;
             }
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $rutaR = "&rt=" . $id . "&t=" . $t;
             $model = new ProductoForm;
             $utils = new Utils;
@@ -336,11 +314,9 @@ class MantencionController extends Controller {
                     }
                 }
             }
-            $this->view->params['titlePage'] = strtoupper($t);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->layout = 'main';
+            $this->datosPaginasWeb($t,"main");
             return $this->render('indexProducto', [
-                        'titulo' => $titulo,
+                        
                         'rutaR' => $rutaR,
                         'model' => $model,
                         'vigencia' => $vigencia
@@ -419,7 +395,7 @@ class MantencionController extends Controller {
             if (empty($id)) {
                 $id = 0;
             }
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $rutaR = "&rt=" . $id . "&t=" . $t;
 
             $model = new ProveedorForm;
@@ -464,11 +440,9 @@ class MantencionController extends Controller {
                 ],
             ]);
             
-            $this->view->params['titlePage'] = strtoupper($t);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->layout = 'main';
+            $this->datosPaginasWeb($t,"main");
             return $this->render('indexProveedor', [
-                        'titulo' => $titulo,
+                        
                         'rutaR' => $rutaR,
                         'model' => $model,
                         'proveedor' => $proveedor->find()->all(),
@@ -613,7 +587,7 @@ class MantencionController extends Controller {
                 $id = 0;
             }
             $proBus = "0";
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $rutaR = "&rt=" . $id . "&t=" . $t;
             if(Yii::$app->request->get()){
                 if(!empty($_GET['proBus'])){
@@ -661,11 +635,9 @@ class MantencionController extends Controller {
                     'pagesize' => 7,
                 ],
             ]);
-            $this->view->params['titlePage'] = strtoupper($t);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->layout = 'main';
+            $this->datosPaginasWeb($t,"main");
             return $this->render('indexProductoProveedor', [
-                        'titulo' => $titulo,
+                        
                         'rutaR' => $rutaR,
                         'model' => $model,
                         'dataProvider'=> $dataProvider,
@@ -717,7 +689,7 @@ class MantencionController extends Controller {
             if (empty($id)) {
                 $id = 0;
             }
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $rutaR = "&rt=" . $id . "&t=" . $t;
             $codigos = new Codigos;
             $persona = new Persona;
@@ -788,11 +760,9 @@ class MantencionController extends Controller {
                     'pagesize' => 7,
                 ],
             ]);
-            $this->view->params['titlePage'] = strtoupper($t);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->layout = 'main';
+            $this->datosPaginasWeb($t,"main");
             return $this->render('indexPersona', [
-                        'titulo' => $titulo,
+                        
                         'rutaR' => $rutaR,
                         'model' => $model,
                         'codigos' => $codigos->find()->where("TIPO='PER_CT'")->all(),
@@ -875,7 +845,7 @@ class MantencionController extends Controller {
             if (empty($id)) {
                 $id = 0;
             }
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $rutaR = "&rt=" . $id . "&t=" . $t;
 
             $model = new CodigosForm;
@@ -931,11 +901,9 @@ class MantencionController extends Controller {
             $utils = new Utils;
             $sql = "SELECT DISTINCT TIPO FROM BRC_CODIGOS";
             $tipo = $utils->ejecutaQuery($sql);
-            $this->view->params['titlePage'] = strtoupper($t);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->layout = 'main';
+            $this->datosPaginasWeb($t,"main");
             return $this->render('indexCodigoGeneral', [
-                        'titulo' => $titulo,
+                        
                         'rutaR' => $rutaR,
                         'model' => $model,
                         'tipo' => $tipo,

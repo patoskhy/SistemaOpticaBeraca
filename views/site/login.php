@@ -5,8 +5,8 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-
-$this->title = $titulo;
+//echo '<pre>'; var_dump($this); echo '/<pre>';;die();
+$this->title = $this->params['titulo'];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">

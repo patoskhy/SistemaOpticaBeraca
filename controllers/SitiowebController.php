@@ -37,40 +37,18 @@ use app\models\forms\DestacadosWebForm;
 
 /* UTILIDADES */
 use app\models\utilities\Utils;
+/* CONTROLLER */
+use app\controllers\BaseController;
 
-class SitiowebController extends Controller {
+class SitiowebController extends BaseController {
 
-    /**
-     * @inheritdoc
-     */
-    public function behaviors() {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
-
+   
     public function actionIndexCodigos($id, $t) {
         if (!Yii::$app->user->isGuest && Utils::validateIfUser($id)) {
             if (empty($id)) {
                 $id = 0;
             }
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $rutaR = "&rt=" . $id . "&t=" . $t;
             $pref = "uploads/codWeb/";
             $model = new CodigosWebForm;
@@ -156,11 +134,9 @@ class SitiowebController extends Controller {
             $utils = new Utils;
             $sql = "SELECT DESCRIPCION FROM brc_codigos WHERE TIPO = 'WEB_CA'";
             $tipo = $utils->ejecutaQuery($sql);
-            $this->view->params['titlePage'] = strtoupper($t);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->layout = 'main';
+            $this->datosPaginasWeb($t,"main");
             return $this->render('indexCodigosWeb', [
-                        'titulo' => $titulo,
+                        
                         'rutaR' => $rutaR,
                         'model' => $model,
                         'tipo' => $tipo,
@@ -175,7 +151,7 @@ class SitiowebController extends Controller {
             if (empty($id)) {
                 $id = 0;
             }
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $rutaR = "&rt=" . $id . "&t=" . $t;
 
             $model = new ProductoWebForm();
@@ -295,11 +271,9 @@ class SitiowebController extends Controller {
                 }
 
                 $model = new ProductoWebForm();
-                $this->view->params['titlePage'] = strtoupper($t);
-                $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-                $this->layout = 'main';
+               $this->datosPaginasWeb($t,"main");
                 return $this->render('indexProductoWeb', [
-                            'titulo' => $titulo,
+                            
                             'rutaR' => $rutaR,
                             'model' => $model,
                             'color' => $color,
@@ -313,11 +287,9 @@ class SitiowebController extends Controller {
                             'dataProvider' => $dataProvider,
                 ]);
             } else {
-                $this->view->params['titlePage'] = strtoupper($t);
-                $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-                $this->layout = 'main';
+               $this->datosPaginasWeb($t,"main");
                 return $this->render('indexProductoWeb', [
-                            'titulo' => $titulo,
+                            
                             'rutaR' => $rutaR,
                             'model' => $model,
                             'color' => $color,
@@ -340,7 +312,7 @@ class SitiowebController extends Controller {
             if (empty($id)) {
                 $id = 0;
             }
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $rutaR = "&rt=" . $id . "&t=" . $t;
             $pref = "uploads/convenios/";
             $model = new ConveniosWebForm;
@@ -419,11 +391,9 @@ class SitiowebController extends Controller {
             $utils = new Utils;
             $sql = "SELECT CODIGO,DESCRIPCION FROM brc_codigos WHERE TIPO = 'EST_BO'";
             $vigencia = $utils->ejecutaQuery($sql);
-            $this->view->params['titlePage'] = strtoupper($t);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->layout = 'main';
+            $this->datosPaginasWeb($t,"main");
             return $this->render('indexConveniosWeb', [
-                        'titulo' => $titulo,
+                        
                         'rutaR' => $rutaR,
                         'model' => $model,
                         'vigencia' => $vigencia,
@@ -438,7 +408,7 @@ class SitiowebController extends Controller {
             if (empty($id)) {
                 $id = 0;
             }
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $rutaR = "&rt=" . $id . "&t=" . $t;
             $pref = "uploads/historias/";
             $model = new HistoriasWebForm;
@@ -518,11 +488,9 @@ class SitiowebController extends Controller {
             $utils = new Utils;
             $sql = "SELECT CODIGO,DESCRIPCION FROM brc_codigos WHERE TIPO = 'EST_BO'";
             $vigencia = $utils->ejecutaQuery($sql);
-            $this->view->params['titlePage'] = strtoupper($t);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->layout = 'main';
+            $this->datosPaginasWeb($t,"main");
             return $this->render('indexHistoriasWeb', [
-                        'titulo' => $titulo,
+                        
                         'rutaR' => $rutaR,
                         'model' => $model,
                         'vigencia' => $vigencia,
@@ -537,7 +505,7 @@ class SitiowebController extends Controller {
             if (empty($id)) {
                 $id = 0;
             }
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $rutaR = "&rt=" . $id . "&t=" . $t;
             $pref = "uploads/promociones/";
             $model = new PromocionesWebForm;
@@ -628,11 +596,9 @@ class SitiowebController extends Controller {
             $utils = new Utils;
             $sql = "SELECT CODIGO,DESCRIPCION FROM brc_codigos WHERE TIPO = 'EST_BO'";
             $vigencia = $utils->ejecutaQuery($sql);
-            $this->view->params['titlePage'] = strtoupper($t);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->layout = 'main';
+           $this->datosPaginasWeb($t,"main");
             return $this->render('indexPromocionesWeb', [
-                        'titulo' => $titulo,
+                        
                         'rutaR' => $rutaR,
                         'model' => $model,
                         'vigencia' => $vigencia,
@@ -647,7 +613,7 @@ class SitiowebController extends Controller {
             if (empty($id)) {
                 $id = 0;
             }
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $rutaR = "&rt=" . $id . "&t=" . $t;
             $pref = "uploads/destacados/";
             $model = new DestacadosWebForm;
@@ -727,11 +693,9 @@ class SitiowebController extends Controller {
             $utils = new Utils;
             $sql = "SELECT CODIGO,DESCRIPCION FROM brc_codigos WHERE TIPO = 'EST_BO'";
             $vigencia = $utils->ejecutaQuery($sql);
-            $this->view->params['titlePage'] = strtoupper($t);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->layout = 'main';
+            $this->datosPaginasWeb($t,"main");
             return $this->render('indexDestacadosWeb', [
-                        'titulo' => $titulo,
+                        
                         'rutaR' => $rutaR,
                         'model' => $model,
                         'vigencia' => $vigencia,

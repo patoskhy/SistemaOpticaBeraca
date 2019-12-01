@@ -24,49 +24,20 @@ use app\models\entities\OperativosDetalle;
 use app\models\entities\Persona;
 use app\models\entities\Proveedor;
 use yii\helpers\Json;
+/* CONTROLLER */
+use app\controllers\BaseController;
 
-class SiteController extends Controller {
+class SiteController extends BaseController {
 
-    public function behaviors() {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+   
 
-    public function actions() {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
-        ];
-    }
 
     public function actionIndex() {
         $id;
         if (empty($id)) {
             $id = 0;
         }
-
+		$t = "panel principal";
         $msg = "";
         if (Yii::$app->request->get()) {
             if (!empty($_GET['msg'])) {
@@ -82,13 +53,10 @@ class SiteController extends Controller {
             $data['operativos'] = OperativosDetalle::pagIniOperativos();
             $data['abonos'] = VentasAbono::pagIniAbonos();
             $data['donaciones'] = Compras::pagIniDonaciones();
-            $titulo = $GLOBALS["nombreSistema"];
             $perfiles = $model->getPerfil(Yii::$app->user->identity->username, $id);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->view->params['titlePage'] = strtoupper("panel principal");
-            $this->layout = 'main';
+            $this->datosPaginasWeb($t,"main");
             //var_dump($data);die();
-            return $this->render('index', ["titulo" => $titulo,"data"=>$data,"msg" => $msg]);
+            return $this->render('index', ["data"=>$data,"msg" => $msg]);
         }
 
         //si envio post del form de usuario
@@ -98,21 +66,16 @@ class SiteController extends Controller {
             $data['operativos'] = OperativosDetalle::pagIniOperativos();
             $data['abonos'] = VentasAbono::pagIniAbonos();
             $data['donaciones'] = Compras::pagIniDonaciones();
-            $titulo = $GLOBALS["nombreSistema"];
             $perfiles = $model->getPerfil($model->username, $id);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->view->params['titlePage'] = strtoupper("panel principal");
-            $this->layout = 'main';
+            $this->datosPaginasWeb($t,"main");
             //var_dump($data);die();
-            return $this->render('index', ["titulo" => $titulo,"data"=>$data,"msg" => $msg]);
+            return $this->render('index', ["data"=>$data,"msg" => $msg]);
         }
-        $titulo = $GLOBALS["nombreSistema"];
-        $this->view->params['titlePage'] = strtoupper("INICIO DE SESIÓN");
-        //Al login
-        $this->layout = 'main-login';
+
+        $t = strtoupper("INICIO DE SESIÓN");
+		$this->datosPaginasWeb($t,"main-login");
         return $this->render('login', [
                     'model' => $model,
-                    'titulo' => $titulo,
         ]);
     }
 
@@ -140,38 +103,30 @@ class SiteController extends Controller {
         if (empty($id)) {
             $id = 0;
         }
-        $titulo = $GLOBALS["nombreSistema"];
+      
 
         $msg = "";
         $model = new LoginForm();
-
+		$t = "EDICIÓN DE IMÁGENES";
         //si no es invitado
         if (!Yii::$app->user->isGuest) {
             $perfiles = $model->getPerfil(Yii::$app->user->identity->username, $id);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->view->params['titlePage'] = strtoupper("EDICIÓN DE IMÁGENES");
-            $this->layout = 'main';
-            return $this->render('indexEdicion', ["titulo" => $titulo,'descarga' => false,]);
+            $this->datosPaginasWeb($t,"main");
+            return $this->render('indexEdicion', ['descarga' => false,]);
         }
 
         //si envio post del form de usuario
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $perfiles = $model->getPerfil($model->username, $id);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->view->params['titlePage'] = strtoupper("EDICIÓN DE IMÁGENES");
-            $this->layout = 'main';
-            return $this->render('indexEdicion', ["titulo" => $titulo,'descarga' => false,]);
+            $this->datosPaginasWeb($t,"main");
+            return $this->render('indexEdicion', ['descarga' => false,]);
         }
         //Al login
-        $titulo = $GLOBALS["nombreSistema"];
-        $this->view->params['titlePage'] = strtoupper("INICIO DE SESIÓN");
-        //Al login
-        $this->layout = 'main-login';
+        $t = strtoupper("INICIO DE SESIÓN");
+		$this->datosPaginasWeb($t,"main-login");
         return $this->render('login', [
-                    'model' => $model,
-                    'titulo' => $titulo,
-                    
+                    'model' => $model,        
         ]);
     }
 
@@ -199,10 +154,8 @@ class SiteController extends Controller {
 
                 if (!UploadForm::downloadFile($dir, $fileName, ["jpg"])) {
                     //unlink($dir . $fileName);
-                    $titulo = $GLOBALS["nombreSistema"];
-                    $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-                    $this->view->params['titlePage'] = strtoupper("EDICIÓN DE IMÁGENES");
-                    $this->layout = 'main';
+                    
+                    $this->datosPaginasWeb("Edicion de imagenes","main");
                    // return $this->render('indexEdicion', ["titulo" => $titulo,'descarga' => true,]);
                 }
         }

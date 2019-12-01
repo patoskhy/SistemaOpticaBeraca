@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 
-$this->title = $titulo;
+$this->title = $this->params['titulo'];
 ?>
 <div class="site-index">
     <div class="body-content">

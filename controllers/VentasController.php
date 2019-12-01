@@ -32,40 +32,21 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
+/* CONTROLLER */
+use app\controllers\BaseController;
 
 /**
  * BrcUsuariosController implements the CRUD actions for BrcUsuarios model.
  */
-class VentasController extends Controller {
+class VentasController extends BaseController {
 
-    public function behaviors() {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
-
+   
     public function actionIndexVenta($id, $t) {
         if (!Yii::$app->user->isGuest && Utils::validateIfUser($id)) {
             if (empty($id)) {
                 $id = 0;
             }
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $date = "00000000"; //date("Ymd");
             if (Yii::$app->request->get()) {
                 if (!empty($_GET['date'])) {
@@ -240,11 +221,9 @@ class VentasController extends Controller {
                     $query = Ventas::obtenerVentasPorFolio($folio);
                     $command = $query->createCommand();
                     $venta = $command->queryAll();
-                    $this->view->params['titlePage'] = strtoupper("consulta de saldo");
-                    $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-                    $this->layout = 'main';
+                    $this->datosPaginasWeb("Consulta de Saldo","main");
                     return $this->render('indexSaldo', [
-                                'titulo' => $titulo,
+                                
                                 'rutaR' => $rutaR,
                                 'folio' => $folio,
                                 'isPjax' => false,
@@ -278,12 +257,10 @@ class VentasController extends Controller {
                     }
                     $dataProvider = $data;
                     //var_dump($dataProvider);
-                    $this->view->params['titlePage'] = strtoupper("Venta de Lentes");
-                    $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-                    $this->layout = 'main';
+                    $this->datosPaginasWeb("venta de lentes","main");
                     return $this->render('indexVenta', [
                                 'model' => $model,
-                                'titulo' => $titulo,
+                                
                                 'rutaR' => $rutaR,
                                 //'folio' => $folio->FOLIO,
                                 'folio' => $folio,
@@ -303,7 +280,7 @@ class VentasController extends Controller {
                 $id = 0;
             }
             $titulo = "";
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $rutaR = "&rt=" . $id . "&t=" . $t;
             $folio = "000000000000";
             $folioF = "000000000000";
@@ -393,11 +370,9 @@ class VentasController extends Controller {
             //var_dump($dataProviderVentas);
             //var_dump($dataProviderSaldos);
             //var_dump($dataProviderDetalle);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->view->params['titlePage'] = strtoupper("Consulta de Saldos");
-            $this->layout = 'main';
+            $this->datosPaginasWeb("consulta de saldo","main");
             return $this->render('indexSaldo', [
-                        'titulo' => $titulo,
+                        
                         'rutaR' => $rutaR,
                         'folio' => $folio,
                         'isPjax' => $isPjax,
@@ -416,7 +391,7 @@ class VentasController extends Controller {
                 $id = 0;
             }
             $titulo = "";
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $rutaR = "&rt=" . $id . "&t=" . $t;
             
             $usuarioA = explode("-", Yii::$app->user->identity->id);
@@ -451,11 +426,9 @@ class VentasController extends Controller {
                     }
                 }
             }else{
-                $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-                $this->view->params['titlePage'] = strtoupper("Apertura de Caja");
-                $this->layout = 'main';
+                $this->datosPaginasWeb("Apertura de caja","main");
                 return $this->render('indexCajas', [
-                            'titulo' => $titulo,
+                            
                             'rutaR' => $rutaR,
                             'model' => $model,
                 ]);
@@ -469,7 +442,7 @@ class VentasController extends Controller {
             if (empty($id)) {
                 $id = 0;
             }
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $model = new InformeVentaForm;
             $rutaR = "&rt=" . $id . "&t=" . $t;
             $tipo = "TODOS";
@@ -510,12 +483,10 @@ class VentasController extends Controller {
                 ]);
 
                 $codigos = Codigos::find()->where("TIPO = 'ES_VEN'")->all();
-                $this->view->params['titlePage'] = strtoupper($t);
-                $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-                $this->layout = 'main';
+                $this->datosPaginasWeb($t,"main");
                 return $this->render('indexInformeVenta', [
                             'model' => $model,
-                            'titulo' => $titulo,
+                            
                             'rutaR' => $rutaR,
                             'codigos' => $codigos,
                             'dataProvider' => $dataProvider,
@@ -532,7 +503,7 @@ class VentasController extends Controller {
             }
             $msg = "";
             $titulo = "";
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $rutaR = "&rt=" . $id . "&t=" . $t;
             
             $usuarioA = explode("-", Yii::$app->user->identity->id);
@@ -554,22 +525,18 @@ class VentasController extends Controller {
                 }else{
                     $msg = "No existe apertura de caja para los datos ingresados.";
                 }
-                $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-                $this->view->params['titlePage'] = strtoupper("Estado de Caja");
-                $this->layout = 'main';
+                $this->datosPaginasWeb("estado de caja","main");
                 return $this->render('indexCierre', [
-                            'titulo' => $titulo,
+                            
                             'rutaR' => $rutaR,
                             'model' => $model,
                             'msg' => $msg,
                             'tipo' => $tipo
                 ]);
             }else{
-                $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-                $this->view->params['titlePage'] = strtoupper("Estado de Caja");
-                $this->layout = 'main';
+                $this->datosPaginasWeb("Estado de caja","main");
                 return $this->render('indexCierre', [
-                            'titulo' => $titulo,
+                            
                             'rutaR' => $rutaR,
                             'model' => $model,
                             'msg' => $msg,

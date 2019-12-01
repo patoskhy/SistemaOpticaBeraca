@@ -9,7 +9,7 @@ use app\models\entity\Perfiles;
 use kartik\select2\Select2;
 use kartik\date\DatePicker;
 
-$this->title = $titulo;
+$this->title = $this->params['titulo'];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['breadcrumbs']['rutaR'] = $rutaR;
 $this->params['breadcrumbs']['color'] = ArrayHelper::map($color, 'CODIGO', 'DESCRIPCION');
@@ -171,13 +171,13 @@ $form = ActiveForm::begin([
             <div class="row">
                 <div data-step="10" data-intro="es la primera foto que aparece del marco en el catalogo" class="col-md-6">
                     <div class="form-group">
-                        <?= $form->field($model, 'foto1')->fileInput(["class" => "filestyle", "data-btnClass" => "btn-block btn-warning btn-flat"])
+                        <?= $form->field($model, 'foto1')->fileInput(["class" => "filestyle", "data-btnClass" => "btn-block btn-sistema btn-flat"])
                                     ->label("FOTO1:", ['class' => 'label label-default']); ?>
                     </div>
                 </div>
                 <div data-step="11" data-intro="Es la foto qeu aparece al pasar sobre el marco que aparecen en el catalogo" class="col-md-6">
                     <div class="form-group">
-                        <?= $form->field($model, 'foto2')->fileInput(["class" => "filestyle", "data-btnClass" => "btn-block btn-warning btn-flat"])
+                        <?= $form->field($model, 'foto2')->fileInput(["class" => "filestyle", "data-btnClass" => "btn-block btn-sistema btn-flat"])
                                     ->label("FOTO2:", ['class' => 'label label-default']); ?>
                     </div>
                 </div>

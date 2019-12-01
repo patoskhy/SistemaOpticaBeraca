@@ -9,7 +9,7 @@ use app\models\entity\Perfiles;
 use kartik\select2\Select2;
 use kartik\date\DatePicker;
 
-$this->title = $titulo;
+$this->title = $this->params['titulo'];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['breadcrumbs']['rutaR'] = $rutaR;
 $this->params['breadcrumbs']['tipo'] = ArrayHelper::map($tipo, 'DESCRIPCION', 'DESCRIPCION');
@@ -77,7 +77,7 @@ $form = ActiveForm::begin([
             <div class="row">
                 <div data-step="4" data-intro="Se debe seleccionar la foto relacionada con el codigo" class="col-md-12">
                     <div class="form-group">
-                        <?= $form->field($model, 'img')->fileInput(["class" => "filestyle", "data-btnClass" => "btn btn-block btn-warning btn-flat"])
+                        <?= $form->field($model, 'img')->fileInput(["class" => "filestyle", "data-btnClass" => "btn btn-block btn-sistema btn-flat"])
                                 ->label("FOTO:", ['class' => 'label label-default']); ?>
                     </div>
                 </div>

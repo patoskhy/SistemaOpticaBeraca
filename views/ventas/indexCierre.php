@@ -9,7 +9,7 @@ use app\models\entity\Perfiles;
 use kartik\select2\Select2;
 use kartik\date\DatePicker;
 
-$this->title = $titulo;
+$this->title = $this->params['titulo'];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['breadcrumbs']['rutaR'] = $rutaR;
 $this->params['breadcrumbs']['tipo'] = ArrayHelper::map($tipo, 'CODIGO', 'DESCRIPCION');

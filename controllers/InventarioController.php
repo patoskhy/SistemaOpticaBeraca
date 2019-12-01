@@ -19,43 +19,21 @@ use yii\filters\VerbFilter;
 use JasperPHP\JasperPHP;
 use app\models\utilities\Utils;
 use yii\data\ActiveDataProvider;
+/* CONTROLLER */
+use app\controllers\BaseController;
 
 /**
  * BrcUsuariosController implements the CRUD actions for BrcUsuarios model.
  */
-class InventarioController extends Controller {
+class InventarioController extends BaseController {
 
-    /**
-     * @inheritdoc
-     */
-    public function behaviors() {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     public function actionIndexInventario($id, $t) {
         if (!Yii::$app->user->isGuest && Utils::validateIfUser($id)) {
             if (empty($id)) {
                 $id = 0;
             }
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $model = new CompraProductoForm;
             $rutaR = "&rt=" . $id . "&t=" . $t;
             $folio = "000000000000";
@@ -85,12 +63,11 @@ class InventarioController extends Controller {
                 ]);
 
                 $producto = Producto::obtenerTodosProductos();
-                $this->view->params['titlePage'] = strtoupper($t);
-                $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-                $this->layout = 'main';
+				
+				$this->datosPaginasWeb($t,"main");
                 return $this->render('indexInventario', [
                             'model' => $model,
-                            'titulo' => $titulo,
+                            
                             'rutaR' => $rutaR,
                             'producto' => $producto,
                             'dataProvider' => $dataProvider,

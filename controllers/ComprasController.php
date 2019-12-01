@@ -22,36 +22,14 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use JasperPHP\JasperPHP;
 use app\models\utilities\Utils;
+/* CONTROLLER */
+use app\controllers\BaseController;
 
 /**
  * BrcUsuariosController implements the CRUD actions for BrcUsuarios model.
  */
-class ComprasController extends Controller {
+class ComprasController extends BaseController {
 
-    /**
-     * @inheritdoc
-     */
-    public function behaviors() {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     public function actionIndexCompra($id, $t) 
     {
@@ -62,7 +40,7 @@ class ComprasController extends Controller {
             
             $usuarioA = explode("-", Yii::$app->user->identity->id);
             $usuario = $usuarioA[0];
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $model = new CompraProductoForm;
             $rutaR = "&rt=" . $id . "&t=" . $t;
             $aniFor = date("Y");
@@ -212,12 +190,10 @@ class ComprasController extends Controller {
                     $tipDoc = $codigos->find()->where(['brc_codigos.TIPO' => 'DOC'])->all();
                     $proveedor = Proveedor::find()->all();
                     $model = new CompraProductoForm;
-                    $this->view->params['titlePage'] = strtoupper($t);
-                    $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-                    $this->layout = 'main';
+                    $this->datosPaginasWeb($t,"main");
                     return $this->render('indexCompra', [
                                 'model' => $model,
-                                'titulo' => $titulo,
+                                
                                 'rutaR' => $rutaR,
                                 'tipDoc' => $tipDoc,
                                 'exito' => true,
@@ -229,12 +205,10 @@ class ComprasController extends Controller {
                     $_SESSION["action"] = "envio";
                     $tipDoc = Codigos::find()->where(['brc_codigos.TIPO' => 'DOC'])->all();
                     $proveedor = Proveedor::find()->all();
-                    $this->view->params['titlePage'] = strtoupper($t);
-                    $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-                    $this->layout = 'main';
+                    $this->datosPaginasWeb($t,"main");
                     return $this->render('indexCompra', [
                                 'model' => $model,
-                                'titulo' => $titulo,
+                                
                                 'rutaR' => $rutaR,
                                 'tipDoc' => $tipDoc,
                                 'exito' => false,
@@ -252,7 +226,7 @@ class ComprasController extends Controller {
             if (empty($id)) {
                 $id = 0;
             }
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $model = new CompraProductoForm;
             $rutaR = "&rt=" . $id . "&t=" . $t;
             $aniFor = date("Y");
@@ -403,13 +377,11 @@ class ComprasController extends Controller {
                     $tipDoc = $codigos->find()->where(['brc_codigos.TIPO' => 'DOC'])->all();
                     $proveedor = Proveedor::find()->all();
                     $model = new CompraProductoForm;
-                    $this->view->params['titlePage'] = strtoupper($t);
-                    $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-                    $this->layout = 'main';
+                    $this->datosPaginasWeb($t,"main");
 
                     return $this->render('indexDonaciones', [
                                 'model' => $model,
-                                'titulo' => $titulo,
+                                
                                 'rutaR' => $rutaR,
                                 'tipDoc' => $tipDoc,
                                 'exito' => true,
@@ -421,12 +393,10 @@ class ComprasController extends Controller {
                     $_SESSION["action"] = "envio";
                     $tipDoc = Codigos::find()->where(['brc_codigos.TIPO' => 'DOC'])->all();
                     $proveedor = Proveedor::find()->all();
-                    $this->view->params['titlePage'] = strtoupper($t);
-                    $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-                    $this->layout = 'main';
+                    $this->datosPaginasWeb($t,"main");
                     return $this->render('indexDonaciones', [
                                 'model' => $model,
-                                'titulo' => $titulo,
+                                
                                 'rutaR' => $rutaR,
                                 'tipDoc' => $tipDoc,
                                 'exito' => false,
@@ -444,14 +414,12 @@ class ComprasController extends Controller {
             if (empty($id)) {
                 $id = 0;
             }
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $rutaR = "&rt=" . $id . "&t=" . $t;
             $categorias = Producto::obtenerCategoriaProductosRpt();
-            $this->view->params['titlePage'] = strtoupper($t);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->layout = 'main';
+            $this->datosPaginasWeb($t,"main");
             return $this->render('indexReporteProducto', [
-                        'titulo' => $titulo,
+                        
                         'rutaR' => $rutaR,
                         'categorias' => $categorias,
             ]);
@@ -464,14 +432,12 @@ class ComprasController extends Controller {
             if (empty($id)) {
                 $id = 0;
             }
-            $titulo = $GLOBALS["nombreSistema"];
+            
             $rutaR = "&rt=" . $id . "&t=" . $t;
             $proveedor = Proveedor::find()->all();
-            $this->view->params['titlePage'] = strtoupper($t);
-            $this->view->params['menuLeft'] = Utils::getMenuLeft(explode("-", Yii::$app->user->id)[0]);
-            $this->layout = 'main';
+            $this->datosPaginasWeb($t,"main");
             return $this->render('indexReporteProvProd', [
-                        'titulo' => $titulo,
+                        
                         'rutaR' => $rutaR,
                         'proveedor' => $proveedor
             ]);
