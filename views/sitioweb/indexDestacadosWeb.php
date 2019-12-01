@@ -53,7 +53,7 @@ $form = ActiveForm::begin([
                     <div data-step="2" data-intro="Se debe ingresar la descripcion relacionado con el producto destacado" class="form-group" >
                         <?= $form->field($model, 'titulo')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Titulo", "required" => true, "maxlength" => "50", "size" => "50"])
                                         ->label("TITULO:", ['class' => 'label label-default']); ?>
-                        <?= $form->field($model, 'id')->hiddenInput(["id" => "historiaswebform-id"])->label(false); ?>
+                        <?= $form->field($model, 'id')->hiddenInput(["id" => "destacadoswebform-id"])->label(false); ?>
                     </div>
                 </div>
             </div>

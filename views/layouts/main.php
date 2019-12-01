@@ -74,7 +74,7 @@ if (Yii::$app->controller->action->id === 'login') {
                      body = $("body");
                     $("[data-toggle='offcanvas']").click(function () {
                        
-                        localStorage.setItem('sidebar', body.hasClass('sidebar-collapse') ? 1 : 0);
+                        localStorage.setItem('sidebar-collapse', body.hasClass('sidebar-collapse') ? 1 : 0);
                         if (!body.hasClass("sidebar-collapse")) {
                             body.addClass("sidebar-collapse");
                             // bf.slideUp();
@@ -82,12 +82,33 @@ if (Yii::$app->controller->action->id === 'login') {
                             body.removeClass("sidebar-collapse");
                             //bf.slideDown();
                         }
+						
+						localStorage.setItem('sidebar-open', body.hasClass('sidebar-open') ? 1 : 0);
+                        if (!body.hasClass("sidebar-open")) {
+                            body.addClass("sidebar-open");
+                            // bf.slideUp();
+                        } else {
+                            body.removeClass("sidebar-open");
+                            //bf.slideDown();
+                        }
                     });
-                    if (localStorage.getItem('sidebar') === '0') {
+                    if (localStorage.getItem('sidebar-collapse') === '0') {
                         body.addClass("sidebar-collapse");
+						body.addClass("sidebar-collapse");
                         // bf.slideUp();
                     } else {
                         body.removeClass("sidebar-collapse");
+						body.removeClass("sidebar-collapse");
+                        //bf.slideDown();
+                    }
+					
+					if (localStorage.getItem('sidebar-open') === '0') {
+                        body.addClass("sidebar-open");
+						body.addClass("sidebar-open");
+                        // bf.slideUp();
+                    } else {
+                        body.removeClass("sidebar-open");
+						body.removeClass("sidebar-open");
                         //bf.slideDown();
                     }
                     
