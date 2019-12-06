@@ -88,18 +88,21 @@ $form = ActiveForm::begin([
                 </div>	
                 <div class="col-md-2">	
                     <br>
-                    <button data-step="1" data-intro="En esta pantalla se ven las ventas realizadas en un rango de fecha" onclick="javascript:introJs().start();" type="button" class="btn btn-block btn-sistema btn-flat" >
-                        <span class="glyphicon glyphicon-question-sign"></span> AYUDA
-                    </button>         
+                    <a data-step="6" data-intro="Exporta los registros a excel" href="<?= Yii::$app->request->hostInfo . ':' . Yii::$app->request->serverPort . Yii::$app->request->scriptUrl . '?r=ventas/informe-venta-xls' ?>" class="btn btn-block btn-sistema btn-flat" >
+                        <span class="glyphicon glyphicon-cloud-download"></span> EXCEL
+                    </a>         
                 </div>
                 <div class="col-md-2">	
-                    &nbsp;
+                <br>
+                    <button data-step="1" data-intro="En esta pantalla se ven las ventas realizadas en un rango de fecha" onclick="javascript:introJs().start();" type="button" class="btn btn-block btn-sistema btn-flat" >
+                        <span class="glyphicon glyphicon-question-sign"></span> AYUDA
+                    </button>       
                 </div>
             </div>
             <hr class="linea">
             <div class="row">
 
-                <div  class="col-md-12" data-step="6" data-intro="Resultados de las ventas realizadas">	
+                <div  class="col-md-12" data-step="7" data-intro="Resultados de las ventas realizadas">	
                     <?php \yii\widgets\Pjax::begin(['id' => 'ventas', 'enablePushState' => false]); ?>
                     <?=
                     GridView::widget([

@@ -20,10 +20,11 @@ class CodigosWeb extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['TIPO', 'CODIGO', 'DESCRIPCION','IMG'], 'required'],
-            [['TIPO', 'CODIGO'], 'string', 'max' => 6],
+            [['TIPO', 'CODIGO', 'DESCRIPCION','PARAM1'], 'required'],
+            [['CODIGO'], 'string', 'max' => 6],
+            [['TIPO'], 'string', 'max' => 15],
             [['DESCRIPCION'], 'string', 'max' => 50],
-            [['IMG'], 'string'],
+            [['PARAM1'], 'string'],
         ];
     }
 

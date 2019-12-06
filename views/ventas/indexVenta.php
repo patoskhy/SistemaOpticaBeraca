@@ -421,7 +421,7 @@ echo json_encode(ArrayHelper::toArray($clientes, [
                         cell5.innerHTML = '<input type="text" class="form-control" name="venValor" id="venValor' + filas + '" readonly="readonly">';
 
                         $.ajax({
-                            url: '<?php echo Yii::$app->request->baseUrl . '/index.php?r=ventas/buscar-productos' ?>',
+                            url: '<?php echo Yii::$app->request->baseUrl . '/index.php?r=ventas/buscar-promociones' ?>',
                             type: 'post',
                             data: {
                                 _csrf: '<?= Yii::$app->request->getCsrfToken() ?>'
@@ -496,7 +496,7 @@ echo json_encode(ArrayHelper::toArray($clientes, [
         cell4.innerHTML = '<input type="text" class="form-control" name="venValorUnit" id="venValorUnit' + filas + '" readonly="readonly">';
         cell5.innerHTML = '<input type="text" class="form-control" name="venValor" id="venValor' + filas + '" readonly="readonly">';
         $.ajax({
-            url: '<?php echo Yii::$app->request->baseUrl . '/index.php?r=ventas/buscar-productos' ?>',
+            url: '<?php echo Yii::$app->request->baseUrl . '/index.php?r=ventas/buscar-promociones' ?>',
             type: 'post',
             data: {
                 _csrf: '<?= Yii::$app->request->getCsrfToken() ?>'

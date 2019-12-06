@@ -88,6 +88,42 @@ class Producto extends \yii\db\ActiveRecord {
         return $dataProvider;
     }
 
+    public function obtenerPromociones() {
+        $search = "VENTAS";
+        $query = new \yii\db\Query;
+        $query->select([
+                    'brc_producto.ID_HIJO',
+                    'brc_producto.DESCRIPCION',
+                    'brc_producto.VALOR_VENTA',
+                ])
+                ->from('brc_producto')
+                ->where(['like', 'brc_producto.DESCRIPCION', $search])
+                ->andWhere(['brc_producto.VIGENCIA' => "N"]);
+
+
+        $command = $query->createCommand();
+        $dataProvider = $command->queryAll();
+        
+        $codigo = $dataProvider[0]["ID_HIJO"];
+
+        //var_dump($dataProvider);die();
+        
+
+        $query->select([
+            'brc_producto.ID_HIJO',
+            'brc_producto.DESCRIPCION',
+            'brc_producto.VALOR_VENTA',
+        ])
+        ->from('brc_producto')
+        ->where(['brc_producto.ID_PADRE' => $codigo])
+        ->andWhere(['brc_producto.VIGENCIA' => "S"]);
+
+
+        $command = $query->createCommand();
+        $dataProvider = $command->queryAll();
+
+        return $dataProvider;
+    }
     public function obtenerProductosByCodigoBarraVenta($cod) {
         $query = new \yii\db\Query;
         $query->select([

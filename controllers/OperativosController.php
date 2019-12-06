@@ -207,6 +207,7 @@ class OperativosController extends BaseController {
                 ],
             ]);
             //var_dump($data);die();
+            $t = "Asignación de Pacientes";
             $model = new AgregaPacienteForm;
             $this->datosPaginasWeb($t,"main");
             return $this->render('indexAsignarPacientes', [

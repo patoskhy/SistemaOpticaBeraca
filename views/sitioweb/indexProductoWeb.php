@@ -16,7 +16,7 @@ $this->params['breadcrumbs']['color'] = ArrayHelper::map($color, 'CODIGO', 'DESC
 $this->params['breadcrumbs']['forma'] = ArrayHelper::map($forma, 'CODIGO', 'DESCRIPCION');
 $this->params['breadcrumbs']['material'] = ArrayHelper::map($material, 'CODIGO', 'DESCRIPCION');
 $this->params['breadcrumbs']['marca'] = ArrayHelper::map($marca, 'CODIGO', 'DESCRIPCION');
-$this->params['breadcrumbs']['producto'] = ArrayHelper::map($producto, 'COD_BARRA', 'DESCRIPCION');
+$this->params['breadcrumbs']['producto'] = ArrayHelper::map($producto, 'PARAM1', 'DESCRIPCION');
 $this->params['breadcrumbs']['vigencia'] = ArrayHelper::map($vigencia, 'CODIGO', 'DESCRIPCION');
 $this->params['breadcrumbs']['tipo'] = ArrayHelper::map($tipo, 'CODIGO', 'DESCRIPCION');
 

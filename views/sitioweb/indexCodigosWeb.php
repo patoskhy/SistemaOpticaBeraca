@@ -63,25 +63,17 @@ $form = ActiveForm::begin([
                     </div>
                 </div>
             </div>
-            <br>	
             <div class="row">
                 <div  class="col-md-12">
                     <div data-step="3" data-intro="se debe ingresar la descripcion relacionado con el tipo de codigo" class="form-group" >
                         <?= $form->field($model, 'descripcion')->textInput(["class" => "form-control", "onkeyup" => "javascript:this.value=this.value.toUpperCase();", "placeholder" => "Descripciòn", "required" => true, "maxlength" => "50", "size" => "50"])
                                         ->label("DESCRIPCIÓN:", ['class' => 'label label-default']); ?>
                         <?= $form->field($model, 'codigo')->hiddenInput(["id" => "codigoswebform-codigo"])->label(false); ?>
+                        <?= $form->field($model, 'param1')->hiddenInput(["id" => "codigoswebform-param1"])->label(false); ?>
                     </div>
                 </div>
             </div>
-            <br>	
-            <div class="row">
-                <div data-step="4" data-intro="Se debe seleccionar la foto relacionada con el codigo" class="col-md-12">
-                    <div class="form-group">
-                        <?= $form->field($model, 'img')->fileInput(["class" => "filestyle", "data-btnClass" => "btn btn-block btn-sistema btn-flat"])
-                                ->label("FOTO:", ['class' => 'label label-default']); ?>
-                    </div>
-                </div>
-            </div>
+          
         </div>
     </div>
 </div>
@@ -144,7 +136,7 @@ $form = ActiveForm::begin([
                                         'estado' => function ($url, $model) {
                                             //var_dump($model);
                                             if ($model["TIPO"] != "0-0" || IS_NULL($model["TIPO"])) {
-                                                return '<button type="button" onClick="javascript:asignarCodigo(\'' . $model["TIPO"] . '\',\'' . $model["CODIGO"] . '\',\'' . $model["DESCRIPCION"] . '\')" class="btn btn-default"><span class="glyphicon glyphicon-check"></span></button>';
+                                                return '<button type="button" onClick="javascript:asignarCodigo(\'' . $model["TIPO"] . '\',\'' . $model["CODIGO"] . '\',\'' . $model["DESCRIPCION"]. '\',\'' . $model["PARAM1"] . '\')" class="btn btn-default"><span class="glyphicon glyphicon-check"></span></button>';
                                             } else {
                                                 return "";
                                             }
@@ -174,9 +166,10 @@ $form = ActiveForm::begin([
 <script type="text/javascript">
 
     function initialComponets() {
-        document.forms["login-form"]["<?= $nombreModelLow ?>-tipo"].value = "";
+        $("#<?= $nombreModelLow ?>-tipo").val("0").trigger("change.select2");
         document.forms["login-form"]["<?= $nombreModelLow ?>-codigo"].value = "";
         document.forms["login-form"]["<?= $nombreModelLow ?>-descripcion"].value = "";
+        document.forms["login-form"]["<?= $nombreModelLow ?>-param1"].value = "";
         $("#btnBusProveProd").click(function () {
             var tipBus = $("#tipoBuscar").val();
            
@@ -187,11 +180,12 @@ $form = ActiveForm::begin([
     
     }
 
-    function asignarCodigo(tipo,codigo,descripcion){
+    function asignarCodigo(tipo,codigo,descripcion,param1){
 
         $("#<?= $nombreModelLow ?>-tipo").val(tipo).trigger("change.select2");
         $("#<?= $nombreModelLow ?>-descripcion").val(descripcion);
         $("#<?= $nombreModelLow ?>-codigo").val(codigo);
+        $("#<?= $nombreModelLow ?>-param1").val(param1);
         $("#buscarModal").modal("toggle");
     }
     

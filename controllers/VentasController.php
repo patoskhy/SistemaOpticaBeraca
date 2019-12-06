@@ -32,6 +32,11 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
+//EXCEL
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 /* CONTROLLER */
 use app\controllers\BaseController;
 
@@ -42,6 +47,7 @@ class VentasController extends BaseController {
 
    
     public function actionIndexVenta($id, $t) {
+       
         if (!Yii::$app->user->isGuest && Utils::validateIfUser($id)) {
             if (empty($id)) {
                 $id = 0;
@@ -496,6 +502,96 @@ class VentasController extends BaseController {
         return $this->redirect("index.php");
     }
     
+    public function actionInformeVentaXls() {
+        $html = "<table><tr><td>no hay datos</td></tr></table>";
+        if (!Yii::$app->user->isGuest) {
+            $tipo = "TODOS";
+            $fecIni = date("Ymd");
+            $fecFin = date("Ymd");
+            if (Yii::$app->request->get()) {
+                if (!empty($_GET['tipo'])) {
+                    $tipo = $_GET['tipo'];
+                }
+            }
+            if (Yii::$app->request->get()) {
+                if (!empty($_GET['fecIni'])) {
+                    $fecIni = $_GET['fecIni'];
+                }
+            }
+            if (Yii::$app->request->get()) {
+                if (!empty($_GET['fecFin'])) {
+                    $fecFin = $_GET['fecFin'];
+                }
+            }
+
+            $query = "";
+            if ($tipo == "TODOS") {
+                $query = InformeVenta::obtenerVentasAndAbonos($fecIni,$fecFin);
+            } else if ($tipo == "V00001") {
+                $query = InformeVenta::obtenerVentas($fecIni,$fecFin);
+            } else if ($tipo == "V00002") {
+                $query = InformeVenta::obtenerAbonos($fecIni,$fecFin);
+            }
+
+            $command = $query->createCommand();
+            $resProducto = $command->queryAll();
+            $html = $this->listaInformeVentaHTML($resProducto);
+        }
+
+        $htmlString = '<table>
+                  <tr>
+                      <td>Hello World</td>
+                  </tr>
+                  <tr>
+                      <td>Hello<br />World</td>
+                  </tr>
+                  <tr>
+                      <td>Hello<br>World</td>
+                  </tr>
+              </table>';
+
+              ob_start();
+        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
+        $spreadsheet = $reader->loadFromString($htmlString);
+
+        $path = "rpt/informe-ventas.xls";
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
+        $writer->save($path);
+        if (file_exists($filename)) {
+
+            return \Yii::$app->response->sendFile($filename, $shortname.'.'.$ext, ['mimeType' => "Content-Type: ".$mimetype]);
+      
+         }else{
+
+            echo 'cago';
+         }
+       
+    }
+
+    public function listaInformeVentaHTML($resProducto){
+        $html = '<table>
+                      <tr>
+                          <th>TIPO</th>
+                          <th>FOLIO</th>
+                          <th>FECHA (AAAAMMDD)</th>
+                          <th>ESTADO</th>
+                          <th>VALOR</th>
+                      </tr>';
+                      foreach ($resProducto as $row) {
+                        $html = $html.'<tr>
+                            <td>TIPO</td>
+                            <td>FOLIO</td>
+                            <td>FECHA (AAAAMMDD)</td>
+                            <td>ESTADO</td>
+                            <td>VALOR</td>
+                        </tr>';
+
+                      }
+        $html = '</table>
+        ';
+        return $html;
+    } 
+
     public function actionIndexCierreCaja($id, $t) {
         if (!Yii::$app->user->isGuest && Utils::validateIfUser($id)) {
             if (empty($id)) {
@@ -550,6 +646,19 @@ class VentasController extends BaseController {
     public function actionBuscarProductos() {
         if (Yii::$app->request->isAjax) {
             $productos = Producto::obtenerProductos();
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return [
+                'productos' => $productos,
+                'code' => 100,
+            ];
+        }
+
+        return $this->redirect("index.php");
+    }
+
+    public function actionBuscarPromociones() {
+        if (Yii::$app->request->isAjax) {
+            $productos = Producto::obtenerPromociones();
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return [
                 'productos' => $productos,

@@ -16,14 +16,13 @@ class CodigosWebForm extends Model {
     public $tipo;
     public $codigo;
     public $descripcion;
-    public $img;
+    public $param1;
 
     public function rules() {
         return [
             [['tipo'], 'required', 'message' => 'Debe elegir el tipo del código'],
             [['descripcion'], 'required', 'message' => 'Debe ingresar la descripción'],
-            [['img'], 'required', 'message' => 'Debe ingresar una imagen'],
-            [['img'], 'file'],
+            [['param1'], 'string'],
             [['codigo'], 'string'],
         ];
     }

@@ -93,7 +93,7 @@ $form = ActiveForm::begin([
             <div class="row">
                 <div  class="col-md-6">
                     <div data-step="6" data-intro="Debe ingresar el telefono de la persona" class="form-group">
-                        <?= $form->field($model, 'telefono')->widget(\yii\widgets\MaskedInput::className(), ['mask' => '+(99)-999-999-999',])
+                        <?= $form->field($model, 'telefono')->widget(\yii\widgets\MaskedInput::className(), ['mask' => '+(99)-9-9999-9999',])
                                         ->label("TELÉFONO:", ['class' => 'label label-default']); ?>
                     </div>
                 </div>
@@ -261,14 +261,12 @@ $form = ActiveForm::begin([
                             $("#myModal").removeClass();
                             $("#myModal").addClass("modal modal-success fade");
                             $("#myModal").modal();
-                            $("#<?= $nombreModelLow ?>-codigo").val("");
-                            $("#<?= $nombreModelLow ?>-nombreempresa").val("");
-                            $("#<?= $nombreModelLow ?>-contacto").val("");
+                            $("#<?= $nombreModelLow ?>-categoria").val("").trigger("change.select2");
+                            $("#<?= $nombreModelLow ?>-nombre").val("");
+                            $("#<?= $nombreModelLow ?>-rut").val("");
                             $("#<?= $nombreModelLow ?>-direccion").val("");
-                            $("#<?= $nombreModelLow ?>-ciudad").val("");
-                            $("#<?= $nombreModelLow ?>-mail").val("");
+                            $("#<?= $nombreModelLow ?>-email").val("");
                             $("#<?= $nombreModelLow ?>-telefono").val("");
-                            cargaTree();
                         } else {
                             $("#modTitulo").html("Validación");
                             $("#modBody").html(data.respuesta[0]);

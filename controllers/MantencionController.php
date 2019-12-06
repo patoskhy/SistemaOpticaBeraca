@@ -732,6 +732,7 @@ class MantencionController extends BaseController {
                         $persona->insert();
                     }
                 }
+                $model = new PersonaForm;
             }
             $catBus = "TODOS";
             $perBust = "TODOS";
@@ -791,7 +792,7 @@ class MantencionController extends BaseController {
     }
 
     public function actionEliminaPersona() {
-        if (!Yii::$app->user->isGuest && Utils::validateIfUser($id)) {
+        if (!Yii::$app->user->isGuest) {
             $persona = new Persona;
             if (Yii::$app->request->isAjax) {
                $rut = Yii::$app->request->post('_rut');

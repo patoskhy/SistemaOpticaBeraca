@@ -67,14 +67,19 @@ class SitiowebController extends BaseController {
                         $cod = str_pad($tmpH, 6, "0", STR_PAD_LEFT);
                     }
                 }
-                //var_dump($cod);die();
-                $model->img = UploadedFile::getInstance($model, "img");
-                $imageName1 = $model->tipo . "-" . $cod . "." . $model->img->extension;
-                $model->img->saveAs($pref . $imageName1, true);
-                $pathImg1 = Yii::$app->basePath . "/web/uploads/codWeb/" . $imageName1;
-                $gestor1 = fopen($pathImg1, "rb");
-                $base64image1 = base64_encode(fread($gestor1, filesize($pathImg1)));
-                fclose($gestor1);
+               
+                $barra = $model->param1;
+                if($model->tipo == "PRODUCTO"){
+                    if (empty($barra) || is_null($barra)|| $barra == "") {
+                        $utils = new Utils;
+                        $barra = $utils->generaCodigoBarras();
+                        while (CodigosWeb::find()->where("PARAM1='" . $barra . "'")->one()) {
+                            $barra = $utils->generaCodigoBarras();
+                        }
+                    }
+                    //var_dump($barra);die();
+                }
+                
 
                 $existe = CodigosWeb::find()->where("TIPO='" . $model->tipo . "' AND CODIGO='" . $cod . "'")->all();
 
@@ -84,7 +89,7 @@ class SitiowebController extends BaseController {
                     $codigo->TIPO = $model->tipo;
                     $codigo->CODIGO = $cod;
                     $codigo->DESCRIPCION = $model->descripcion;
-                    $codigo->IMG = "/uploads/codWeb/" . $imageName1;
+                    $codigo->PARAM1 = $barra;
                     $codigo->insert();
                     //VAR_DUMP($codigo->getErrors());die();
                 } else {
@@ -93,7 +98,7 @@ class SitiowebController extends BaseController {
                         $codigo->TIPO = $model->tipo;
                         $codigo->CODIGO = $cod;
                         $codigo->DESCRIPCION = $model->descripcion;
-                        $codigo->IMG = "/uploads/codWeb/" . $imageName1;
+                        $codigo->PARAM1 = $barra;
                         $codigo->insert();
                     }
                 }
@@ -159,7 +164,7 @@ class SitiowebController extends BaseController {
             $forma = CodigosWeb::find()->where("TIPO = 'FORMA'")->all();
             $material = CodigosWeb::find()->where("TIPO = 'MATERIAL'")->all();
             $marca = CodigosWeb::find()->where("TIPO = 'MARCA'")->all();
-            $producto = Producto::find()->where("(SUBSTRING(ID_HIJO,1,1) ='1' OR SUBSTRING(ID_HIJO,1,1) ='5') AND LENGTH(ID_HIJO) = 11")->all();
+            $producto = CodigosWeb::find()->where("TIPO = 'PRODUCTO'")->all();
             $vigencia = Codigos::find()->where("TIPO = 'EST_BO'")->all();
             $tipo = CodigosWeb::find()->where("TIPO = 'TIPO'")->all();
             
