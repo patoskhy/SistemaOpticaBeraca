@@ -164,6 +164,7 @@ class SiteController extends BaseController {
     public function actionBuscarCliente($term) {
         
         if (Yii::$app->request->isAjax) {
+			$results = [];
             $persona =  Persona::find()
                             ->where("CAT_PERSONA = 'P00001' AND (RUT like '%" .$term."%' OR NOMBRE LIKE '%" .$term."%')")
                               ->all();
@@ -182,6 +183,7 @@ class SiteController extends BaseController {
 
     public function actionBuscarDoctor($term) {
         if (Yii::$app->request->isAjax) {
+			$results = [];
             $persona =  Persona::find()
                             ->where("CAT_PERSONA = 'P00002' AND (RUT like '%" .$term."%' OR NOMBRE LIKE '%" .$term."%')")
                               ->all();
@@ -200,6 +202,7 @@ class SiteController extends BaseController {
 
     public function actionBuscarProveedor($term) {
         if (Yii::$app->request->isAjax) {
+			$results = [];
             $persona =  Proveedor::find()
                             ->where(" (ID_PROVEEDOR like '%" .$term."%' OR CONTACTO LIKE '%" .$term."%' OR NOMBRE_EMPRESA LIKE '%" .$term."%')")
                               ->all();

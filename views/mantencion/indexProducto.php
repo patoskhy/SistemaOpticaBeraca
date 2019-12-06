@@ -172,8 +172,8 @@ $form = ActiveForm::begin([
         document.getElementById("agUsu").addEventListener("click", agUsu, false);
 
         function initialComponets() {
-            $('#jqxTree').jqxTree({height: '215px', width: '100%'});
-            $('#jqxTree2').jqxTree({height: '125px', width: '100%'});
+            $('#jqxTree').jqxTree({height: '100px', width: '100%'});
+            $('#jqxTree2').jqxTree({height: '300px', width: '100%'});
             $("#<?= $nombreModelLow ?>-codigo").val("");
             $("#<?= $nombreModelLow ?>-descripcion").val("");
             $("#<?= $nombreModelLow ?>-stockcritico").val("");
@@ -278,10 +278,10 @@ $form = ActiveForm::begin([
             var source = jQuery.parseJSON(sourceString);
 
             if (arbol == 'CAT') {
-                $('#jqxTree').jqxTree({source: source, height: '215px', width: '100%'});
+                $('#jqxTree').jqxTree({source: source, height: '100px', width: '100%'});
             } else {
 
-                $('#jqxTree2').jqxTree({source: source, height: '125px', width: '100%'});
+                $('#jqxTree2').jqxTree({source: source, height: '300px', width: '100%'});
             }
         }
 

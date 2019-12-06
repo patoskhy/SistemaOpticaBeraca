@@ -225,12 +225,12 @@ $nombreModel = substr(get_class($model), $posi + 1);
 </div>
 <script type="text/javascript">
     function initialComponets() {
-        /*$.ajax({
+       /* $.ajax({
             url: '<?php echo Yii::$app->request->baseUrl . '/index.php?r=site/buscar-doctor' ?>',
             method: 'GET',
             async: false,
             data: {
-                term: "DOCT",
+                term: "1",
                 _csrf: '<?= Yii::$app->request->getCsrfToken() ?>'
             },
             dataType: 'json',
