@@ -34,17 +34,20 @@
         "kartik-v/yii2-widgets": "*",
         "kartik-v/yii2-mpdf": "*",
         "mpdf/mpdf": "*",
+        "phpoffice/phpexcel": "dev-develop",
+		"moonlandsoft/yii2-phpexcel": "*",
+		"keygenqt/yii2-autocomplete-ajax": "*",
         "phpoffice/phpspreadsheet": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
         "yiisoft/yii2-gii": "~2.0.0",
         "yiisoft/yii2-faker": "~2.0.0",
-
+		"yiisoft/yii2-jui": "~2.0.0",
         "codeception/base": "^2.2.3",
         "codeception/verify": "~0.3.1",
-        "codeception/specify": "~0.4.3",
-        "keygenqt/yii2-autocomplete-ajax": "dev-master"
+        "codeception/specify": "~0.4.3"
+        
     },
     "config": {
         "process-timeout": 1800,

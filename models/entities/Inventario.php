@@ -6,7 +6,7 @@ use Yii;
 
 class Inventario {
 
-    public function obtenerInventarioPorProducto($p) {
+    public static function obtenerInventarioPorProducto($p) {
         $query = new \yii\db\Query;
         $query->select([
                     'CASE WHEN SUM(brc_compra_detalle.CANTIDAD) IS NULL THEN 0  ELSE SUM(brc_compra_detalle.CANTIDAD) END AS COMPRA',
@@ -32,7 +32,7 @@ class Inventario {
         return $query;
     }
 
-    public function obtenerInventario() {
+    public static function obtenerInventario() {
         $query = new \yii\db\Query;
         $query->select([
                     'CASE WHEN SUM(brc_compra_detalle.CANTIDAD) IS NULL THEN 0  ELSE SUM(brc_compra_detalle.CANTIDAD) END AS COMPRA',

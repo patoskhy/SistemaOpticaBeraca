@@ -19,7 +19,7 @@ class Utils {
     private static $rMenu = array();
     public $impresoraPOS = "POS-58";
 
-    public function generaMenuLeft($rut,$idPadre) {
+    public static function generaMenuLeft($rut,$idPadre) {
         $menuPadre = UsuariosPerfiles::getUsuariosPerfilesJoinPerfilesByRut($rut,$idPadre);
         $menu = array();
         //verificamos si el nodo tiene hijos
@@ -162,7 +162,7 @@ class Utils {
         }
     }
 
-    public function getMenuLeft($rut){
+    public static function getMenuLeft($rut){
         self::$rMenu = self::generaMenuLeft($rut,0);
         array_unshift(self::$rMenu , ['label' => 'MENÚ ÓPTICA','options' => ['class' => 'header']]);
         return self::$rMenu;
@@ -222,14 +222,14 @@ class Utils {
         return $codigo;
     }
 
-    public function ejecutaQuery($sql) {
+    public static function ejecutaQuery($sql) {
         $connection = \Yii::$app->db;
         $dataProvider = $connection->createCommand($sql);
 
         return $dataProvider->queryAll();
     }
 
-    public function ejecutaSql($sql) {
+    public static function ejecutaSql($sql) {
         $connection = \Yii::$app->db;
         $dataProvider = $connection->createCommand($sql);
 
@@ -286,7 +286,7 @@ class Utils {
         }
     }
     
-    public function validateIfUser($idHijo){
+    public static function validateIfUser($idHijo){
         $rut = explode("-", Yii::$app->user->id)[0];
         $sql = "SELECT * FROM brc_usuarios_perfiles WHERE ";
         $sql = $sql."RUT_USUARIO = ".$rut." AND ";

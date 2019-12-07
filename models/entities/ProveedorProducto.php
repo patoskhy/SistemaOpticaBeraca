@@ -42,7 +42,7 @@ class ProveedorProducto extends \yii\db\ActiveRecord {
         ];
     }
 
-    public function buscarProductoPorProveedor($rut) {
+    public static function buscarProductoPorProveedor($rut) {
         $query = new \yii\db\Query;
         $query->select([
                     "CONCAT(brc_producto_proveedor.ID_PADRE,'-', brc_producto_proveedor.ID_HIJO) AS ID_PRODUCTO",
@@ -62,7 +62,7 @@ class ProveedorProducto extends \yii\db\ActiveRecord {
         return $query;
     }
 
-    public function obtenerProductoPorProveedor($rut) {
+    public static function obtenerProductoPorProveedor($rut) {
         $query = new \yii\db\Query;
         $query->select([
                     'brc_producto_proveedor.ID_HIJO',
@@ -81,7 +81,7 @@ class ProveedorProducto extends \yii\db\ActiveRecord {
         return $dataProvider;
     }
 
-    public function obtenerProductosXProveedorRpt($id) {
+    public static function obtenerProductosXProveedorRpt($id) {
         $connection = \Yii::$app->db;
         $sql = "DELETE FROM rpt_productos_proveedor;";
         $connection->createCommand($sql)->execute();

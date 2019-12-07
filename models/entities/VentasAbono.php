@@ -26,7 +26,7 @@ class VentasAbono extends \yii\db\ActiveRecord {
         ];
     }
 
-    public function obtenerSaldosPorFolio($folio) {
+    public static function obtenerSaldosPorFolio($folio) {
         $query = new \yii\db\Query;
         $query->select([
                     'brc_venta_abono.FOLIO',
@@ -46,7 +46,7 @@ class VentasAbono extends \yii\db\ActiveRecord {
         return $query;
     }
     
-    public function pagIniAbonos(){
+    public static function pagIniAbonos(){
         $dia = date("Ymd");
         $month = date("Y-m");
         $aux = date('Y-m-d', strtotime("{$month} + 1 month"));

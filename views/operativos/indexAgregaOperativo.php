@@ -1,6 +1,7 @@
 ﻿<?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
@@ -82,26 +83,18 @@ $nombreModel = substr(get_class($model), $posi + 1);
                     </div>
                     <div class="col-md-2">
                         <div data-step="4" data-intro="Debe elegir el doctor del operativo" class="form-group">
-                            <?php /*$form->field($model, 'doctor')->widget(Select2::classname(), [
-                                    'data' => $this->params['breadcrumbs']['doctor'],
-                                    'language' => 'es',
-                                    'options' => ['placeholder' => 'ELEGIR', "class" => "form-control select2", "style" => 'width: 100%;'],
-                                    'pluginOptions' => [
-                                        'allowClear' => true
-                                    ],
-                                ])->label("DOCTOR:", ['class' => 'label label-default']);*/
-                            ?>
+                            
                            <?= $form->field($model, 'doctor')->widget(AutocompleteAjax::classname(), [
                                 'multiple' => false,
                                 'url' => ['site/buscar-doctor'],
                                 'options' => [
                                     'placeholder' => 'Ingrese el rut o nombre del doctor.',
                                     "class" => "form-control",
-                                    "onkeyup" => "javascript:this.value=this.value.toUpperCase();",
                                     "required" => true, 
-                                    "maxlength" => "50", "size" => "50"
-                                ]
+                                    "maxlength" => "50", "size" => "50",
+                                ],
                             ])->label("DOCTOR:", ['class' => 'label label-default']); ?>
+							
 						</div>
                     </div>
                     <div class="col-md-2">

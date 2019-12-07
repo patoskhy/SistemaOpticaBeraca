@@ -32,11 +32,10 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
-//EXCEL
+//EXCL
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Reader\Html;
 /* CONTROLLER */
 use app\controllers\BaseController;
 
@@ -503,7 +502,17 @@ class VentasController extends BaseController {
     }
     
     public function actionInformeVentaXls() {
-        $html = "<table><tr><td>no hay datos</td></tr></table>";
+		/*
+		$doc = new Spreadsheet();
+		$hoja = $doc->getActiveSheet();
+		$hoja->setCellValue('A1','hola mundo');
+		
+		$writer = new Xlsx($doc);
+		$writer->save('rpt/hola.xlsx');
+		echo "<meta http-equiv='refresh' content='0;url=rpt/hola.xlsx' />";
+		*/
+		
+		$html = "<table><tr><td>no hay datos</td></tr></table>";
         if (!Yii::$app->user->isGuest) {
             $tipo = "TODOS";
             $fecIni = date("Ymd");
@@ -523,7 +532,10 @@ class VentasController extends BaseController {
                     $fecFin = $_GET['fecFin'];
                 }
             }
-
+			if($tipo == "null"){
+				$tipo = "TODOS";
+			}
+			//var_dump($tipo);die();
             $query = "";
             if ($tipo == "TODOS") {
                 $query = InformeVenta::obtenerVentasAndAbonos($fecIni,$fecFin);
@@ -532,45 +544,23 @@ class VentasController extends BaseController {
             } else if ($tipo == "V00002") {
                 $query = InformeVenta::obtenerAbonos($fecIni,$fecFin);
             }
-
             $command = $query->createCommand();
             $resProducto = $command->queryAll();
             $html = $this->listaInformeVentaHTML($resProducto);
+			
         }
-
-        $htmlString = '<table>
-                  <tr>
-                      <td>Hello World</td>
-                  </tr>
-                  <tr>
-                      <td>Hello<br />World</td>
-                  </tr>
-                  <tr>
-                      <td>Hello<br>World</td>
-                  </tr>
-              </table>';
-
-              ob_start();
-        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
-        $spreadsheet = $reader->loadFromString($htmlString);
-
-        $path = "rpt/informe-ventas.xls";
-        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
-        $writer->save($path);
-        if (file_exists($filename)) {
-
-            return \Yii::$app->response->sendFile($filename, $shortname.'.'.$ext, ['mimeType' => "Content-Type: ".$mimetype]);
-      
-         }else{
-
-            echo 'cago';
-         }
-       
-    }
+		//var_dump($query);die();
+        $reader = new Html();
+        $spreadsheet = $reader->loadFromString($html);
+        $path = "rpt/informe-ventas.xlsx";
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+		$writer->save($path);
+		echo "<meta http-equiv='refresh' content='0;url=".$path."' />";
+	}
 
     public function listaInformeVentaHTML($resProducto){
-        $html = '<table>
-                      <tr>
+        $html = '<table border="1">
+                      <tr bgcolor="#FF0000">
                           <th>TIPO</th>
                           <th>FOLIO</th>
                           <th>FECHA (AAAAMMDD)</th>
@@ -579,15 +569,15 @@ class VentasController extends BaseController {
                       </tr>';
                       foreach ($resProducto as $row) {
                         $html = $html.'<tr>
-                            <td>TIPO</td>
-                            <td>FOLIO</td>
-                            <td>FECHA (AAAAMMDD)</td>
-                            <td>ESTADO</td>
-                            <td>VALOR</td>
+                            <td>'. $row['TIPO'] .'</td>
+                            <td>'. $row['FOLIO'] .'</td>
+                            <td>'. $row['FECHA'] .'</td>
+                            <td>'. $row['ESTADO'] .'</td>
+                            <td>'. $row['VALOR'] .'</td>
                         </tr>';
 
                       }
-        $html = '</table>
+        $html = $html.'</table>
         ';
         return $html;
     } 

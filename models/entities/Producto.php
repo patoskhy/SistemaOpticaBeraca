@@ -51,7 +51,7 @@ class Producto extends \yii\db\ActiveRecord {
         ];
     }
 
-    public function obtenerProductoPorProveedor($rut) {
+    public static function obtenerProductoPorProveedor($rut) {
         $query = new \yii\db\Query;
         $query->select([
                     'brc_producto_proveedor.ID_HIJO',
@@ -71,7 +71,7 @@ class Producto extends \yii\db\ActiveRecord {
         return $dataProvider;
     }
 
-    public function obtenerProductos() {
+    public static function obtenerProductos() {
         $query = new \yii\db\Query;
         $query->select([
                     'brc_producto.ID_HIJO',
@@ -88,7 +88,7 @@ class Producto extends \yii\db\ActiveRecord {
         return $dataProvider;
     }
 
-    public function obtenerPromociones() {
+    public static function obtenerPromociones() {
         $search = "VENTAS";
         $query = new \yii\db\Query;
         $query->select([
@@ -124,7 +124,7 @@ class Producto extends \yii\db\ActiveRecord {
 
         return $dataProvider;
     }
-    public function obtenerProductosByCodigoBarraVenta($cod) {
+    public static function obtenerProductosByCodigoBarraVenta($cod) {
         $query = new \yii\db\Query;
         $query->select([
                     'brc_producto.ID_HIJO',
@@ -143,7 +143,7 @@ class Producto extends \yii\db\ActiveRecord {
         return $dataProvider;
     }
     
-    public function obtenerProductosByCodigoBarraCompra($cod,$rut) {
+    public static function obtenerProductosByCodigoBarraCompra($cod,$rut) {
         $query = new \yii\db\Query;
         $query->select([
                     'brc_producto_proveedor.ID_HIJO',
@@ -164,7 +164,7 @@ class Producto extends \yii\db\ActiveRecord {
         return $dataProvider;
     }
     
-    public function obtenerProductosByCodigoBarraWeb($cod) {
+    public static function obtenerProductosByCodigoBarraWeb($cod) {
         $query = new \yii\db\Query;
         $query->select([
                     'brc_producto.DESCRIPCION',
@@ -183,7 +183,7 @@ class Producto extends \yii\db\ActiveRecord {
         return $dataProvider;
     }
 
-    public function obtenerIDCompuesto() {
+    public static function obtenerIDCompuesto() {
         $query = new \yii\db\Query;
         $query->select([
                     'CONCAT(ID_PADRE,\'-\', ID_HIJO) as CODIGO',
@@ -198,7 +198,7 @@ class Producto extends \yii\db\ActiveRecord {
         return $dataProvider;
     }
 
-    public function obtenerTodosProductos() {
+    public static function obtenerTodosProductos() {
         $query = new \yii\db\Query;
         $query->select([
                     'brc_producto.ID_HIJO',
@@ -213,7 +213,7 @@ class Producto extends \yii\db\ActiveRecord {
         return $dataProvider;
     }
 
-    public function obtenerProductosRpt($id) {
+    public static function obtenerProductosRpt($id) {
         $connection = \Yii::$app->db;
         $sql = "DELETE FROM rpt_productos;";
         $connection->createCommand($sql)->execute();
@@ -236,7 +236,7 @@ class Producto extends \yii\db\ActiveRecord {
         return $dataProvider->queryAll();
     }
 
-    public function obtenerCategoriaProductosRpt() {
+    public static function obtenerCategoriaProductosRpt() {
         $connection = \Yii::$app->db;
         $sql = "DELETE FROM rpt_productos;";
         $connection->createCommand($sql)->execute();

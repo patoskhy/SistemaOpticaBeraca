@@ -97,7 +97,7 @@ class User extends \yii\db\ActiveRecord  implements \yii\web\IdentityInterface {
         }
     }
 
-    public function getPerfilByUsername($usuario, $id) {
+    public static function getPerfilByUsername($usuario, $id) {
         $query = new \yii\db\Query;
         $query->select([
                     'brc_perfiles.ID_HIJO',

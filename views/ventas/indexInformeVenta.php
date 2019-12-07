@@ -88,7 +88,7 @@ $form = ActiveForm::begin([
                 </div>	
                 <div class="col-md-2">	
                     <br>
-                    <a data-step="6" data-intro="Exporta los registros a excel" href="<?= Yii::$app->request->hostInfo . ':' . Yii::$app->request->serverPort . Yii::$app->request->scriptUrl . '?r=ventas/informe-venta-xls' ?>" class="btn btn-block btn-sistema btn-flat" >
+                    <a data-step="6" data-intro="Exporta los registros a excel" href="" id="btnDesArc" target="_blank" class="btn btn-block btn-sistema btn-flat" >
                         <span class="glyphicon glyphicon-cloud-download"></span> EXCEL
                     </a>         
                 </div>
@@ -157,6 +157,22 @@ $form = ActiveForm::begin([
 <script type="text/javascript">
 
     function initialComponets() {
+		$("#<?= $nombreModelLow ?>-tipo").val("TODOS").trigger("change.select2");
+		var d = new Date();
+        var dia = (d.getDate() < 10) ? "0".concat(d.getDate()) : d.getDate();
+        var mes = (d.getMonth() < 9) ? "0".concat(d.getMonth()+ 1) : (d.getMonth()+ 1);
+        var ano = d.getFullYear()
+        var fecha = dia + '/' + mes+ '/' + ano;
+        $("#<?= $nombreModelLow ?>-fecini").val(fecha);
+        $("#<?= $nombreModelLow ?>-fecfin").val(fecha);
+		var tipo = $("#<?= $nombreModelLow ?>-tipo").val();
+        var fecIni = $("#<?= $nombreModelLow ?>-fecini").val();
+        var fecFin = $("#<?= $nombreModelLow ?>-fecfin").val();
+		var timeI = fecIni.split("/");
+        var timeF = fecFin.split("/");
+		var urlInforme = "<?= Yii::$app->request->hostInfo . ':' . Yii::$app->request->serverPort . Yii::$app->request->scriptUrl . '?r=ventas/informe-venta-xls' ?>&tipo="+tipo+"&fecIni="+ timeI[2].concat(timeI[1]).concat(timeI[0])+"&fecFin="+timeF[2].concat(timeF[1]).concat(timeF[0]);
+		$("#btnDesArc").attr("href",urlInforme);
+		
         $("#btnBusPro").click(function () {
             var tipo = $("#<?= $nombreModelLow ?>-tipo").val();
             var fecIni = $("#<?= $nombreModelLow ?>-fecini").val();
@@ -165,11 +181,13 @@ $form = ActiveForm::begin([
             var Url = '<?= Yii::$app->request->hostInfo . ':' . Yii::$app->request->serverPort . Yii::$app->request->scriptUrl . '?r=ventas/index-informe-venta' . str_replace("rt=", "id=", $rutaR) . '' ?>';
             if (tipo != "" && fecIni != "" && fecFin != "") {
                 Url = Url + '&tipo=' + tipo;
-                var timeI = fecIni.split("/");
-                var timeF = fecFin.split("/");
+                timeI = fecIni.split("/");
+                timeF = fecFin.split("/");
                 Url = Url + '&fecIni=' + timeI[2].concat(timeI[1]).concat(timeI[0]);
                 Url = Url + '&fecFin=' + timeF[2].concat(timeF[1]).concat(timeF[0]);
                 $.pjax.reload({container: "#ventas", url: Url, replace: false});
+				urlInforme = "<?= Yii::$app->request->hostInfo . ':' . Yii::$app->request->serverPort . Yii::$app->request->scriptUrl . '?r=ventas/informe-venta-xls' ?>&tipo="+tipo+"&fecIni="+ timeI[2].concat(timeI[1]).concat(timeI[0])+"&fecFin="+timeF[2].concat(timeF[1]).concat(timeF[0]);
+				$("#btnDesArc").attr("href",urlInforme);
             }else{
                 $("#modTitulo").html("Validación");
                 $("#modBody").html("Debe ingresar fechas válida");
@@ -178,6 +196,8 @@ $form = ActiveForm::begin([
                 $("#myModal").modal();
             }
         });
+		
+		
         if ($("#<?=$nombreModelLow?>-tipo").find("option[value='TODOS']").length) {
             $("#<?=$nombreModelLow?>-tipo").val('TODOS').trigger("change.select2");
         } else { 
@@ -185,13 +205,7 @@ $form = ActiveForm::begin([
             $("#<?=$nombreModelLow?>-tipo").prepend(newState).trigger('change.select2');
             $("#<?=$nombreModelLow?>-tipo").val('TODOS').trigger("change.select2");
         } 
-        var d = new Date();
-        var dia = (d.getDate() < 10) ? "0".concat(d.getDate()) : d.getDate();
-        var mes = (d.getMonth() < 9) ? "0".concat(d.getMonth()+ 1) : (d.getMonth()+ 1);
-        var ano = d.getFullYear()
-        var fecha = dia + '/' + mes+ '/' + ano;
-        $("#<?= $nombreModelLow ?>-fecini").val(fecha);
-        $("#<?= $nombreModelLow ?>-fecfin").val(fecha);
+        
     }
 
 </script>  

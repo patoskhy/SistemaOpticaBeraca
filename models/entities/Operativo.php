@@ -46,7 +46,7 @@ class Operativo extends \yii\db\ActiveRecord {
         ];
     }
 
-    public function obtenerDetalleOperativoRpt($doc,$dia,$hora) {
+    public static function obtenerDetalleOperativoRpt($doc,$dia,$hora) {
         $connection = \Yii::$app->db;
         $sql = "DELETE FROM rpt_operativos;";
         $connection->createCommand($sql)->execute();

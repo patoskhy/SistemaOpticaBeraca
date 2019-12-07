@@ -75,7 +75,7 @@ class OperativosDetalle extends \yii\db\ActiveRecord {
         ];
     }
 
-    public function obtenerDetalleOperativo($doctorPost, $fechaPost, $horaPost, $siDataProvider = false) {
+    public static function obtenerDetalleOperativo($doctorPost, $fechaPost, $horaPost, $siDataProvider = false) {
         $query = new \yii\db\Query;
         $query->select([
                     'brc_operativos_detalle.DIA',
@@ -120,7 +120,7 @@ class OperativosDetalle extends \yii\db\ActiveRecord {
         return $query;
     }
 
-    public function obtenerDetalleOperativoPorFecha($fechaPost, $tipo = "P00001") {
+    public static function obtenerDetalleOperativoPorFecha($fechaPost, $tipo = "P00001") {
         $query = new \yii\db\Query;
         $query->select([
                     'brc_operativos_detalle.DIA',
@@ -160,7 +160,7 @@ class OperativosDetalle extends \yii\db\ActiveRecord {
         return $query;
     }
 
-    public function obtenerDetalleOperativoPorPaciente($rut, $tipo = "P00001") {
+    public static function obtenerDetalleOperativoPorPaciente($rut, $tipo = "P00001") {
         $query = new \yii\db\Query;
         $query->select([
                     'brc_operativos_detalle.DIA',
@@ -201,7 +201,7 @@ class OperativosDetalle extends \yii\db\ActiveRecord {
         return $dataProvider;
     }
 
-    public function pagIniOperativos(){
+    public static function pagIniOperativos(){
         $dia = date("Ymd");
         $month = date("Y-m");
         $aux = date('Y-m-d', strtotime("{$month} + 1 month"));

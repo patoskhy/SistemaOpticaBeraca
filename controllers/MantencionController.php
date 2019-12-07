@@ -900,7 +900,7 @@ class MantencionController extends BaseController {
                 ],
             ]);
             $utils = new Utils;
-            $sql = "SELECT DISTINCT TIPO FROM BRC_CODIGOS";
+            $sql = "SELECT DISTINCT TIPO FROM brc_codigos";
             $tipo = $utils->ejecutaQuery($sql);
             $this->datosPaginasWeb($t,"main");
             return $this->render('indexCodigoGeneral', [

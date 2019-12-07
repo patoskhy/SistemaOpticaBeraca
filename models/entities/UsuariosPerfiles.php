@@ -34,7 +34,7 @@ class UsuariosPerfiles extends \yii\db\ActiveRecord {
         ];
     }
 
-    public function getUsuariosPerfilesJoinPerfilesByRut($rut, $idPadre) {
+    public static function getUsuariosPerfilesJoinPerfilesByRut($rut, $idPadre) {
         $query = new \yii\db\Query;
 
         $query->select(['brc_perfiles.ID_PADRE', 'brc_perfiles.ID_HIJO', 'brc_perfiles.DESCRIPCION', 'brc_perfiles.IMG', 'brc_perfiles.RUTA'])

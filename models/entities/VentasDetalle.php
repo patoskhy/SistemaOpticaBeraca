@@ -25,7 +25,7 @@ class VentasDetalle extends \yii\db\ActiveRecord {
         ];
     }
 
-    public function obtenerDetallePorFolio($folio) {
+    public static function obtenerDetallePorFolio($folio) {
         $query = new \yii\db\Query;
         $query->select([
                     'brc_venta_detalle.CANTIDAD',

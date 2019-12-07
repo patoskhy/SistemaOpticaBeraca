@@ -48,11 +48,11 @@ class SiteController extends BaseController {
         $model = new LoginForm();
         //si no es invitado
         if (!Yii::$app->user->isGuest) {
-            $data['ventas'] = Ventas::pagIniVentas();
-            $data['compras'] = Compras::pagIniCompras();
-            $data['operativos'] = OperativosDetalle::pagIniOperativos();
-            $data['abonos'] = VentasAbono::pagIniAbonos();
-            $data['donaciones'] = Compras::pagIniDonaciones();
+            $data['ventas'] = (new Ventas)->pagIniVentas();
+            $data['compras'] = (new Compras)->pagIniCompras();
+            $data['operativos'] = (new OperativosDetalle)->pagIniOperativos();
+            $data['abonos'] = (new VentasAbono)->pagIniAbonos();
+            $data['donaciones'] = (new Compras)->pagIniDonaciones();
             $perfiles = $model->getPerfil(Yii::$app->user->identity->username, $id);
             $this->datosPaginasWeb($t,"main");
             //var_dump($data);die();
@@ -61,11 +61,11 @@ class SiteController extends BaseController {
 
         //si envio post del form de usuario
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            $data['ventas'] = Ventas::pagIniVentas();
-            $data['compras'] = Compras::pagIniCompras();
-            $data['operativos'] = OperativosDetalle::pagIniOperativos();
-            $data['abonos'] = VentasAbono::pagIniAbonos();
-            $data['donaciones'] = Compras::pagIniDonaciones();
+             $data['ventas'] = (new Ventas)->pagIniVentas();
+            $data['compras'] = (new Compras)->pagIniCompras();
+            $data['operativos'] = (new OperativosDetalle)->pagIniOperativos();
+            $data['abonos'] = (new VentasAbono)->pagIniAbonos();
+            $data['donaciones'] = (new Compras)->pagIniDonaciones();
             $perfiles = $model->getPerfil($model->username, $id);
             $this->datosPaginasWeb($t,"main");
             //var_dump($data);die();
@@ -165,7 +165,7 @@ class SiteController extends BaseController {
         
         if (Yii::$app->request->isAjax) {
 			$results = [];
-            $persona =  Persona::find()
+            $persona =  (new Persona)->find()
                             ->where("CAT_PERSONA = 'P00001' AND (RUT like '%" .$term."%' OR NOMBRE LIKE '%" .$term."%')")
                               ->all();
             
@@ -176,7 +176,7 @@ class SiteController extends BaseController {
                 ];
             }
             //var_dump($persona);die();
-            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            //\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
              echo Json::encode($results);
         }
     }
@@ -184,8 +184,8 @@ class SiteController extends BaseController {
     public function actionBuscarDoctor($term) {
         if (Yii::$app->request->isAjax) {
 			$results = [];
-            $persona =  Persona::find()
-                            ->where("CAT_PERSONA = 'P00002' AND (RUT like '%" .$term."%' OR NOMBRE LIKE '%" .$term."%')")
+            $persona =  (new Persona)->find()
+                            ->where("CAT_PERSONA = 'P00002' ")
                               ->all();
             
              foreach($persona as $model) {
@@ -195,7 +195,7 @@ class SiteController extends BaseController {
                 ];
             }
             //var_dump($persona);die();
-            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            //\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
              echo Json::encode($results);
         }
     }
@@ -203,7 +203,7 @@ class SiteController extends BaseController {
     public function actionBuscarProveedor($term) {
         if (Yii::$app->request->isAjax) {
 			$results = [];
-            $persona =  Proveedor::find()
+            $persona =  (new Proveedor)->find()
                             ->where(" (ID_PROVEEDOR like '%" .$term."%' OR CONTACTO LIKE '%" .$term."%' OR NOMBRE_EMPRESA LIKE '%" .$term."%')")
                               ->all();
             
@@ -214,7 +214,7 @@ class SiteController extends BaseController {
                 ];
             }
             //var_dump($persona);die();
-            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            //\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
              echo Json::encode($results);
         }
     }

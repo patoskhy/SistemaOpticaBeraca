@@ -27,7 +27,7 @@ class Compras extends \yii\db\ActiveRecord {
         ];
     }
     
-    public function pagIniCompras(){
+    public static function pagIniCompras(){
         $dia = date("Ymd");
         $month = date("Y-m");
         $aux = date('Y-m-d', strtotime("{$month} + 1 month"));
@@ -50,7 +50,7 @@ class Compras extends \yii\db\ActiveRecord {
         return $res;
     }
     
-    public function pagIniDonaciones(){
+    public static function pagIniDonaciones(){
         $dia = date("Ymd");
         $month = date("Y-m");
         $aux = date('Y-m-d', strtotime("{$month} + 1 month"));

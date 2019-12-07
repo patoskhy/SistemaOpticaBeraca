@@ -6,7 +6,7 @@ use Yii;
 
 class InformeVenta {
 
-    public function obtenerVentas($fecIni, $fecFin) {
+    public static function obtenerVentas($fecIni, $fecFin) {
         $venta = new \yii\db\Query;
         $venta->select([
                     "CONCAT('VENTA') as TIPO",
@@ -21,7 +21,7 @@ class InformeVenta {
         return $venta;
     }
     
-    public function obtenerAbonos($fecIni, $fecFin) {
+    public static function obtenerAbonos($fecIni, $fecFin) {
         $abono = new \yii\db\Query;
         $abono->select([
                     "CONCAT('SALDO') as TIPO",
@@ -37,7 +37,7 @@ class InformeVenta {
         return $abono;
     }
 
-    public function obtenerVentasAndAbonos($fecIni, $fecFin) {
+    public static function obtenerVentasAndAbonos($fecIni, $fecFin) {
         $venta = new \yii\db\Query;
         $abono = new \yii\db\Query;
         $venta->select([

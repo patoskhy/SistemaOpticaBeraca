@@ -43,7 +43,7 @@ class ProveedorProducto extends \yii\db\ActiveRecord {
         ];
     }
 
-    public function obtenerProductoPorProveedor($rut) {
+    public static function obtenerProductoPorProveedor($rut) {
         $query = new \yii\db\Query;
         $query->select([
                     'brc_producto_proveedor.ID_HIJO',

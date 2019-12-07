@@ -26,7 +26,7 @@ class Ventas extends \yii\db\ActiveRecord {
         ];
     }
 
-    public function obtenerVentasPorDia($dia) {
+    public static function obtenerVentasPorDia($dia) {
         $query = new \yii\db\Query;
         $query->select([
                     'brc_persona.RUT',
@@ -54,7 +54,7 @@ class Ventas extends \yii\db\ActiveRecord {
         return $query;
     }
 
-    public function obtenerVentasPorDiaYFolio($folioF) {
+    public static function obtenerVentasPorDiaYFolio($folioF) {
         $query = new \yii\db\Query;
         $query->select([
                     'brc_persona.RUT',
@@ -82,7 +82,7 @@ class Ventas extends \yii\db\ActiveRecord {
         return $query;
     }
 
-    public function obtenerVentasPorRut($rut) {
+    public static function obtenerVentasPorRut($rut) {
         $query = new \yii\db\Query;
         $query->select([
                     'brc_persona.RUT',
@@ -110,7 +110,7 @@ class Ventas extends \yii\db\ActiveRecord {
         return $query;
     }
 
-    public function obtenerVentasPorFolio($folio) {
+    public static function obtenerVentasPorFolio($folio) {
         $query = new \yii\db\Query;
         $query->select([
                     'brc_persona.RUT',
@@ -139,7 +139,7 @@ class Ventas extends \yii\db\ActiveRecord {
         return $query;
     }
     
-    public function pagIniVentas(){
+    public static function pagIniVentas(){
         $dia = date("Ymd");
         $month = date("Y-m");
         $aux = date('Y-m-d', strtotime("{$month} + 1 month"));
