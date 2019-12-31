@@ -18,9 +18,10 @@ class VentasAbono extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['FOLIO', 'FECHA_ABONO', 'TIPO_PAGO', 'VALOR',], 'required'],
+            [['FOLIO', 'FECHA_ABONO', 'FORMA_PAGO', 'TIPO_PAGO', 'VALOR',], 'required'],
             [['FOLIO'], 'string', 'max' => 12],
             [['FECHA_ABONO'], 'string', 'max' => 8],
+            [['FORMA_PAGO'], 'string', 'max' => 8],
             [['TIPO_PAGO'], 'string', 'max' => 6],
             [['VALOR'], 'integer'],
         ];
@@ -30,7 +31,8 @@ class VentasAbono extends \yii\db\ActiveRecord {
         $query = new \yii\db\Query;
         $query->select([
                     'brc_venta_abono.FOLIO',
-                    'brc_venta_abono.FECHA_ABONO',
+                    "CONCAT(SUBSTRING(brc_venta_abono.FECHA_ABONO, 7, 2),'-',SUBSTRING(brc_venta_abono.FECHA_ABONO, 5, 2),'-',SUBSTRING(brc_venta_abono.FECHA_ABONO, 1, 4)) as FECHA_ABONO",
+                    'brc_venta_abono.FORMA_PAGO',
                     'brc_venta_abono.TIPO_PAGO',
                     'brc_venta_abono.VALOR',
                 ])

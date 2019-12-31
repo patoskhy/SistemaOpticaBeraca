@@ -122,6 +122,12 @@ $form = ActiveForm::begin([
                             ],
                             [
                                 'class' => DataColumn::className(), // this line is optional
+                                'attribute' => 'FORMA_PAGO',
+                                'format' => 'text',
+                                'label' => 'FORMA PAGO',
+                            ],
+                            [
+                                'class' => DataColumn::className(), // this line is optional
                                 'attribute' => 'FECHA',
                                 'format' => 'text',
                                 'label' => 'FECHA',

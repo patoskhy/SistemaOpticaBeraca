@@ -16,6 +16,7 @@ use kartik\date\DatePicker;
 $this->title = $this->params['titulo'];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['breadcrumbs']['rutaR'] = $rutaR;
+$this->params['breadcrumbs']['formaPago'] = ArrayHelper::map($formaPago, 'CODIGO', 'DESCRIPCION');
 
 /*
   $indice = 1;
@@ -203,6 +204,22 @@ $form = ActiveForm::begin([
                                 'VALOR',
                                 [
                                     'class' => 'yii\grid\ActionColumn',
+                                    'header' => 'Forma Pago',
+                                    'template' => '{forPag}',
+                                    'buttons' => [
+                                        'forPag' => function ($url, $model) {
+                                            //var_dump($model);
+                                            $sql = "SELECT DESCRIPCION FROM brc_codigos WHERE TIPO='FO_PAG' AND CODIGO='" . $model["FORMA_PAGO"] . "'";
+                                            //var_dump($sql);
+                                            $utils = new app\models\utilities\Utils;
+                                            $s = $utils->ejecutaQuery($sql);
+                                            //var_dump($s);
+                                            return $s[0]["DESCRIPCION"];
+                                        },
+                                    ],
+                                ],
+                                [
+                                    'class' => 'yii\grid\ActionColumn',
                                     'header' => 'Tipo',
                                     'template' => '{doc}',
                                     'buttons' => [
@@ -258,15 +275,26 @@ $form = ActiveForm::begin([
                 </div>
                 <hr class="linea">
                 <div class="row">
-                    <div  class="col-md-4">
+                    <div  class="col-md-3">
                         <span class="label label-default">ABONADO:</span>
                         <input type="text" class="form-control" name="ingSalAbono" id="ingSalAbono" readonly="readonly">
                     </div>
-                    <div  class="col-md-4">
+                    <div  class="col-md-3">
                         <span class="label label-default">SALDO A PAGAR:</span>
                         <input type="text" class="form-control" name="ingSalSaldo" id="ingSalSaldo" readonly="readonly">
                     </div>
-                    <div  class="col-md-4">
+                    <div  class="col-md-3">
+                        <span class="label label-default">FORMA PAGO:</span>
+                        <select class="form-control" name="ingSalForPago"  id="ingSalForPago">
+                        <option value="">Elija una opción</option>
+                        <?php 
+                            foreach($this->params['breadcrumbs']['formaPago'] as $clave => $valor){
+                                echo '<option value="'.$clave.'">'.$valor.'</option>';
+                            }
+                        ?>
+                        </select>
+                    </div>
+                    <div  class="col-md-3">
                         <span class="label label-default">ABONO:</span>
                         <input type="text" class="form-control solo-numero" name="ingSalIngAbono" placeholder="000000000" id="ingSalIngAbono">
                     </div>
@@ -449,9 +477,9 @@ $form = ActiveForm::begin([
         var nombre = $("#ingSalNombre").val();
         var tAbono = parseInt($("#ingSalAbono").val());
         var total = parseInt($("#ingSalDeu").val()); // total deuda
+        var formaPago =$("#ingSalForPago").val();
 
-
-        if (abono == "" || parseInt(abono) == 0) {
+        if (isNaN(abono) || abono == "" || parseInt(abono) == 0) {
             $("#modTitulo").html("Validación");
             $("#modBody").html("Debe ingresar el abono");
             $("#myModal").removeClass();
@@ -460,6 +488,12 @@ $form = ActiveForm::begin([
         } else if (abono > saldo) {
             $("#modTitulo").html("Validación");
             $("#modBody").html("El abono es mayor al saldo por pagar");
+            $("#myModal").removeClass();
+            $("#myModal").addClass("modal modal-danger fade");
+            $("#myModal").modal();
+        }else if (formaPago == "") {
+            $("#modTitulo").html("Validación");
+            $("#modBody").html("Se debe seleccionar una forma de pago");
             $("#myModal").removeClass();
             $("#myModal").addClass("modal modal-danger fade");
             $("#myModal").modal();
@@ -472,6 +506,7 @@ $form = ActiveForm::begin([
                     _csrf: '<?= Yii::$app->request->getCsrfToken() ?>',
                     _folio: folio,
                     _abono: abono,
+                    _formaPago: formaPago,
                     _saldo: saldo
                 },
                 success: function (data) {

@@ -226,6 +226,9 @@ class VentasController extends BaseController {
                     $query = Ventas::obtenerVentasPorFolio($folio);
                     $command = $query->createCommand();
                     $venta = $command->queryAll();
+					
+					$formaPago = Codigos::find()->where(['brc_codigos.TIPO' => "FO_PAG"])->all();
+					
                     $this->datosPaginasWeb("Consulta de Saldo","main");
                     return $this->render('indexSaldo', [
                                 
@@ -233,6 +236,7 @@ class VentasController extends BaseController {
                                 'folio' => $folio,
                                 'isPjax' => false,
                                 'venta' => $venta,
+								'formaPago' => $formaPago,
                                 'dataProviderVentas' => $dataProviderVentas,
                                 'dataProviderSaldos' => $dataProviderSaldos,
                                 'dataProviderDetalle' => $dataProviderDetalle,
@@ -371,6 +375,9 @@ class VentasController extends BaseController {
             $query = Ventas::obtenerVentasPorFolio($folioD);
             $command = $query->createCommand();
             $venta = $command->queryAll();
+
+            $formaPago = Codigos::find()->where(['brc_codigos.TIPO' => "FO_PAG"])->all();
+
             //var_dump($venta);
             //var_dump($dataProviderVentas);
             //var_dump($dataProviderSaldos);
@@ -382,6 +389,7 @@ class VentasController extends BaseController {
                         'folio' => $folio,
                         'isPjax' => $isPjax,
                         'venta' => $venta,
+                        'formaPago' => $formaPago,
                         'dataProviderVentas' => $dataProviderVentas,
                         'dataProviderSaldos' => $dataProviderSaldos,
                         'dataProviderDetalle' => $dataProviderDetalle,
@@ -486,6 +494,8 @@ class VentasController extends BaseController {
                         'pagesize' => 7,
                     ],
                 ]);
+                
+//var_dump($query); die();
 
                 $codigos = Codigos::find()->where("TIPO = 'ES_VEN'")->all();
                 $this->datosPaginasWeb($t,"main");
@@ -694,6 +704,7 @@ class VentasController extends BaseController {
             $folio = Yii::$app->request->post('_folio');
             $abono = Yii::$app->request->post('_abono');
             $saldo = Yii::$app->request->post('_saldo');
+            $formaPago = Yii::$app->request->post('_formaPago');
             $tipo = "A00001";
             $fecha = date("Ymd");
             if ($saldo == $abono) {
@@ -704,6 +715,8 @@ class VentasController extends BaseController {
             $reg->FECHA_ABONO = $fecha;
             $reg->TIPO_PAGO = $tipo;
             $reg->VALOR = $abono;
+            $reg->FORMA_PAGO = $formaPago;
+
             if ($reg->insert()) {
                 $res = "OK";
             } else {
